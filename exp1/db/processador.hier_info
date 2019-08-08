@@ -1,0 +1,6 @@
+|fluxo_de_dados
+enable => ~NO_FANOUT~
+restart => ~NO_FANOUT~
+clock => ~NO_FANOUT~
+
+

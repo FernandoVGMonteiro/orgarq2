@@ -1,0 +1,91 @@
+library ieee;
+use ieee.std_logic_1164.ALL;
+use ieee.numeric_std.ALL;
+
+entity fluxo_de_dados is
+	port ();
+end entity;
+
+architecture of fluxo_de_dados is
+
+component alu is
+  port (
+    A, B : in  signed(63 downto 0); -- inputs
+    F    : out signed(63 downto 0); -- output
+    S    : in  bit_vector (3 downto 0); -- op selection
+    Z    : out bit -- zero flag
+    );
+end component;
+
+component mux2to1 is
+	generic(ws: natural := 4); -- word size
+	port(
+		s:    in  bit; -- selection: 0=a, 1=b
+		a, b: in	bit_vector(ws-1 downto 0); -- inputs
+		o:  	out	bit_vector(ws-1 downto 0)  -- output
+	);
+end component;
+
+component shiftleft2 is
+	generic(
+		ws: natural := 64); -- word size
+	port(
+		i: in	 bit_vector(ws-1 downto 0); -- input
+		o: out bit_vector(ws-1 downto 0)  -- output
+	);
+end component;
+
+component signExtend is
+	-- Size of output is expected to be greater than input
+	generic(
+	  ws_in:  natural := 32; -- input word size
+		ws_out: natural := 64); -- output word size
+	port(
+		i: in	 bit_vector(ws_in-1  downto 0); -- input
+		o: out bit_vector(ws_out-1 downto 0)  -- output
+	);
+end component;
+
+component rom is
+  generic (
+    addressSize : natural := 64;
+    wordSize    : natural := 32;
+    mifFileName : string  := "rom.dat"
+  );
+  port (
+    addr : in  bit_vector(addressSize-1 downto 0);
+    data : out bit_vector(wordSize-1 downto 0)
+  );
+end component;
+
+component reg is
+	generic(wordSize: natural :=4);
+	port(
+		clock:    in 	bit; --! entrada de clock
+		reset:	  in 	bit; --! clear assíncrono
+		load:     in 	bit; --! write enable (carga paralela)
+		d:   			in	bit_vector(wordSize-1 downto 0); --! entrada
+		q:  			out	bit_vector(wordSize-1 downto 0) --! saída
+	);
+end component;
+
+component ram is
+  generic (
+    addressSize : natural := 64;
+    wordSize    : natural := 32
+  );
+  port (
+    ck, wr : in  bit;
+    addr   : in  bit_vector(addressSize-1 downto 0);
+    data_i : in  bit_vector(wordSize-1 downto 0);
+    data_o : out bit_vector(wordSize-1 downto 0)
+  );
+end component;
+
+
+
+begin
+
+	
+
+end architecture;
