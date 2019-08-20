@@ -15,18 +15,18 @@ aluCtl[3] => alu:alu_component.S[3]
 memWrite => ram:data_memory_component.wr
 aluSrc => mux2to1:mux_reg_alu_component.s
 regWrite => dualregfile:dual_reg_file.RegWrite
-instruction31to21[0] <= rom:instruction_memory_component.data[21]
-instruction31to21[1] <= rom:instruction_memory_component.data[22]
-instruction31to21[2] <= rom:instruction_memory_component.data[23]
-instruction31to21[3] <= rom:instruction_memory_component.data[24]
-instruction31to21[4] <= rom:instruction_memory_component.data[25]
-instruction31to21[5] <= rom:instruction_memory_component.data[26]
-instruction31to21[6] <= rom:instruction_memory_component.data[27]
-instruction31to21[7] <= rom:instruction_memory_component.data[28]
-instruction31to21[8] <= rom:instruction_memory_component.data[29]
-instruction31to21[9] <= rom:instruction_memory_component.data[30]
-instruction31to21[10] <= rom:instruction_memory_component.data[31]
-zero <= alu:alu_component.Z
+instruction31to21[0] << rom:instruction_memory_component.data[21]
+instruction31to21[1] << rom:instruction_memory_component.data[22]
+instruction31to21[2] << rom:instruction_memory_component.data[23]
+instruction31to21[3] << rom:instruction_memory_component.data[24]
+instruction31to21[4] << rom:instruction_memory_component.data[25]
+instruction31to21[5] << rom:instruction_memory_component.data[26]
+instruction31to21[6] << rom:instruction_memory_component.data[27]
+instruction31to21[7] << rom:instruction_memory_component.data[28]
+instruction31to21[8] << rom:instruction_memory_component.data[29]
+instruction31to21[9] << rom:instruction_memory_component.data[30]
+instruction31to21[10] << rom:instruction_memory_component.data[31]
+zero << alu:alu_component.Z
 
 
 |data_path|alu:add_component
