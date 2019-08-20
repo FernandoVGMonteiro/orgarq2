@@ -36,5 +36,5 @@ begin
   -- Generating zero flag
   Z <= '1' when (aluout=0) else '0';
   -- Copying temporary signal to output
-  F <= bit_vector(aluout);
+  F <= to_bit_vector(aluout, F'lenght);
 end architecture functional;

@@ -2,7 +2,28 @@
 	"partitions" : [
 		{
 			"name" : "Top",
-			"pins" : []
+			"pins" : [
+				{
+					"name" : "zero",
+					"strict" : false
+				},
+				{
+					"name" : "aluCtl[0]",
+					"strict" : false
+				},
+				{
+					"name" : "aluCtl[1]",
+					"strict" : false
+				},
+				{
+					"name" : "aluCtl[2]",
+					"strict" : false
+				},
+				{
+					"name" : "aluCtl[3]",
+					"strict" : false
+				}
+			]
 		}
 	]
 }

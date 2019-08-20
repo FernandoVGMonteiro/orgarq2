@@ -1,6 +1,6 @@
 Flow report for processador
-Thu Aug 08 16:32:27 2019
-Quartus Prime Version 16.1.0 Build 196 10/24/2016 SJ Lite Edition
+Mon Aug 19 21:43:38 2019
+Quartus Prime Version 18.1.0 Build 625 09/12/2018 SJ Lite Edition
 
 
 ---------------------
@@ -21,7 +21,7 @@ Quartus Prime Version 16.1.0 Build 196 10/24/2016 SJ Lite Edition
 ----------------
 ; Legal Notice ;
 ----------------
-Copyright (C) 2016  Intel Corporation. All rights reserved.
+Copyright (C) 2018  Intel Corporation. All rights reserved.
 Your use of Intel Corporation's design tools, logic functions 
 and other software and tools, and its AMPP partner logic 
 functions, and any output files from any of the foregoing 
@@ -29,28 +29,27 @@ functions, and any output files from any of the foregoing
 associated documentation or information are expressly subject 
 to the terms and conditions of the Intel Program License 
 Subscription Agreement, the Intel Quartus Prime License Agreement,
-the Intel MegaCore Function License Agreement, or other 
-applicable license agreement, including, without limitation, 
-that your use is for the sole purpose of programming logic 
-devices manufactured by Intel and sold by Intel or its 
-authorized distributors.  Please refer to the applicable 
-agreement for further details.
+the Intel FPGA IP License Agreement, or other applicable license
+agreement, including, without limitation, that your use is for
+the sole purpose of programming logic devices manufactured by
+Intel and sold by Intel or its authorized distributors.  Please
+refer to the applicable agreement for further details.
 
 
 
 +-------------------------------------------------------------------------------+
 ; Flow Summary                                                                  ;
 +---------------------------------+---------------------------------------------+
-; Flow Status                     ; Successful - Thu Aug 08 16:32:27 2019       ;
-; Quartus Prime Version           ; 16.1.0 Build 196 10/24/2016 SJ Lite Edition ;
+; Flow Status                     ; Successful - Mon Aug 19 21:43:38 2019       ;
+; Quartus Prime Version           ; 18.1.0 Build 625 09/12/2018 SJ Lite Edition ;
 ; Revision Name                   ; processador                                 ;
-; Top-level Entity Name           ; fluxo_de_dados                              ;
+; Top-level Entity Name           ; data_path                                   ;
 ; Family                          ; Cyclone V                                   ;
 ; Device                          ; 5CEBA4F23C7                                 ;
 ; Timing Models                   ; Final                                       ;
 ; Logic utilization (in ALMs)     ; N/A                                         ;
 ; Total registers                 ; 0                                           ;
-; Total pins                      ; 3                                           ;
+; Total pins                      ; 26                                          ;
 ; Total virtual pins              ; 0                                           ;
 ; Total block memory bits         ; 0                                           ;
 ; Total DSP Blocks                ; 0                                           ;
@@ -68,28 +67,28 @@ agreement for further details.
 +-------------------+---------------------+
 ; Option            ; Setting             ;
 +-------------------+---------------------+
-; Start date & time ; 08/08/2019 16:32:15 ;
+; Start date & time ; 08/19/2019 21:43:25 ;
 ; Main task         ; Compilation         ;
 ; Revision Name     ; processador         ;
 +-------------------+---------------------+
 
 
-+----------------------------------------------------------------------------------------------------------------------------+
-; Flow Non-Default Global Settings                                                                                           ;
-+-------------------------------------+----------------------------------------+---------------+----------------+------------+
-; Assignment Name                     ; Value                                  ; Default Value ; Entity Name    ; Section Id ;
-+-------------------------------------+----------------------------------------+---------------+----------------+------------+
-; COMPILER_SIGNATURE_ID               ; 233360577867561.156529273410688        ; --            ; --             ; --         ;
-; MAX_CORE_JUNCTION_TEMP              ; 85                                     ; --            ; --             ; --         ;
-; MIN_CORE_JUNCTION_TEMP              ; 0                                      ; --            ; --             ; --         ;
-; PARTITION_COLOR                     ; -- (Not supported for targeted family) ; --            ; fluxo_de_dados ; Top        ;
-; PARTITION_FITTER_PRESERVATION_LEVEL ; -- (Not supported for targeted family) ; --            ; fluxo_de_dados ; Top        ;
-; PARTITION_NETLIST_TYPE              ; -- (Not supported for targeted family) ; --            ; fluxo_de_dados ; Top        ;
-; POWER_BOARD_THERMAL_MODEL           ; None (CONSERVATIVE)                    ; --            ; --             ; --         ;
-; POWER_PRESET_COOLING_SOLUTION       ; 23 MM HEAT SINK WITH 200 LFPM AIRFLOW  ; --            ; --             ; --         ;
-; PROJECT_OUTPUT_DIRECTORY            ; output_files                           ; --            ; --             ; --         ;
-; TOP_LEVEL_ENTITY                    ; fluxo_de_dados                         ; processador   ; --             ; --         ;
-+-------------------------------------+----------------------------------------+---------------+----------------+------------+
++-------------------------------------------------------------------------------------------------------------------------+
+; Flow Non-Default Global Settings                                                                                        ;
++-------------------------------------+----------------------------------------+---------------+-------------+------------+
+; Assignment Name                     ; Value                                  ; Default Value ; Entity Name ; Section Id ;
++-------------------------------------+----------------------------------------+---------------+-------------+------------+
+; COMPILER_SIGNATURE_ID               ; 167304661110831.156626180514248        ; --            ; --          ; --         ;
+; MAX_CORE_JUNCTION_TEMP              ; 85                                     ; --            ; --          ; --         ;
+; MIN_CORE_JUNCTION_TEMP              ; 0                                      ; --            ; --          ; --         ;
+; PARTITION_COLOR                     ; -- (Not supported for targeted family) ; --            ; data_path   ; Top        ;
+; PARTITION_FITTER_PRESERVATION_LEVEL ; -- (Not supported for targeted family) ; --            ; data_path   ; Top        ;
+; PARTITION_NETLIST_TYPE              ; -- (Not supported for targeted family) ; --            ; data_path   ; Top        ;
+; POWER_BOARD_THERMAL_MODEL           ; None (CONSERVATIVE)                    ; --            ; --          ; --         ;
+; POWER_PRESET_COOLING_SOLUTION       ; 23 MM HEAT SINK WITH 200 LFPM AIRFLOW  ; --            ; --          ; --         ;
+; PROJECT_OUTPUT_DIRECTORY            ; output_files                           ; --            ; --          ; --         ;
+; TOP_LEVEL_ENTITY                    ; data_path                              ; processador   ; --          ; --         ;
++-------------------------------------+----------------------------------------+---------------+-------------+------------+
 
 
 +--------------------------------------------------------------------------------------------------------------------------+
@@ -97,8 +96,8 @@ agreement for further details.
 +----------------------+--------------+-------------------------+---------------------+------------------------------------+
 ; Module Name          ; Elapsed Time ; Average Processors Used ; Peak Virtual Memory ; Total CPU Time (on all processors) ;
 +----------------------+--------------+-------------------------+---------------------+------------------------------------+
-; Analysis & Synthesis ; 00:00:11     ; 1.0                     ; 4875 MB             ; 00:00:25                           ;
-; Total                ; 00:00:11     ; --                      ; --                  ; 00:00:25                           ;
+; Analysis & Synthesis ; 00:00:14     ; 1.0                     ; 4857 MB             ; 00:00:25                           ;
+; Total                ; 00:00:14     ; --                      ; --                  ; 00:00:25                           ;
 +----------------------+--------------+-------------------------+---------------------+------------------------------------+
 
 
@@ -107,7 +106,7 @@ agreement for further details.
 +----------------------+------------------+------------+------------+----------------+
 ; Module Name          ; Machine Hostname ; OS Name    ; OS Version ; Processor type ;
 +----------------------+------------------+------------+------------+----------------+
-; Analysis & Synthesis ; DESKTOP-MGIFIA4  ; Windows 10 ; 10.0       ; x86_64         ;
+; Analysis & Synthesis ; LAPTOP-EDOCLDM3  ; Windows 10 ; 10.0       ; x86_64         ;
 +----------------------+------------------+------------+------------+----------------+
 
 
