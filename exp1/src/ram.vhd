@@ -17,7 +17,7 @@ entity ram is
 end ram;
 
 architecture vendorfree of ram is
-  constant depth : natural := 2**addressSize;
+  constant depth : natural := 2**10;
   type mem_type is array (0 to depth-1) of bit_vector(wordSize-1 downto 0);
   signal mem : mem_type;
 begin

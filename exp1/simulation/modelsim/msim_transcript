@@ -1,0 +1,555 @@
+# Reading D:/intelFPGA_lite/18.1/modelsim_ase/tcl/vsim/pref.tcl
+# do processador_run_msim_rtl_vhdl.do
+# if {[file exists rtl_work]} {
+# 	vdel -lib rtl_work -all
+# }
+# vlib rtl_work
+# vmap work rtl_work
+# Model Technology ModelSim - Intel FPGA Edition vmap 10.5b Lib Mapping Utility 2016.10 Oct  5 2016
+# vmap work rtl_work 
+# Copying D:/intelFPGA_lite/18.1/modelsim_ase/win32aloem/../modelsim.ini to modelsim.ini
+# Modifying modelsim.ini
+# 
+# vcom -93 -work work {C:/Users/MateusVendramini/projects/orgarq2/exp1/src/dualregfile.vhd}
+# Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
+# Start time: 18:25:12 on Aug 20,2019
+# vcom -reportprogress 300 -93 -work work C:/Users/MateusVendramini/projects/orgarq2/exp1/src/dualregfile.vhd 
+# -- Loading package STANDARD
+# -- Loading package TEXTIO
+# -- Loading package NUMERIC_BIT
+# -- Compiling entity dualregfile
+# -- Compiling architecture DualRegFile64 of dualregfile
+# End time: 18:25:12 on Aug 20,2019, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vcom -93 -work work {C:/Users/MateusVendramini/projects/orgarq2/exp1/src/signExtend.vhd}
+# Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
+# Start time: 18:25:12 on Aug 20,2019
+# vcom -reportprogress 300 -93 -work work C:/Users/MateusVendramini/projects/orgarq2/exp1/src/signExtend.vhd 
+# -- Loading package STANDARD
+# -- Compiling entity signExtend
+# -- Compiling architecture combinational of signExtend
+# End time: 18:25:13 on Aug 20,2019, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 0
+# vcom -93 -work work {C:/Users/MateusVendramini/projects/orgarq2/exp1/src/shiftleft2.vhd}
+# Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
+# Start time: 18:25:13 on Aug 20,2019
+# vcom -reportprogress 300 -93 -work work C:/Users/MateusVendramini/projects/orgarq2/exp1/src/shiftleft2.vhd 
+# -- Loading package STANDARD
+# -- Compiling entity shiftleft2
+# -- Compiling architecture structural of shiftleft2
+# End time: 18:25:13 on Aug 20,2019, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vcom -93 -work work {C:/Users/MateusVendramini/projects/orgarq2/exp1/src/rom.vhd}
+# Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
+# Start time: 18:25:13 on Aug 20,2019
+# vcom -reportprogress 300 -93 -work work C:/Users/MateusVendramini/projects/orgarq2/exp1/src/rom.vhd 
+# -- Loading package STANDARD
+# -- Loading package TEXTIO
+# -- Loading package std_logic_1164
+# -- Loading package NUMERIC_STD
+# -- Compiling entity rom
+# -- Compiling architecture vendorfree of rom
+# End time: 18:25:13 on Aug 20,2019, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vcom -93 -work work {C:/Users/MateusVendramini/projects/orgarq2/exp1/src/reg.vhd}
+# Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
+# Start time: 18:25:13 on Aug 20,2019
+# vcom -reportprogress 300 -93 -work work C:/Users/MateusVendramini/projects/orgarq2/exp1/src/reg.vhd 
+# -- Loading package STANDARD
+# -- Loading package TEXTIO
+# -- Loading package std_logic_1164
+# -- Compiling entity reg
+# -- Compiling architecture flipflop of reg
+# End time: 18:25:13 on Aug 20,2019, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vcom -93 -work work {C:/Users/MateusVendramini/projects/orgarq2/exp1/src/ram.vhd}
+# Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
+# Start time: 18:25:13 on Aug 20,2019
+# vcom -reportprogress 300 -93 -work work C:/Users/MateusVendramini/projects/orgarq2/exp1/src/ram.vhd 
+# -- Loading package STANDARD
+# -- Loading package TEXTIO
+# -- Loading package std_logic_1164
+# -- Loading package NUMERIC_STD
+# -- Compiling entity ram
+# -- Compiling architecture vendorfree of ram
+# End time: 18:25:13 on Aug 20,2019, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vcom -93 -work work {C:/Users/MateusVendramini/projects/orgarq2/exp1/src/mux2to1.vhd}
+# Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
+# Start time: 18:25:13 on Aug 20,2019
+# vcom -reportprogress 300 -93 -work work C:/Users/MateusVendramini/projects/orgarq2/exp1/src/mux2to1.vhd 
+# -- Loading package STANDARD
+# -- Compiling entity mux2to1
+# -- Compiling architecture whenelse of mux2to1
+# -- Compiling architecture withselect of mux2to1
+# -- Loading entity mux2to1
+# -- Compiling architecture struct of mux2to1
+# -- Loading entity mux2to1
+# -- Compiling architecture structvec of mux2to1
+# -- Loading entity mux2to1
+# -- Compiling architecture structgen of mux2to1
+# -- Loading entity mux2to1
+# -- Compiling architecture proccase of mux2to1
+# -- Loading entity mux2to1
+# -- Compiling architecture procif of mux2to1
+# -- Loading entity mux2to1
+# End time: 18:25:13 on Aug 20,2019, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vcom -93 -work work {C:/Users/MateusVendramini/projects/orgarq2/exp1/src/alu.vhd}
+# Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
+# Start time: 18:25:13 on Aug 20,2019
+# vcom -reportprogress 300 -93 -work work C:/Users/MateusVendramini/projects/orgarq2/exp1/src/alu.vhd 
+# -- Loading package STANDARD
+# -- Loading package TEXTIO
+# -- Loading package NUMERIC_BIT
+# -- Compiling entity alu
+# -- Compiling architecture functional of alu
+# End time: 18:25:13 on Aug 20,2019, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vcom -93 -work work {C:/Users/MateusVendramini/projects/orgarq2/exp1/src/fluxo_de_dados.vhd}
+# Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
+# Start time: 18:25:13 on Aug 20,2019
+# vcom -reportprogress 300 -93 -work work C:/Users/MateusVendramini/projects/orgarq2/exp1/src/fluxo_de_dados.vhd 
+# -- Loading package STANDARD
+# -- Loading package TEXTIO
+# -- Loading package NUMERIC_BIT
+# -- Compiling entity data_path
+# -- Compiling architecture arch of data_path
+# ** Error: C:/Users/MateusVendramini/projects/orgarq2/exp1/src/fluxo_de_dados.vhd(156): (vcom-1436) Actual expression (infix expression) of formal "s" is not globally static.
+# ** Error: C:/Users/MateusVendramini/projects/orgarq2/exp1/src/fluxo_de_dados.vhd(183): VHDL Compiler exiting
+# End time: 18:25:13 on Aug 20,2019, Elapsed time: 0:00:00
+# Errors: 2, Warnings: 0
+# ** Error: D:/intelFPGA_lite/18.1/modelsim_ase/win32aloem/vcom failed.
+# Error in macro ./processador_run_msim_rtl_vhdl.do line 16
+# D:/intelFPGA_lite/18.1/modelsim_ase/win32aloem/vcom failed.
+#     while executing
+# "vcom -93 -work work {C:/Users/MateusVendramini/projects/orgarq2/exp1/src/fluxo_de_dados.vhd}"
+vcom -reportprogress 300 -work work C:/Users/MateusVendramini/projects/orgarq2/exp1/src/fluxo_de_dados.vhd
+# Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
+# Start time: 18:27:26 on Aug 20,2019
+# vcom -reportprogress 300 -work work C:/Users/MateusVendramini/projects/orgarq2/exp1/src/fluxo_de_dados.vhd 
+# -- Loading package STANDARD
+# -- Loading package TEXTIO
+# -- Loading package NUMERIC_BIT
+# -- Compiling entity data_path
+# -- Compiling architecture arch of data_path
+# End time: 18:27:26 on Aug 20,2019, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+vsim -gui -l msim_transcript rtl_work.data_path
+# vsim -gui -l msim_transcript rtl_work.data_path 
+# Start time: 18:28:30 on Aug 20,2019
+# Loading std.standard
+# Loading std.textio(body)
+# Loading ieee.numeric_bit(body)
+# Loading rtl_work.data_path(arch)
+# Loading rtl_work.alu(functional)
+# Loading ieee.std_logic_1164(body)
+# Loading ieee.numeric_std(body)
+# Loading rtl_work.rom(vendorfree)
+# ** Warning: (vsim-7) Failed to open VHDL file "rom.dat" in rb mode.
+# No such file or directory. (errno = ENOENT)
+#    Time: 0 ps  Iteration: 0  Instance: /data_path/instruction_memory_component File: C:/Users/MateusVendramini/projects/orgarq2/exp1/src/rom.vhd
+# Loading rtl_work.mux2to1(procif)
+# Loading rtl_work.signextend(combinational)
+# Loading rtl_work.shiftleft2(structural)
+# Loading rtl_work.ram(vendorfree)
+# Loading rtl_work.reg(flipflop)
+# Loading rtl_work.dualregfile(dualregfile64)
+restart -f
+# ** Warning: (vsim-7) Failed to open VHDL file "rom.dat" in rb mode.
+# No such file or directory. (errno = ENOENT)
+#    Time: 0 ps  Iteration: 0  Instance: /data_path/instruction_memory_component File: C:/Users/MateusVendramini/projects/orgarq2/exp1/src/rom.vhd
+restart -f
+restart -f
+restart -f
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+step -over
+# ** Fatal: (vsim-3734) Index value 0 is out of range 0 to -1 (null array).
+#    Time: 0 ps  Iteration: 0  Process: /data_path/data_memory_component/line__32 File: C:/Users/MateusVendramini/projects/orgarq2/exp1/src/ram.vhd
+# Fatal error in Architecture vendorfree at C:/Users/MateusVendramini/projects/orgarq2/exp1/src/ram.vhd line 32
+# 
+# HDL call sequence:
+# Stopped at C:/Users/MateusVendramini/projects/orgarq2/exp1/src/ram.vhd 32 Architecture vendorfree
+# 
+quit -sim
+# End time: 18:42:09 on Aug 20,2019, Elapsed time: 0:13:39
+# Errors: 2, Warnings: 2
+vcom -reportprogress 300 -work work C:/Users/MateusVendramini/projects/orgarq2/exp1/src/fluxo_de_dados.vhd
+# Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
+# Start time: 18:42:20 on Aug 20,2019
+# vcom -reportprogress 300 -work work C:/Users/MateusVendramini/projects/orgarq2/exp1/src/fluxo_de_dados.vhd 
+# -- Loading package STANDARD
+# -- Loading package TEXTIO
+# -- Loading package NUMERIC_BIT
+# -- Compiling entity data_path
+# -- Compiling architecture arch of data_path
+# End time: 18:42:20 on Aug 20,2019, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+vsim -gui -l msim_transcript rtl_work.data_path
+# vsim -gui -l msim_transcript rtl_work.data_path 
+# Start time: 18:42:52 on Aug 20,2019
+# Loading std.standard
+# Loading std.textio(body)
+# Loading ieee.numeric_bit(body)
+# Loading rtl_work.data_path(arch)
+# Loading rtl_work.alu(functional)
+# Loading ieee.std_logic_1164(body)
+# Loading ieee.numeric_std(body)
+# Loading rtl_work.rom(vendorfree)
+# Loading rtl_work.mux2to1(procif)
+# Loading rtl_work.signextend(combinational)
+# Loading rtl_work.shiftleft2(structural)
+# Loading rtl_work.ram(vendorfree)
+# Loading rtl_work.reg(flipflop)
+# Loading rtl_work.dualregfile(dualregfile64)
+quit -sim
+# End time: 18:44:23 on Aug 20,2019, Elapsed time: 0:01:31
+# Errors: 0, Warnings: 0
+vsim rtl_work.rom
+# vsim rtl_work.rom 
+# Start time: 18:44:38 on Aug 20,2019
+# Loading std.standard
+# Loading std.textio(body)
+# Loading ieee.std_logic_1164(body)
+# Loading ieee.numeric_std(body)
+# Loading rtl_work.rom(vendorfree)
+quit -sim
+# End time: 18:44:52 on Aug 20,2019, Elapsed time: 0:00:14
+# Errors: 0, Warnings: 0
+vcom -93 -work work C:/Users/MateusVendramini/projects/orgarq2/exp1/src/rom.vhd
+# Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
+# Start time: 18:47:21 on Aug 20,2019
+# vcom -reportprogress 300 -93 -work work C:/Users/MateusVendramini/projects/orgarq2/exp1/src/rom.vhd 
+# -- Loading package STANDARD
+# -- Loading package TEXTIO
+# -- Loading package std_logic_1164
+# -- Loading package NUMERIC_STD
+# -- Compiling entity rom
+# -- Compiling architecture vendorfree of rom
+# End time: 18:47:21 on Aug 20,2019, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+vsim rtl_work.rom
+# vsim rtl_work.rom 
+# Start time: 18:47:24 on Aug 20,2019
+# Loading std.standard
+# Loading std.textio(body)
+# Loading ieee.std_logic_1164(body)
+# Loading ieee.numeric_std(body)
+# Loading rtl_work.rom(vendorfree)
+# ** Error: (vsim-3549) TEXTIO procedure READ(BIT_VECTOR) : Wrong BIT_VECTOR length. Expected 32, found 0.
+#    Time: 0 ps  Iteration: 0  Instance: /rom File: C:/Users/MateusVendramini/projects/orgarq2/exp1/src/rom.vhd
+# ** Error: (vsim-3549) TEXTIO procedure READ(BIT_VECTOR) : Wrong BIT_VECTOR length. Expected 32, found 0.
+#    Time: 0 ps  Iteration: 0  Instance: /rom File: C:/Users/MateusVendramini/projects/orgarq2/exp1/src/rom.vhd
+# ** Error: (vsim-3549) TEXTIO procedure READ(BIT_VECTOR) : Wrong BIT_VECTOR length. Expected 32, found 0.
+#    Time: 0 ps  Iteration: 0  Instance: /rom File: C:/Users/MateusVendramini/projects/orgarq2/exp1/src/rom.vhd
+# ** Error: (vsim-3549) TEXTIO procedure READ(BIT_VECTOR) : Wrong BIT_VECTOR length. Expected 32, found 0.
+#    Time: 0 ps  Iteration: 0  Instance: /rom File: C:/Users/MateusVendramini/projects/orgarq2/exp1/src/rom.vhd
+# ** Error: (vsim-3549) TEXTIO procedure READ(BIT_VECTOR) : Wrong BIT_VECTOR length. Expected 32, found 0.
+#    Time: 0 ps  Iteration: 0  Instance: /rom File: C:/Users/MateusVendramini/projects/orgarq2/exp1/src/rom.vhd
+# ** Error: (vsim-3549) TEXTIO procedure READ(BIT_VECTOR) : Wrong BIT_VECTOR length. Expected 32, found 0.
+#    Time: 0 ps  Iteration: 0  Instance: /rom File: C:/Users/MateusVendramini/projects/orgarq2/exp1/src/rom.vhd
+# ** Error: (vsim-3549) TEXTIO procedure READ(BIT_VECTOR) : Wrong BIT_VECTOR length. Expected 32, found 0.
+#    Time: 0 ps  Iteration: 0  Instance: /rom File: C:/Users/MateusVendramini/projects/orgarq2/exp1/src/rom.vhd
+# ** Error: (vsim-3549) TEXTIO procedure READ(BIT_VECTOR) : Wrong BIT_VECTOR length. Expected 32, found 0.
+#    Time: 0 ps  Iteration: 0  Instance: /rom File: C:/Users/MateusVendramini/projects/orgarq2/exp1/src/rom.vhd
+# ** Error: (vsim-3549) TEXTIO procedure READ(BIT_VECTOR) : Wrong BIT_VECTOR length. Expected 32, found 0.
+#    Time: 0 ps  Iteration: 0  Instance: /rom File: C:/Users/MateusVendramini/projects/orgarq2/exp1/src/rom.vhd
+# ** Error: (vsim-3549) TEXTIO procedure READ(BIT_VECTOR) : Wrong BIT_VECTOR length. Expected 32, found 0.
+#    Time: 0 ps  Iteration: 0  Instance: /rom File: C:/Users/MateusVendramini/projects/orgarq2/exp1/src/rom.vhd
+# ** Error: (vsim-3549) TEXTIO procedure READ(BIT_VECTOR) : Wrong BIT_VECTOR length. Expected 32, found 0.
+#    Time: 0 ps  Iteration: 0  Instance: /rom File: C:/Users/MateusVendramini/projects/orgarq2/exp1/src/rom.vhd
+# ** Error: (vsim-3549) TEXTIO procedure READ(BIT_VECTOR) : Wrong BIT_VECTOR length. Expected 32, found 0.
+#    Time: 0 ps  Iteration: 0  Instance: /rom File: C:/Users/MateusVendramini/projects/orgarq2/exp1/src/rom.vhd
+# ** Error: (vsim-3549) TEXTIO procedure READ(BIT_VECTOR) : Wrong BIT_VECTOR length. Expected 32, found 0.
+#    Time: 0 ps  Iteration: 0  Instance: /rom File: C:/Users/MateusVendramini/projects/orgarq2/exp1/src/rom.vhd
+# ** Error: (vsim-3549) TEXTIO procedure READ(BIT_VECTOR) : Wrong BIT_VECTOR length. Expected 32, found 0.
+#    Time: 0 ps  Iteration: 0  Instance: /rom File: C:/Users/MateusVendramini/projects/orgarq2/exp1/src/rom.vhd
+# ** Fatal: (vsim-3551) TEXTIO : Read past end of file "rom.dat".
+#    Time: 0 ps  Iteration: 0  Instance: /rom File: C:/Users/MateusVendramini/projects/orgarq2/exp1/src/rom.vhd Line: 30
+# FATAL ERROR while loading design
+# Error loading design
+# End time: 18:47:24 on Aug 20,2019, Elapsed time: 0:00:00
+# Errors: 15, Warnings: 0
+vcom -93 -work work C:/Users/MateusVendramini/projects/orgarq2/exp1/src/rom.vhd
+# Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
+# Start time: 18:51:14 on Aug 20,2019
+# vcom -reportprogress 300 -93 -work work C:/Users/MateusVendramini/projects/orgarq2/exp1/src/rom.vhd 
+# -- Loading package STANDARD
+# -- Loading package TEXTIO
+# -- Loading package std_logic_1164
+# -- Loading package NUMERIC_STD
+# -- Compiling entity rom
+# -- Compiling architecture vendorfree of rom
+# ** Error: C:/Users/MateusVendramini/projects/orgarq2/exp1/src/rom.vhd(31): (vcom-1136) Unknown identifier "to_string".
+# ** Error: C:/Users/MateusVendramini/projects/orgarq2/exp1/src/rom.vhd(31): Type error resolving infix expression "&" as type std.STANDARD.STRING.
+# ** Error: C:/Users/MateusVendramini/projects/orgarq2/exp1/src/rom.vhd(41): VHDL Compiler exiting
+# End time: 18:51:14 on Aug 20,2019, Elapsed time: 0:00:00
+# Errors: 3, Warnings: 0
+# D:/intelFPGA_lite/18.1/modelsim_ase/win32aloem/vcom failed.
+vcom -93 -work work C:/Users/MateusVendramini/projects/orgarq2/exp1/src/rom.vhd
+# Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
+# Start time: 18:54:28 on Aug 20,2019
+# vcom -reportprogress 300 -93 -work work C:/Users/MateusVendramini/projects/orgarq2/exp1/src/rom.vhd 
+# -- Loading package STANDARD
+# -- Loading package TEXTIO
+# -- Loading package std_logic_1164
+# -- Loading package NUMERIC_STD
+# -- Compiling entity rom
+# -- Compiling architecture vendorfree of rom
+# ** Error: C:/Users/MateusVendramini/projects/orgarq2/exp1/src/rom.vhd(31): (vcom-1136) Unknown identifier "to_string".
+# ** Error: C:/Users/MateusVendramini/projects/orgarq2/exp1/src/rom.vhd(31): Type error resolving infix expression "&" as type std.STANDARD.STRING.
+# ** Error: C:/Users/MateusVendramini/projects/orgarq2/exp1/src/rom.vhd(41): VHDL Compiler exiting
+# End time: 18:54:28 on Aug 20,2019, Elapsed time: 0:00:00
+# Errors: 3, Warnings: 0
+# D:/intelFPGA_lite/18.1/modelsim_ase/win32aloem/vcom failed.
+vcom -93 -work work C:/Users/MateusVendramini/projects/orgarq2/exp1/src/rom.vhd
+# Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
+# Start time: 18:54:37 on Aug 20,2019
+# vcom -reportprogress 300 -93 -work work C:/Users/MateusVendramini/projects/orgarq2/exp1/src/rom.vhd 
+# -- Loading package STANDARD
+# -- Loading package TEXTIO
+# -- Loading package std_logic_1164
+# -- Loading package NUMERIC_STD
+# -- Compiling entity rom
+# -- Compiling architecture vendorfree of rom
+# ** Error: C:/Users/MateusVendramini/projects/orgarq2/exp1/src/rom.vhd(31): (vcom-1581) No feasible entries for infix operator '&'.
+# ** Error: C:/Users/MateusVendramini/projects/orgarq2/exp1/src/rom.vhd(31): Type error resolving infix expression "&" as type std.STANDARD.STRING.
+# ** Error: C:/Users/MateusVendramini/projects/orgarq2/exp1/src/rom.vhd(41): VHDL Compiler exiting
+# End time: 18:54:37 on Aug 20,2019, Elapsed time: 0:00:00
+# Errors: 3, Warnings: 0
+# D:/intelFPGA_lite/18.1/modelsim_ase/win32aloem/vcom failed.
+vcom -93 -work work C:/Users/MateusVendramini/projects/orgarq2/exp1/src/rom.vhd
+# Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
+# Start time: 18:56:24 on Aug 20,2019
+# vcom -reportprogress 300 -93 -work work C:/Users/MateusVendramini/projects/orgarq2/exp1/src/rom.vhd 
+# -- Loading package STANDARD
+# -- Loading package TEXTIO
+# -- Loading package std_logic_1164
+# -- Loading package NUMERIC_STD
+# -- Compiling entity rom
+# -- Compiling architecture vendorfree of rom
+# End time: 18:56:24 on Aug 20,2019, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+vsim rtl_work.rom
+# vsim rtl_work.rom 
+# Start time: 18:56:27 on Aug 20,2019
+# Loading std.standard
+# Loading std.textio(body)
+# Loading ieee.std_logic_1164(body)
+# Loading ieee.numeric_std(body)
+# Loading rtl_work.rom(vendorfree)
+# ** Error: (vsim-3549) TEXTIO procedure READ(BIT_VECTOR) : Wrong BIT_VECTOR length. Expected 32, found 0.
+#    Time: 0 ps  Iteration: 0  Instance: /rom File: C:/Users/MateusVendramini/projects/orgarq2/exp1/src/rom.vhd
+# ** Error: (vsim-3549) TEXTIO procedure READ(BIT_VECTOR) : Wrong BIT_VECTOR length. Expected 32, found 0.
+#    Time: 0 ps  Iteration: 0  Instance: /rom File: C:/Users/MateusVendramini/projects/orgarq2/exp1/src/rom.vhd
+# ** Error: (vsim-3549) TEXTIO procedure READ(BIT_VECTOR) : Wrong BIT_VECTOR length. Expected 32, found 0.
+#    Time: 0 ps  Iteration: 0  Instance: /rom File: C:/Users/MateusVendramini/projects/orgarq2/exp1/src/rom.vhd
+# ** Error: (vsim-3549) TEXTIO procedure READ(BIT_VECTOR) : Wrong BIT_VECTOR length. Expected 32, found 0.
+#    Time: 0 ps  Iteration: 0  Instance: /rom File: C:/Users/MateusVendramini/projects/orgarq2/exp1/src/rom.vhd
+# ** Error: (vsim-3549) TEXTIO procedure READ(BIT_VECTOR) : Wrong BIT_VECTOR length. Expected 32, found 0.
+#    Time: 0 ps  Iteration: 0  Instance: /rom File: C:/Users/MateusVendramini/projects/orgarq2/exp1/src/rom.vhd
+# ** Error: (vsim-3549) TEXTIO procedure READ(BIT_VECTOR) : Wrong BIT_VECTOR length. Expected 32, found 0.
+#    Time: 0 ps  Iteration: 0  Instance: /rom File: C:/Users/MateusVendramini/projects/orgarq2/exp1/src/rom.vhd
+# ** Error: (vsim-3549) TEXTIO procedure READ(BIT_VECTOR) : Wrong BIT_VECTOR length. Expected 32, found 0.
+#    Time: 0 ps  Iteration: 0  Instance: /rom File: C:/Users/MateusVendramini/projects/orgarq2/exp1/src/rom.vhd
+# ** Error: (vsim-3549) TEXTIO procedure READ(BIT_VECTOR) : Wrong BIT_VECTOR length. Expected 32, found 0.
+#    Time: 0 ps  Iteration: 0  Instance: /rom File: C:/Users/MateusVendramini/projects/orgarq2/exp1/src/rom.vhd
+# ** Error: (vsim-3549) TEXTIO procedure READ(BIT_VECTOR) : Wrong BIT_VECTOR length. Expected 32, found 0.
+#    Time: 0 ps  Iteration: 0  Instance: /rom File: C:/Users/MateusVendramini/projects/orgarq2/exp1/src/rom.vhd
+# ** Error: (vsim-3549) TEXTIO procedure READ(BIT_VECTOR) : Wrong BIT_VECTOR length. Expected 32, found 0.
+#    Time: 0 ps  Iteration: 0  Instance: /rom File: C:/Users/MateusVendramini/projects/orgarq2/exp1/src/rom.vhd
+# ** Error: (vsim-3549) TEXTIO procedure READ(BIT_VECTOR) : Wrong BIT_VECTOR length. Expected 32, found 0.
+#    Time: 0 ps  Iteration: 0  Instance: /rom File: C:/Users/MateusVendramini/projects/orgarq2/exp1/src/rom.vhd
+# ** Error: (vsim-3549) TEXTIO procedure READ(BIT_VECTOR) : Wrong BIT_VECTOR length. Expected 32, found 0.
+#    Time: 0 ps  Iteration: 0  Instance: /rom File: C:/Users/MateusVendramini/projects/orgarq2/exp1/src/rom.vhd
+# ** Error: (vsim-3549) TEXTIO procedure READ(BIT_VECTOR) : Wrong BIT_VECTOR length. Expected 32, found 0.
+#    Time: 0 ps  Iteration: 0  Instance: /rom File: C:/Users/MateusVendramini/projects/orgarq2/exp1/src/rom.vhd
+# ** Error: (vsim-3549) TEXTIO procedure READ(BIT_VECTOR) : Wrong BIT_VECTOR length. Expected 32, found 0.
+#    Time: 0 ps  Iteration: 0  Instance: /rom File: C:/Users/MateusVendramini/projects/orgarq2/exp1/src/rom.vhd
+# ** Fatal: (vsim-3551) TEXTIO : Read past end of file "rom.dat".
+#    Time: 0 ps  Iteration: 0  Instance: /rom File: C:/Users/MateusVendramini/projects/orgarq2/exp1/src/rom.vhd Line: 30
+# FATAL ERROR while loading design
+# Error loading design
+# End time: 18:56:27 on Aug 20,2019, Elapsed time: 0:00:00
+# Errors: 15, Warnings: 0
+vsim rtl_work.rom
+# vsim rtl_work.rom 
+# Start time: 18:56:54 on Aug 20,2019
+# Loading std.standard
+# Loading std.textio(body)
+# Loading ieee.std_logic_1164(body)
+# Loading ieee.numeric_std(body)
+# Loading rtl_work.rom(vendorfree)
+# ** Error: (vsim-3549) TEXTIO procedure READ(BIT_VECTOR) : Wrong BIT_VECTOR length. Expected 32, found 0.
+#    Time: 0 ps  Iteration: 0  Instance: /rom File: C:/Users/MateusVendramini/projects/orgarq2/exp1/src/rom.vhd
+# ** Error: (vsim-3549) TEXTIO procedure READ(BIT_VECTOR) : Wrong BIT_VECTOR length. Expected 32, found 0.
+#    Time: 0 ps  Iteration: 0  Instance: /rom File: C:/Users/MateusVendramini/projects/orgarq2/exp1/src/rom.vhd
+# ** Error: (vsim-3549) TEXTIO procedure READ(BIT_VECTOR) : Wrong BIT_VECTOR length. Expected 32, found 0.
+#    Time: 0 ps  Iteration: 0  Instance: /rom File: C:/Users/MateusVendramini/projects/orgarq2/exp1/src/rom.vhd
+# ** Error: (vsim-3549) TEXTIO procedure READ(BIT_VECTOR) : Wrong BIT_VECTOR length. Expected 32, found 0.
+#    Time: 0 ps  Iteration: 0  Instance: /rom File: C:/Users/MateusVendramini/projects/orgarq2/exp1/src/rom.vhd
+# ** Error: (vsim-3549) TEXTIO procedure READ(BIT_VECTOR) : Wrong BIT_VECTOR length. Expected 32, found 0.
+#    Time: 0 ps  Iteration: 0  Instance: /rom File: C:/Users/MateusVendramini/projects/orgarq2/exp1/src/rom.vhd
+# ** Error: (vsim-3549) TEXTIO procedure READ(BIT_VECTOR) : Wrong BIT_VECTOR length. Expected 32, found 0.
+#    Time: 0 ps  Iteration: 0  Instance: /rom File: C:/Users/MateusVendramini/projects/orgarq2/exp1/src/rom.vhd
+# ** Error: (vsim-3549) TEXTIO procedure READ(BIT_VECTOR) : Wrong BIT_VECTOR length. Expected 32, found 0.
+#    Time: 0 ps  Iteration: 0  Instance: /rom File: C:/Users/MateusVendramini/projects/orgarq2/exp1/src/rom.vhd
+# ** Error: (vsim-3549) TEXTIO procedure READ(BIT_VECTOR) : Wrong BIT_VECTOR length. Expected 32, found 0.
+#    Time: 0 ps  Iteration: 0  Instance: /rom File: C:/Users/MateusVendramini/projects/orgarq2/exp1/src/rom.vhd
+# ** Error: (vsim-3549) TEXTIO procedure READ(BIT_VECTOR) : Wrong BIT_VECTOR length. Expected 32, found 0.
+#    Time: 0 ps  Iteration: 0  Instance: /rom File: C:/Users/MateusVendramini/projects/orgarq2/exp1/src/rom.vhd
+# ** Error: (vsim-3549) TEXTIO procedure READ(BIT_VECTOR) : Wrong BIT_VECTOR length. Expected 32, found 0.
+#    Time: 0 ps  Iteration: 0  Instance: /rom File: C:/Users/MateusVendramini/projects/orgarq2/exp1/src/rom.vhd
+# ** Error: (vsim-3549) TEXTIO procedure READ(BIT_VECTOR) : Wrong BIT_VECTOR length. Expected 32, found 0.
+#    Time: 0 ps  Iteration: 0  Instance: /rom File: C:/Users/MateusVendramini/projects/orgarq2/exp1/src/rom.vhd
+# ** Error: (vsim-3549) TEXTIO procedure READ(BIT_VECTOR) : Wrong BIT_VECTOR length. Expected 32, found 0.
+#    Time: 0 ps  Iteration: 0  Instance: /rom File: C:/Users/MateusVendramini/projects/orgarq2/exp1/src/rom.vhd
+# ** Error: (vsim-3549) TEXTIO procedure READ(BIT_VECTOR) : Wrong BIT_VECTOR length. Expected 32, found 0.
+#    Time: 0 ps  Iteration: 0  Instance: /rom File: C:/Users/MateusVendramini/projects/orgarq2/exp1/src/rom.vhd
+# ** Error: (vsim-3549) TEXTIO procedure READ(BIT_VECTOR) : Wrong BIT_VECTOR length. Expected 32, found 0.
+#    Time: 0 ps  Iteration: 0  Instance: /rom File: C:/Users/MateusVendramini/projects/orgarq2/exp1/src/rom.vhd
+# ** Fatal: (vsim-3551) TEXTIO : Read past end of file "rom.dat".
+#    Time: 0 ps  Iteration: 0  Instance: /rom File: C:/Users/MateusVendramini/projects/orgarq2/exp1/src/rom.vhd Line: 30
+# FATAL ERROR while loading design
+# Error loading design
+# End time: 18:56:54 on Aug 20,2019, Elapsed time: 0:00:00
+# Errors: 15, Warnings: 0
+vsim rtl_work.rom
+# vsim rtl_work.rom 
+# Start time: 18:57:05 on Aug 20,2019
+# Loading std.standard
+# Loading std.textio(body)
+# Loading ieee.std_logic_1164(body)
+# Loading ieee.numeric_std(body)
+# Loading rtl_work.rom(vendorfree)
+# ** Warning: (vsim-7) Failed to open VHDL file "rom.dat" in rb mode.
+# No such file or directory. (errno = ENOENT)
+#    Time: 0 ps  Iteration: 0  Instance: /rom File: C:/Users/MateusVendramini/projects/orgarq2/exp1/src/rom.vhd
+# ** Fatal: (vsim-7) Failed to open VHDL file "rom.dat" in rb mode.
+# No such file or directory. (errno = ENOENT)
+#    Time: 0 ps  Iteration: 0  Instance: /rom File: C:/Users/MateusVendramini/projects/orgarq2/exp1/src/rom.vhd Line: 30
+# FATAL ERROR while loading design
+# Error loading design
+# End time: 18:57:05 on Aug 20,2019, Elapsed time: 0:00:00
+# Errors: 1, Warnings: 1
+vsim rtl_work.rom
+# vsim rtl_work.rom 
+# Start time: 18:57:43 on Aug 20,2019
+# Loading std.standard
+# Loading std.textio(body)
+# Loading ieee.std_logic_1164(body)
+# Loading ieee.numeric_std(body)
+# Loading rtl_work.rom(vendorfree)
+# ** Fatal: (vsim-3551) TEXTIO : Read past end of file "rom.dat".
+#    Time: 0 ps  Iteration: 0  Instance: /rom File: C:/Users/MateusVendramini/projects/orgarq2/exp1/src/rom.vhd Line: 30
+# FATAL ERROR while loading design
+# Error loading design
+# End time: 18:57:43 on Aug 20,2019, Elapsed time: 0:00:00
+# Errors: 1, Warnings: 0
+vsim rtl_work.rom
+# vsim rtl_work.rom 
+# Start time: 18:57:56 on Aug 20,2019
+# Loading std.standard
+# Loading std.textio(body)
+# Loading ieee.std_logic_1164(body)
+# Loading ieee.numeric_std(body)
+# Loading rtl_work.rom(vendorfree)
+# ** Fatal: (vsim-3551) TEXTIO : Read past end of file "rom.dat".
+#    Time: 0 ps  Iteration: 0  Instance: /rom File: C:/Users/MateusVendramini/projects/orgarq2/exp1/src/rom.vhd Line: 30
+# FATAL ERROR while loading design
+# Error loading design
+# End time: 18:57:57 on Aug 20,2019, Elapsed time: 0:00:01
+# Errors: 1, Warnings: 0
+clear
+# invalid command name "clear"
+vsim rtl_work.rom
+# vsim rtl_work.rom 
+# Start time: 18:58:17 on Aug 20,2019
+# Loading std.standard
+# Loading std.textio(body)
+# Loading ieee.std_logic_1164(body)
+# Loading ieee.numeric_std(body)
+# Loading rtl_work.rom(vendorfree)
+# ** Fatal: (vsim-3551) TEXTIO : Read past end of file "rom.dat".
+#    Time: 0 ps  Iteration: 0  Instance: /rom File: C:/Users/MateusVendramini/projects/orgarq2/exp1/src/rom.vhd Line: 30
+# FATAL ERROR while loading design
+# Error loading design
+# End time: 18:58:17 on Aug 20,2019, Elapsed time: 0:00:00
+# Errors: 1, Warnings: 0
+vsim rtl_work.rom
+# vsim rtl_work.rom 
+# Start time: 19:00:14 on Aug 20,2019
+# Loading std.standard
+# Loading std.textio(body)
+# Loading ieee.std_logic_1164(body)
+# Loading ieee.numeric_std(body)
+# Loading rtl_work.rom(vendorfree)
+# ** Fatal: (vsim-3551) TEXTIO : Read past end of file "rom.dat".
+#    Time: 0 ps  Iteration: 0  Instance: /rom File: C:/Users/MateusVendramini/projects/orgarq2/exp1/src/rom.vhd Line: 30
+# FATAL ERROR while loading design
+# Error loading design
+# End time: 19:00:14 on Aug 20,2019, Elapsed time: 0:00:00
+# Errors: 1, Warnings: 0
+restart -f
+# No Design Loaded!
+vsim rtl_work.rom
+# vsim rtl_work.rom 
+# Start time: 19:00:27 on Aug 20,2019
+# Loading std.standard
+# Loading std.textio(body)
+# Loading ieee.std_logic_1164(body)
+# Loading ieee.numeric_std(body)
+# Loading rtl_work.rom(vendorfree)
+# ** Fatal: (vsim-3551) TEXTIO : Read past end of file "rom.dat".
+#    Time: 0 ps  Iteration: 0  Instance: /rom File: C:/Users/MateusVendramini/projects/orgarq2/exp1/src/rom.vhd Line: 30
+# FATAL ERROR while loading design
+# Error loading design
+# End time: 19:00:27 on Aug 20,2019, Elapsed time: 0:00:00
+# Errors: 1, Warnings: 0
+vsim rtl_work.rom
+# vsim rtl_work.rom 
+# Start time: 19:00:45 on Aug 20,2019
+# Loading std.standard
+# Loading std.textio(body)
+# Loading ieee.std_logic_1164(body)
+# Loading ieee.numeric_std(body)
+# Loading rtl_work.rom(vendorfree)
+# ** Fatal: (vsim-3551) TEXTIO : Read past end of file "rom.dat".
+#    Time: 0 ps  Iteration: 0  Instance: /rom File: C:/Users/MateusVendramini/projects/orgarq2/exp1/src/rom.vhd Line: 30
+# FATAL ERROR while loading design
+# Error loading design
+# End time: 19:00:45 on Aug 20,2019, Elapsed time: 0:00:00
+# Errors: 1, Warnings: 0
+vsim rtl_work.alu
+# vsim rtl_work.alu 
+# Start time: 19:02:18 on Aug 20,2019
+# Loading std.standard
+# Loading std.textio(body)
+# Loading ieee.numeric_bit(body)
+# Loading rtl_work.alu(functional)
+add wave  \
+sim:/alu/A \
+sim:/alu/B \
+sim:/alu/F \
+sim:/alu/S \
+sim:/alu/Z \
+sim:/alu/aluout \
+sim:/alu/altb
+restart
+# End time: 19:06:42 on Aug 20,2019, Elapsed time: 0:04:24
+# Errors: 0, Warnings: 0

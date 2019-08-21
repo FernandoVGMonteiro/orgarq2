@@ -119,7 +119,8 @@ begin
 					ALUSrc       <= '0';
 					RegWrite     <= '1';
 
-			when "111100" =>  --  AND Immediate & Set Flags == 11110010000 or 11110010001
+			when "111100" =>  --  AND Immediate & Set Flags == 111100 10000 or 11110010001
+				if Instruction(25) = '1' then
 					Reg2Loc      <= '0';
 					Uncondbranch <= '0';
 					Branch       <= '0';
@@ -129,7 +130,17 @@ begin
 					MemWrite     <= '0';
 					ALUSrc       <= '1';
 					RegWrite     <= '1';
-
+				else
+			--when "111100" =>  -- SUBtract Immediate & Set Flags == 111100 0100X
+					Uncondbranch <= '0';
+					Branch       <= '0';
+					MemRead      <= '0';
+					MemtoReg     <= '0';
+					ALUOp        <= "0110";
+					MemWrite     <= '0';
+					ALUSrc       <= '1';
+					RegWrite     <= '1';
+				end if;
 			when "111010" =>  --  AND & Set Flags == 11101010000
 				if (Instruction(31 downto 21) = "11101010000") then
 					Reg2Loc      <= '0';
@@ -231,15 +242,6 @@ begin
 					ALUSrc       <= '1';
 					RegWrite     <= '1';
 
-			when "111100" =>  -- SUBtract Immediate & Set Flags == 1111000100X
-					Uncondbranch <= '0';
-					Branch       <= '0';
-					MemRead      <= '0';
-					MemtoReg     <= '0';
-					ALUOp        <= "0110";
-					MemWrite     <= '0';
-					ALUSrc       <= '1';
-					RegWrite     <= '1';
 			when others =>
 					Reg2Loc      <= '0';
 					Uncondbranch <= '0';

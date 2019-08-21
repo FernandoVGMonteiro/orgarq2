@@ -129,12 +129,14 @@ signal instr: bit_vector(31 downto 0);
 signal mux_instr_reg_out: bit_vector(4 downto 0);
 signal instr_extend, shiftleft2_out : bit_vector(63 downto 0);
 signal zero_ula :bit;
+signal branch_signal :bit;
 
 begin
 
+branch_signal <= ((zero_ula and Branch) or Uncondbranch);
+
 add_component: alu
 port map (signed(pc_out), x"0000000000000004", soma_4, "0010", open);
-
 instruction_memory_component: rom
 port map (pc_out, instr);
 
@@ -153,7 +155,7 @@ port map (signed(pc_out), signed(shiftleft2_out), add_2_out, "0010", open);
 
 mux_add1_add2_component: mux2to1
 generic map (64)
-port map (((zero_ula and Branch) or Uncondbranch), soma_4, add_2_out, pc_in);
+port map (branch_signal, soma_4, add_2_out, pc_in);
 
 mux_reg_alu_component: mux2to1
 generic map (64)
