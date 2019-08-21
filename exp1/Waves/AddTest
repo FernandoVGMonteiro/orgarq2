@@ -1,0 +1,38 @@
+onerror {resume}
+quietly WaveActivateNextPane {} 0
+add wave -noupdate /processor/clock
+add wave -noupdate -radix binary /processor/Instruction
+add wave -noupdate /processor/Reg2Loc
+add wave -noupdate /processor/Uncondbranch
+add wave -noupdate /processor/Branch
+add wave -noupdate /processor/MemRead
+add wave -noupdate /processor/MemtoReg
+add wave -noupdate /processor/ALUOp
+add wave -noupdate /processor/MemWrite
+add wave -noupdate /processor/ALUSrc
+add wave -noupdate /processor/RegWrite
+add wave -noupdate -radix hexadecimal /processor/dp_component/pc_out
+add wave -noupdate -radix hexadecimal /processor/dp_component/write_data
+add wave -noupdate /processor/dp_component/read_data1
+add wave -noupdate /processor/dp_component/read_data2
+add wave -noupdate /processor/dp_component/alu_in
+add wave -noupdate /processor/dp_component/alu_out
+add wave -noupdate /processor/dp_component/memory_data
+TreeUpdate [SetDefaultTree]
+WaveRestoreCursors {{Cursor 1} {0 ps} 0}
+quietly wave cursor active 0
+configure wave -namecolwidth 279
+configure wave -valuecolwidth 128
+configure wave -justifyvalue left
+configure wave -signalnamewidth 0
+configure wave -snapdistance 10
+configure wave -datasetprefix 0
+configure wave -rowmargin 4
+configure wave -childrowmargin 2
+configure wave -gridoffset 0
+configure wave -gridperiod 1
+configure wave -griddelta 40
+configure wave -timeline 0
+configure wave -timelineunits ps
+update
+WaveRestoreZoom {0 ps} {935 ps}

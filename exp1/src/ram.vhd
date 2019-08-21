@@ -29,5 +29,5 @@ begin
       end if;
     end if;
   end process;
-  data_o <= mem(to_integer(unsigned(to_stdlogicvector(addr))));
+  data_o <= mem(to_integer(unsigned(to_stdlogicvector(addr(63 downto 2))))) when unsigned(to_stdlogicvector(addr(63 downto 2))) < 1025;
 end vendorfree;

@@ -170,7 +170,7 @@ port map (clock, memWrite, alu_out, read_data2, memory_data);
 
 mux_memory_reg: mux2to1
 generic map (64)
-port map (memToReg, memory_data, alu_out, write_data);
+port map (memToReg,  alu_out, memory_data, write_data);
 
 pc_component: reg
 generic map (64)

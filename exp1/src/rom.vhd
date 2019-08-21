@@ -19,13 +19,13 @@ end rom;
 architecture romhardcodded of rom is
 type rom_data is array (0 to 4) of bit_vector ( wordSize - 1 downto 0 );
 constant rom : rom_data := (
-	x"00000000",  -- F
-	x"00000001",  -- E
-	x"00000002",  -- D
-	x"00000003",  -- C
+	x"8B000020",  -- F add X0 = X1 + X0
+	x"91000C00",  -- E addi x0 = x0 + 3
+	x"B1000C00",  -- D addis x0 = x0 + 3 set flags
+	x"AB000020",  -- C add x0 = x1 + x0 set flags
 	x"00000007"); -- 0
 begin
-    data <= rom(to_integer(unsigned(addr)));
+    data <= rom(to_integer(unsigned(addr(31 downto 2))));
 end architecture romhardcodded;
 --architecture vendorfree of rom is
 --  constant depth : natural := 2**10;
