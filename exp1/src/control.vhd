@@ -187,8 +187,10 @@ begin
 					RegWrite     <= '0';
 
 			when "111110" =>
-				if (Instruction(31 downto 21) = "11111000010") then
+				report "Entrei no 111110";
+				if (Instruction(22) = '0') then
 					-- Load Register Unscaled offset == 11111000010
+					report "load";
 					Uncondbranch <= '0';
 					Branch       <= '0';
 					MemRead      <= '1';
@@ -197,8 +199,9 @@ begin
 					MemWrite     <= '0';
 					ALUSrc       <= '1';
 					RegWrite     <= '1';
-				elsif (Instruction(31 downto 21) = "11111000000") then
+				else --(Instruction(31 downto 21) = "11111000000") then
 					-- STore Register Unscaled offset == 11111000000
+					report "store";
 					Reg2Loc      <= '1';
 					Uncondbranch <= '0';
 					Branch       <= '0';
@@ -207,16 +210,6 @@ begin
 					ALUOp        <= "0010";
 					MemWrite     <= '1';
 					ALUSrc       <= '1';
-					RegWrite     <= '0';
-				else
-					Reg2Loc      <= '0';
-					Uncondbranch <= '0';
-					Branch       <= '0';
-					MemRead      <= '0';
-					MemtoReg     <= '0';
-					ALUOp        <= "0000";
-					MemWrite     <= '0';
-					ALUSrc       <= '0';
 					RegWrite     <= '0';
 				end if;
 

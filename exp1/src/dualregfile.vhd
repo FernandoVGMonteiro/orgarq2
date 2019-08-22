@@ -65,22 +65,23 @@ signal endw_reg : bit_vector(5 - 1 downto 0);
 begin
 	
 RegisterMemory :
-process (Clock, ReadRegister1, ReadRegister2, WriteRegister, RegWrite, WriteData)
+process (Clock)
 begin
 	 if (Clock'event and Clock = '1') then
-        if (RegWrite = '1' and to_integer(unsigned(WriteRegister)) /= 0) then
+        if (RegWrite = '1' and to_integer(unsigned(WriteRegister)) /= 31) then
            ram(to_integer(unsigned(WriteRegister))) <= WriteData;-- after Twrite;
-        end if;
-        enda_reg <= ReadRegister1;
-        endb_reg <= ReadRegister2;
+      end if;
+        --enda_reg <= ReadRegister1;
+        --endb_reg <= ReadRegister2;
      end if;
+end process RegisterMemory;
 	 -- le na borda de descida
 		 ---- User Signal Assignments ----
 		ReadData1 <= ram(to_integer(unsigned
-								(enda_reg))); --after Tread;
+								(ReadRegister1))); --after Tread;
 		ReadData2 <= ram(to_integer(unsigned
-								(endb_reg))); --after Tread;
-end process RegisterMemory;
+								(ReadRegister2))); --after Tread;
+
 
 
 
