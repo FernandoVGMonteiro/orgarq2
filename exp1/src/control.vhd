@@ -1,8 +1,23 @@
 library ieee;
+use ieee.std_logic_1164.ALL;
 -- use ieee.std_logic_1164.ALL;
 -- use ieee.std_logic.ALL;
 -- use ieee.numeric_std.ALL;
 use ieee.numeric_bit.ALL;
+
+entity clock_gen is
+	generic(period: time := 10 ns);
+	port(clk: out bit);
+end clock_gen;
+
+architecture comportamental of clock_gen is
+	signal temp: bit :='0';
+	begin
+		temp <= not temp after period ;
+		clk <= temp;
+end comportamental;
+
+
 
 entity control is
 	port(
@@ -15,14 +30,24 @@ entity control is
 		MemWrite: out bit;
 		ALUSrc: out bit;
 		RegWrite: out bit;
+		clk: out bit;
 		Instruction: in bit_vector(31 downto 21)
 	);
+
+	
 end control;
 
 architecture Control of control is 
+
+component clock_gen is
+		generic(period: time := 10 ns);
+		port(clk: out bit);
+	end component;
+
 begin
-	--Rst_regs <= Reset;
-	-- rom hardcoded
+	clock_generator: clock_gen
+		port map (clk => clk);
+
 	control_process: process(Instruction) begin
 		case Instruction(31 downto 26) is
 			when "100010" =>
