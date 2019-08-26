@@ -18,7 +18,7 @@ entity data_path is
 
 		memToReg: in bit;
 
-		aluCtl: in bit_vector(3 downto 0);
+		aluCtl: in bit_vector(1 downto 0);
 
 		memWrite: in bit;
 
@@ -123,6 +123,13 @@ component ram is
   );
 end component;
 
+component alu_control is
+  port (
+    ALUCtrl: in bit_vector (1 downto 0);
+    func: in bit_vector (5 downto 0);
+    ALUOp: out bit_vector (3 downto 0)
+);
+end component;
 signal pc_in, pc_out, soma_4, add_2_out, read_data1: bit_vector(63 downto 0);
 signal read_data2, alu_in, alu_out, memory_data, write_data: bit_vector(63 downto 0);
 signal instr: bit_vector(31 downto 0);
@@ -130,6 +137,7 @@ signal mux_instr_reg_out: bit_vector(4 downto 0);
 signal instr_extend, shiftleft2_out : bit_vector(63 downto 0);
 signal zero_ula :bit;
 signal branch_signal :bit;
+signal ALUOp : bit_vector(3 downto 0);
 
 begin
 
@@ -161,8 +169,10 @@ mux_reg_alu_component: mux2to1
 generic map (64)
 port map (ALUSrc, read_data2, instr_extend, alu_in);
 
+alu_control_component : alu_control
+port map (aluCtl, instr(26 downto 21), ALUOp);
 alu_component: alu
-port map (signed(read_data1), signed(alu_in), alu_out, aluCtl, zero_ula);
+port map (signed(read_data1), signed(alu_in), alu_out, ALUOp, zero_ula);
 
 data_memory_component: ram
 generic map (64, 64)
@@ -170,7 +180,7 @@ port map (clock, memWrite, alu_out, read_data2, memory_data);
 
 mux_memory_reg: mux2to1
 generic map (64)
-port map (memToReg, memory_data, alu_out, write_data);
+port map (memToReg,  alu_out, memory_data, write_data);
 
 pc_component: reg
 generic map (64)

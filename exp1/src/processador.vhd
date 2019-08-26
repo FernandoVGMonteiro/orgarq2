@@ -16,7 +16,7 @@ component control is
 		Branch: out bit;
 		MemRead: out bit;
 		MemtoReg: out bit;
-		ALUOp: out bit_vector(3 downto 0);
+		ALUOp: out bit_vector(1 downto 0);
 		MemWrite: out bit;
 		ALUSrc: out bit;
 		RegWrite: out bit;
@@ -40,7 +40,7 @@ component data_path is
 
 		memToReg: in bit;
 
-		aluCtl: in bit_vector(3 downto 0);
+		aluCtl: in bit_vector(1 downto 0);
 
 		memWrite: in bit;
 
@@ -60,7 +60,7 @@ signal	Uncondbranch:  bit;
 signal	Branch: bit;
 signal	MemRead:  bit;
 signal	MemtoReg:  bit;
-signal	ALUOp:  bit_vector(3 downto 0);
+signal	ALUOp:  bit_vector(1 downto 0);
 signal	MemWrite:  bit;
 signal	ALUSrc:  bit;
 signal	RegWrite:  bit;

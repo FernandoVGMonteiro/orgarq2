@@ -3,10 +3,11 @@ use ieee.numeric_bit.ALL;
 
 entity processor is 
 port (
+	InstructionOut : out bit_vector(10 downto  0) -- coloquei apenas porque precisava de uma porta ?
 );
 end entity;
 
-architecture proc of processor is
+architecture arch of processor is
 
 component control is 
 	port(
@@ -15,7 +16,7 @@ component control is
 		Branch: out bit;
 		MemRead: out bit;
 		MemtoReg: out bit;
-		ALUOp: out bit_vector(3 downto 0);
+		ALUOp: out bit_vector(1 downto 0);
 		MemWrite: out bit;
 		ALUSrc: out bit;
 		RegWrite: out bit;
@@ -39,7 +40,7 @@ component data_path is
 
 		memToReg: in bit;
 
-		aluCtl: in bit_vector(3 downto 0);
+		aluCtl: in bit_vector(1 downto 0);
 
 		memWrite: in bit;
 
@@ -64,6 +65,7 @@ signal	MemWrite:  bit;
 signal	ALUSrc:  bit;
 signal	RegWrite:  bit;
 signal	Instruction:  bit_vector(31 downto 21);
+signal clock, reset : bit;
 
 begin
 
@@ -71,6 +73,7 @@ control_component: control
 port map(Reg2Loc, Uncondbranch, Branch, MemRead, MemtoReg, ALUOp, MemWrite,ALUSrc, RegWrite,  Instruction);
 
 dp_component: data_path
-port map (open, open, Reg2Loc, Uncondbranch, Branch, MemRead, MemtoReg, ALUOp, memWrite, AluSrc, RegWrite, Instruction, open);
+port map (clock, reset, Reg2Loc, Uncondbranch, Branch, MemRead, MemtoReg, ALUOp, memWrite, AluSrc, RegWrite, Instruction, open);
 
+InstructionOut <= Instruction;
 end architecture;
