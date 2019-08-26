@@ -1,21 +1,41 @@
 library ieee;
---use ieee.std_logic.all;
---use ieee.std_logic_1164.all;
+use ieee.numeric_bit.ALL;
 
-entity alucontrol is
-port (
-	func: in bit_vector(10 downto 0);
-	alu_op: in bit_vector (3 downto 0);--alu_op: in bit_vector (1 downto 0);
-	alu_ctrl: out bit_vector (3 downto 0)
-);
-end alucontrol;
-
-architecture withselect of alucontrol is 
-begin
-	alu_ctrl <= alu_op;
-	--alu_ctrl(3) <= '0';
-	--alu_ctrl(2) <= alu_op(0) or (alu_op(1) and func(1));
-	--alu_ctrl(1) <= (not alu_op(1)) or (not func(2));
-	--alu_ctrl(0) <= (func(3) or func(0)) and alu_op(1);
-end withselect;
-
+entity alu_control is 
+	port (
+		ALUCtrl: in bit_vector (1 downto 0);
+		func: in bit_vector (5 downto 0);
+		ALUOp: out bit_vector (3 downto 0)
+	
+	);
+end alu_control;
+ 
+ architecture aluctrl of alu_control is
+ begin
+ aluctrprocess: process (ALUCtrl, func) begin
+	case ALUCtrl is
+	when "00" =>
+		--SUM
+		ALUOp <= "0010";
+	when "01" => --SUB
+		ALUOp <= "0110";
+	when "10" =>
+		case func(5) & func(3) is
+		when "00"   => ALUOp <= "0000"; --and
+		when "01"   => ALUOp <= "0010"; --sum
+		when "10"   => ALUOp <= "0111"; 
+		when "11"   => ALUOp <= "0111"; --copy?
+		when others => ALUOp <= "0111";
+		end case;
+	when "11" =>
+		case func(5) & func(3) is
+		when "00"   => ALUOp <= "0000"; --and
+		when "01"   => ALUOp <= "0110"; --sub
+		when "10"   => ALUOp <= "0111"; --dont care ?
+		when "11"   => ALUOp <= "0111"; --copy?
+		when others => ALUOp <= "0111";
+		end case;
+	when others => ALUOp <= "0111";
+	end case;
+ end process aluctrprocess;
+ end  architecture aluctrl;
