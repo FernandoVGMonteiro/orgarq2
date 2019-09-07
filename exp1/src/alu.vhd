@@ -27,7 +27,7 @@ begin
     A or  B when "0001", -- OR
     A +   B when "0010", -- ADD
     A -   B when "0110", -- SUB
-    altb    when "0111", -- SET ON LESS THAN A<B?1:0
+    A    when "0111", -- copy A
     A nor B when "1100", -- NOR
     (others=>'0') when others;
   -- Generating A<B?1:0

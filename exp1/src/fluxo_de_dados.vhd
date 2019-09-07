@@ -25,6 +25,8 @@ entity data_path is
 		aluSrc: in bit;
 
 		regWrite: in bit;
+		
+		BNZero: in bit;
 
 		instruction31to21: out bit_vector(10 downto 0);
 
@@ -142,7 +144,9 @@ signal ALUOp : bit_vector(3 downto 0);
 
 begin
 
-branch_signal <= ((zero_ula and Branch) or Uncondbranch);
+with BNZero select branch_signal <= 
+	((zero_ula and Branch) or Uncondbranch) when '0';
+	(((not zero_ula) and Branch) or Uncondbranch) when others;
 
 add_component: alu
 port map (signed(pc_out), x"0000000000000004", soma_4, "0010", open);

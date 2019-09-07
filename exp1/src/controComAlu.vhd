@@ -30,6 +30,7 @@ entity control is
 		MemWrite: out bit;
 		ALUSrc: out bit;
 		RegWrite: out bit;
+		BNZero: out bit;
 		clk: out bit;
 		Instruction: in bit_vector(31 downto 21)
 	);
@@ -47,9 +48,22 @@ component clock_gen is
 begin
 	clock_generator: clock_gen
 		port map (clk => clk);
-
+	BNZero <= instruction(24);
 	control_process: process(Instruction) begin
 		case Instruction(31 downto 26) is
+			when "000101" =>
+				-- Branch B
+				Reg2Loc      <= '0';
+				Uncondbranch <= '1';
+				Branch       <= '0';
+				MemRead      <= '0';
+				MemtoReg     <= '0';
+				ALUOp        <= "00";
+				MemWrite     <= '0';
+				ALUSrc       <= '0';
+				RegWrite     <= '0';
+				
+			
 			when "100010" =>
 				    -- Add == 10001011000 --ALUOp 10
 					Reg2Loc      <= '0';
@@ -124,15 +138,31 @@ begin
 
 			when "101101" =>  -- Compare & Branch if Zero == 10110100XXX
 					--AluOp 10 para copiar
-					Reg2Loc      <= '0';
-					Uncondbranch <= '0';
-					Branch       <= '1';
-					MemRead      <= '0';
-					MemtoReg     <= '0';
-					ALUOp        <= "10";
-					MemWrite     <= '0';
-					ALUSrc       <= '0';
-					RegWrite     <= '0';
+					-- se bit 31-8 = 1, é branch not zero
+					--BNZero setado assincronamente
+					--if instruction(24) = '1' then 
+						Reg2Loc      <= '0';
+						Uncondbranch <= '0';
+						Branch       <= '1';
+						MemRead      <= '0';
+						MemtoReg     <= '0';
+						ALUOp        <= "10";
+						MemWrite     <= '0';
+						ALUSrc       <= '0';
+						RegWrite     <= '0';
+						--BNZero       <= '0';
+					--else
+					--	Reg2Loc      <= '0';
+					--	Uncondbranch <= '0';
+					--	Branch       <= '1';
+					--	MemRead      <= '0';
+					--	MemtoReg     <= '0';
+					--	ALUOp        <= "10";
+					--	MemWrite     <= '0';
+					--	ALUSrc       <= '0';
+					--	RegWrite     <= '0';
+					--	BNZero       <= '1';
+					--end if;
 
 			when "111110" =>
 				report "Entrei no 111110";

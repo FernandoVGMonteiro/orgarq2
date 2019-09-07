@@ -34,11 +34,17 @@ begin
 			
 			--end;
 	
-		when "01"=> --CB
-			o(18 downto 0) <= i(23 downto 5);
-			msbCB: for idx in (19) to (63) loop
+		when "01"=> --CB or B
+			if i(29) = '0' then -- B
+				o(25 downto 0) <= i(25 downto 0);
+				msbCB: for idx in (26) to (63) loop
+				o(idx) <= i(25);
+			else -- CBZ or CBNZ
+				o(18 downto 0) <= i(23 downto 5);
+				msbCB: for idx in (19) to (63) loop
 				o(idx) <= i(23);
 			end loop msbCB;
+			end if;
 			
 			--end;
 		when "10"=> --ls
