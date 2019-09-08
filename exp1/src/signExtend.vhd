@@ -38,12 +38,13 @@ begin
 			if i(29) = '0' then -- B
 				o(25 downto 0) <= i(25 downto 0);
 				msbCB: for idx in (26) to (63) loop
-				o(idx) <= i(25);
+					o(idx) <= i(25);
+				end loop msbCB;
 			else -- CBZ or CBNZ
 				o(18 downto 0) <= i(23 downto 5);
-				msbCB: for idx in (19) to (63) loop
-				o(idx) <= i(23);
-			end loop msbCB;
+				msbCB2: for idx in (19) to (63) loop
+					o(idx) <= i(23);
+				end loop msbCB2;
 			end if;
 			
 			--end;
