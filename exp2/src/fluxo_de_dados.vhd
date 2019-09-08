@@ -145,7 +145,7 @@ signal muxA, muxB :bit_vector(0 downto 0);
 
 -- pipeline register signals
 signal if_id_in, if_id_out : bit_vector (95 downto 0);
-signal id_ex_in, id_ex_out : bit_vector (283 downto 0);
+signal id_ex_in, id_ex_out : bit_vector (281 downto 0);
 signal ex_mem_in, ex_mem_out: bit_vector (204 downto 0);
 signal mem_wb_in, mem_wb_out : bit_vector(134 downto 0);
 begin
@@ -187,36 +187,36 @@ port map (instr_id, instr_extend);
 
 dual_reg_file: dualregfile
 port map (instr_id(9 downto 5), mux_instr_reg_out, instr_id(4 downto 0), write_data, clock, mem_wb_out(134), read_data1, read_data2);
---         282           281        280     279          278           277     276     [275-274]273       [272-209]                [208-145]    [144-81]     [80-16]             [15-5]                 [4-0]
+--         281           280        279     278          277           276     275     [274-273] 272       [271-208]                [207-144]    [143-80]     [79-16]             [15-5]                 [4-0]
 id_ex_in <= MemtoReg & RegWrite & MemRead & MemWrite & Uncondbranch & Branch & BNZero & ALUCtl & ALUSrc & if_id_out(95 downto 32) & read_data1 & read_data2 & instr_extend &instr_id(31 downto 21) & instr_id(4 downto 0);
 
 IDEX_component: reg
-generic map (283)
+generic map (282)
 port map (clock, reset, '1', id_ex_in, id_ex_out);
 --*********************************
 -- EXECUTE
 --*********************************
-instr_extend <= id_ex_out(80 downto 16);
+instr_extend_ex <= id_ex_out(79 downto 16);
 shiftleft2_component: shiftleft2
-port map (instr_extend, shiftleft2_out);
+port map (instr_extend_ex, shiftleft2_out);
 
 add_component_2: alu
-port map (signed(id_ex_out(272 downto 209), signed(shiftleft2_out), add_2_out, "0010", open);
+port map (signed(id_ex_out(271 downto 208), signed(shiftleft2_out), add_2_out, "0010", open);
 
 
 mux_reg_alu_component: mux2to1
 generic map (64)
-port map (id_ex_out(273), id_ex_out(144 downto 81), instr_extend, alu_in);
+port map (id_ex_out(272), id_ex_out(143 downto 80), instr_extend_ex, alu_in);
 
 alu_control_component : alu_control
-port map (id_ex_out(275 downto 274), id_ex_out(10 downto 5), ALUOp);
+port map (id_ex_out(274 downto 273), id_ex_out(10 downto 5), ALUOp);
 alu_component: alu
 port map (signed(read_data1), signed(alu_in), alu_out, ALUOp, zero_ula);
 
 			--204           203        202     201          200           199     198    
 			--MemtoReg & RegWrite & MemRead & MemWrite & Uncondbranch & Branch & BNZero 
 				--[204-198]				[197-134]     133       [132-69]			[68-5]				[4-0]
-ex_mem_in <= id_ex_out(282 downto 276) & add_2_out & zero_ula & alu_out & id_ex_out(144 downto 81) & id_ex_out(4 downto 0);
+ex_mem_in <= id_ex_out(281 downto 275) & add_2_out & zero_ula & alu_out & id_ex_out(143 downto 80) & id_ex_out(4 downto 0);
 EXMEM_component: reg
 generic map (205)
 port map (clock, reset, '1', ex_mem_in, ex_mem_out);
