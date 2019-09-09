@@ -201,7 +201,7 @@ shiftleft2_component: shiftleft2
 port map (instr_extend_ex, shiftleft2_out);
 
 add_component_2: alu
-port map (signed(id_ex_out(271 downto 208), signed(shiftleft2_out), add_2_out, "0010", open);
+port map (signed(id_ex_out(271 downto 208)), signed(shiftleft2_out), add_2_out, "0010", open);
 
 
 mux_reg_alu_component: mux2to1
@@ -229,8 +229,8 @@ port map (clock, ex_mem_out(201), ex_mem_out(132 downto 69), ex_mem_out(68 downt
 
 --muxA(0) <= ((zero_ula and Branch) or Uncondbranch);
 --muxB(0) <= ((not zero_ula and Branch) or Uncondbranch);
-muxA(0) <= ((ex_mem_out(133) and ex_mem_out(199) or ex_mem_out(200));
-muxB(0) <= (((not ex_mem_out(133)) and ex_mem_out(199)) or ex_mem_out(200));
+muxA(0) <= (ex_mem_out(133) and ex_mem_out(199)) or ex_mem_out(200);
+muxB(0) <= ((not ex_mem_out(133)) and ex_mem_out(199)) or ex_mem_out(200);
 CB_component: mux2to1
 generic map(1)
 port map (ex_mem_out(198), muxA, muxB, branch_signal); 
