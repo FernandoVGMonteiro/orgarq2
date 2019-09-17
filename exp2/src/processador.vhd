@@ -21,6 +21,7 @@ component control is
 		ALUSrc: out bit;
 		RegWrite: out bit;
 		BNZero:   out bit;
+		clk : out bit;
 		Instruction: in bit_vector(31 downto 21)
 	);
 end component;
@@ -50,6 +51,7 @@ component data_path is
 		regWrite: in bit;
 		
 		BNZero:  in bit;
+		
 
 		instruction31to21: out bit_vector(10 downto 0);
 
@@ -74,7 +76,7 @@ signal clock, reset : bit;
 begin
 
 control_component: control
-port map(Reg2Loc, Uncondbranch, Branch, MemRead, MemtoReg, ALUOp, MemWrite,ALUSrc, RegWrite, BNZero, Instruction);
+port map(Reg2Loc, Uncondbranch, Branch, MemRead, MemtoReg, ALUOp, MemWrite,ALUSrc, RegWrite, BNZero, clock, Instruction);
 
 dp_component: data_path
 port map (clock, reset, Reg2Loc, Uncondbranch, Branch, MemRead, MemtoReg, ALUOp, memWrite, AluSrc, RegWrite, BNZero, Instruction, open);

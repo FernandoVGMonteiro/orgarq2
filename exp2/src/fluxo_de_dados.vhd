@@ -145,9 +145,9 @@ signal muxA, muxB :bit_vector(0 downto 0);
 
 -- pipeline register signals
 signal if_id_in, if_id_out : bit_vector (95 downto 0);
-signal id_ex_in, id_ex_out : bit_vector (281 downto 0);
-signal ex_mem_in, ex_mem_out: bit_vector (204 downto 0);
-signal mem_wb_in, mem_wb_out : bit_vector(134 downto 0);
+signal id_ex_in, id_ex_out : bit_vector (286 downto 0);
+signal ex_mem_in, ex_mem_out: bit_vector (209 downto 0);
+signal mem_wb_in, mem_wb_out : bit_vector(135 downto 0);
 begin
 
 -- INSTRUCTION FETCH STAGE
@@ -170,7 +170,7 @@ port map (branch_signal(0), soma_4, ex_mem_out(197 downto 134), pc_in); -- troca
 
 if_id_in <= pc_out & instr_if;
 IFID_component: reg
-generic map (64)
+generic map (96)
 port map (clock, reset, '1', if_id_in, if_id_out);
 
 --*********************************
@@ -186,12 +186,12 @@ sign_extend_component: signExtend
 port map (instr_id, instr_extend);
 
 dual_reg_file: dualregfile
-port map (instr_id(9 downto 5), mux_instr_reg_out, instr_id(4 downto 0), write_data, clock, mem_wb_out(134), read_data1, read_data2);
---         281           280        279     278          277           276     275     [274-273] 272       [271-208]                [207-144]    [143-80]     [79-16]             [15-5]                 [4-0]
-id_ex_in <= MemtoReg & RegWrite & MemRead & MemWrite & Uncondbranch & Branch & BNZero & ALUCtl & ALUSrc & if_id_out(95 downto 32) & read_data1 & read_data2 & instr_extend &instr_id(31 downto 21) & instr_id(4 downto 0);
+port map (instr_id(9 downto 5), mux_instr_reg_out, mem_wb_out(139 downto 135), write_data, clock, mem_wb_out(134), read_data1, read_data2);
+--         	[286-282]				281           280        279     278          277           276     275     [274-273] 272       [271-208]                [207-144]    [143-80]     [79-16]             [15-5]                 [4-0]
+id_ex_in <= instr_id(4 downto 0)&	MemtoReg & RegWrite & MemRead & MemWrite & Uncondbranch & Branch & BNZero & ALUCtl & ALUSrc & if_id_out(95 downto 32) & read_data1 & read_data2 & instr_extend &instr_id(31 downto 21) & instr_id(4 downto 0);
 
 IDEX_component: reg
-generic map (282)
+generic map (287)
 port map (clock, reset, '1', id_ex_in, id_ex_out);
 --*********************************
 -- EXECUTE
@@ -212,13 +212,13 @@ alu_control_component : alu_control
 port map (id_ex_out(274 downto 273), id_ex_out(10 downto 5), ALUOp);
 alu_component: alu
 port map (signed(read_data1), signed(alu_in), alu_out, ALUOp, zero_ula);
-
+			-- msb [209-205]
 			--204           203        202     201          200           199     198    
 			--MemtoReg & RegWrite & MemRead & MemWrite & Uncondbranch & Branch & BNZero 
 				--[204-198]				[197-134]     133       [132-69]			[68-5]				[4-0]
-ex_mem_in <= id_ex_out(281 downto 275) & add_2_out & zero_ula & alu_out & id_ex_out(143 downto 80) & id_ex_out(4 downto 0);
+ex_mem_in <= id_ex_out(286 downto 275) & add_2_out & zero_ula & alu_out & id_ex_out(143 downto 80) & id_ex_out(4 downto 0);
 EXMEM_component: reg
-generic map (205)
+generic map (210)
 port map (clock, reset, '1', ex_mem_in, ex_mem_out);
 --*********************************
 -- MEMORY
@@ -234,10 +234,10 @@ muxB(0) <= ((not ex_mem_out(133)) and ex_mem_out(199)) or ex_mem_out(200);
 CB_component: mux2to1
 generic map(1)
 port map (ex_mem_out(198), muxA, muxB, branch_signal); 
-				--		[134-133]			[132-69]		[68-5]						[4-0]				
-mem_wb_in <= ex_mem_out(204 downto 203) & memory_data & ex_mem_out(132 downto 69) & ex_mem_out (4 downto 0);
+				--		[139-133]			[132-69]		[68-5]						[4-0]				
+mem_wb_in <= ex_mem_out(209 downto 203) & memory_data & ex_mem_out(132 downto 69) & ex_mem_out (4 downto 0);
 MEMWB_component: reg
-generic map (135)
+generic map (140)
 port map (clock, reset, '1', mem_wb_in, mem_wb_out);
 --*********************************
 -- WRITE BACK
@@ -246,7 +246,7 @@ mux_memory_reg: mux2to1
 generic map (64)
 port map (mem_wb_out(134),  mem_wb_out(68 downto 5), mem_wb_out(132 downto 69), write_data);
 
-instruction31to21 <= instr_if(31 downto 21);
+instruction31to21 <= instr_id(31 downto 21);
 zero <= zero_ula;
 
 end architecture;

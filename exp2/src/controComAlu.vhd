@@ -80,6 +80,7 @@ begin
 			when "100100" =>  
 					-- Add Immediate == 10010001000 or 10010001001
 					--AluOp 10
+					Reg2Loc      <= '0';
 					Uncondbranch <= '0';
 					Branch       <= '0';
 					MemRead      <= '0';
@@ -91,6 +92,7 @@ begin
 			
 			when "101100" =>  -- Add Immediate & Set Flags == 10110001000 or 10110001001
 					--AluOp 00
+					Reg2Loc      <= '0';
 					Uncondbranch <= '0';
 					Branch       <= '0';
 					MemRead      <= '0';
@@ -170,6 +172,7 @@ begin
 					--AluOp 00
 					-- Load Register Unscaled offset == 11111000010
 					report "load";
+					Reg2Loc      <= '0';
 					Uncondbranch <= '0';
 					Branch       <= '0';
 					MemRead      <= '1';
@@ -206,6 +209,7 @@ begin
 
 			when "110100" =>  -- SUBtract Immediate == 1101000100X
 					--AluOp 01
+					Reg2Loc      <= '0';
 					Uncondbranch <= '0';
 					Branch       <= '0';
 					MemRead      <= '0';

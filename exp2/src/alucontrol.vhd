@@ -11,7 +11,9 @@ entity alu_control is
 end alu_control;
  
  architecture aluctrl of alu_control is
+ signal aux :bit_vector(1 downto 0);
  begin
+ aux <=  func(5) & func(3);
  aluctrprocess: process (ALUCtrl, func) begin
 	case ALUCtrl is
 	when "00" =>
@@ -20,7 +22,7 @@ end alu_control;
 	when "01" => --SUB
 		ALUOp <= "0110";
 	when "10" =>
-		case func(5) & func(3) is
+		case	aux is
 		when "00"   => ALUOp <= "0000"; --and
 		when "01"   => ALUOp <= "0010"; --sum
 		when "10"   => ALUOp <= "0111"; 
@@ -28,7 +30,7 @@ end alu_control;
 		when others => ALUOp <= "0111";
 		end case;
 	when "11" =>
-		case func(5) & func(3) is
+		case aux is
 		when "00"   => ALUOp <= "0000"; --and
 		when "01"   => ALUOp <= "0110"; --sub
 		when "10"   => ALUOp <= "0111"; --dont care ?
