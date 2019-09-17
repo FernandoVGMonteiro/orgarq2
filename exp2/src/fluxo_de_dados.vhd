@@ -147,7 +147,7 @@ signal muxA, muxB :bit_vector(0 downto 0);
 signal if_id_in, if_id_out : bit_vector (95 downto 0);
 signal id_ex_in, id_ex_out : bit_vector (286 downto 0);
 signal ex_mem_in, ex_mem_out: bit_vector (209 downto 0);
-signal mem_wb_in, mem_wb_out : bit_vector(135 downto 0);
+signal mem_wb_in, mem_wb_out : bit_vector(139 downto 0);
 begin
 
 -- INSTRUCTION FETCH STAGE
