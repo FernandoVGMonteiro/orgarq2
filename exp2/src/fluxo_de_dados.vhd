@@ -148,6 +148,12 @@ signal if_id_in, if_id_out : bit_vector (95 downto 0);
 signal id_ex_in, id_ex_out : bit_vector (286 downto 0);
 signal ex_mem_in, ex_mem_out: bit_vector (209 downto 0);
 signal mem_wb_in, mem_wb_out : bit_vector(139 downto 0);
+
+
+--debug variables for execute
+signal ALUCtrl_debug : bit_vector(1 downto 0);
+signal instr_debug : bit_vector (5 downto 0);
+
 begin
 
 -- INSTRUCTION FETCH STAGE
@@ -207,6 +213,11 @@ port map (signed(id_ex_out(271 downto 208)), signed(shiftleft2_out), add_2_out, 
 mux_reg_alu_component: mux2to1
 generic map (64)
 port map (id_ex_out(272), id_ex_out(143 downto 80), instr_extend_ex, alu_in);
+
+
+ALUCtrl_debug <= id_ex_out(274 downto 273);
+
+instr_debug <= id_ex_out(10 downto 5);
 
 alu_control_component : alu_control
 port map (id_ex_out(274 downto 273), id_ex_out(10 downto 5), ALUOp);

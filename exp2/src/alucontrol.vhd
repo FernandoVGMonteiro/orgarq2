@@ -14,7 +14,7 @@ end alu_control;
  signal aux :bit_vector(1 downto 0);
  begin
  aux <=  func(5) & func(3);
- aluctrprocess: process (ALUCtrl, func) begin
+ aluctrprocess: process (ALUCtrl, func, aux) begin
 	case ALUCtrl is
 	when "00" =>
 		--SUM

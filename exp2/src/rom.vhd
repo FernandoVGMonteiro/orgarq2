@@ -17,24 +17,45 @@ entity rom is
 end rom;
 
 architecture romhardcodded of rom is
-type rom_data is array (0 to 7) of bit_vector ( wordSize - 1 downto 0 );
+type rom_data is array (0 to 28) of bit_vector ( wordSize - 1 downto 0 );
 constant rom : rom_data := (
 	x"8B000020",  -- F add X0 = X1 + X0 00
+	x"00000000",
+	x"00000000",
+	x"00000000",
+	x"00000000",
 	x"b4000040", --CBZ to i+1           04
-	x"b5000040", --CBNZ to i+1          A
-	x"8B000020",  -- F add X0 = X1 + X0 C
-	x"8B000020",  -- F add X0 = X1 + X0
+	x"00000000",
+	x"00000000",
+	x"00000000",
+	x"00000000",
+	x"91000C00",  -- E addi x0 = x0 + 3
+	x"00000000",
+	x"00000000",
+	x"00000000",
+	x"00000000",
+	x"F9000FE0",  -- sw mem(sp +24 ) <= x0
+	x"00000000",
+	x"00000000",
+	x"00000000",
+	x"00000000",
+	x"00000000",
+	x"F94017E1", -- x1 <= mem(sp + 40) 
+	x"00000000",
+	x"00000000",
+	x"00000000",
+	x"00000000",
 	x"b5000040", --CBNZ to i+1 
 	x"8B000020",  -- F add X0 = X1 + X0 C
 	x"8B000020"  -- F add X0 = X1 + X0
-	--x"91000C00",  -- E addi x0 = x0 + 3
+	--
 	--x"B1000C00",  -- D addis x0 = x0 + 3 set flags
 	--x"AB000020",  -- C add x0 = x1 + x0 set flags
 	--x"8A000020",  -- and
 	--x"B4000020", -- se x0 = 0 pula pra pc + 4
-	--x"F94017E1", -- x1 <= mem(sp + 40) 
-	--x"F9000FE0",  -- sw mem(sp +24 ) <= x0
-	--x""
+	--
+	--
+	--x"" x"8B000020",  -- F add X0 = X1 + X0
 	--x"",
 );
 begin
