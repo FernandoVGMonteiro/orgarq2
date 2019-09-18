@@ -153,7 +153,10 @@ signal mem_wb_in, mem_wb_out : bit_vector(139 downto 0);
 --debug variables for execute
 signal ALUCtrl_debug : bit_vector(1 downto 0);
 signal instr_debug : bit_vector (5 downto 0);
-
+signal regwrite_debug, mem_write_debug, mem2reg_debug : bit;
+signal regdst_debug :bit_vector (4 downto 0);
+signal write_data_debug, mem_adress_debug : bit_vector (63 downto 0);
+signal readdata2_debug, memwritedata_debug : bit_vector (63 downto 0);
 begin
 
 -- INSTRUCTION FETCH STAGE
@@ -191,9 +194,13 @@ port map (Reg2Loc, instr_id(20 downto 16), instr_id(4 downto 0), mux_instr_reg_o
 sign_extend_component: signExtend
 port map (instr_id, instr_extend);
 
+write_data_debug <= write_data;
+regwrite_debug <= mem_wb_out(133);
+regdst_debug <= mem_wb_out(139 downto 135);
+
 dual_reg_file: dualregfile
-port map (instr_id(9 downto 5), mux_instr_reg_out, mem_wb_out(139 downto 135), write_data, clock, mem_wb_out(134), read_data1, read_data2);
---         	[286-282]				281           280        279     278          277           276     275     [274-273] 272       [271-208]                [207-144]    [143-80]     [79-16]             [15-5]                 [4-0]
+port map (instr_id(9 downto 5), mux_instr_reg_out, mem_wb_out(139 downto 135), write_data, clock, mem_wb_out(133), read_data1, read_data2);
+--         	[286-282]		281           280        279     278          277           276     275     [274-273] 272       [271-208]                [207-144]    [143-80]     [79-16]             [15-5]                 [4-0]
 id_ex_in <= instr_id(4 downto 0)&	MemtoReg & RegWrite & MemRead & MemWrite & Uncondbranch & Branch & BNZero & ALUCtl & ALUSrc & if_id_out(95 downto 32) & read_data1 & read_data2 & instr_extend &instr_id(31 downto 21) & instr_id(4 downto 0);
 
 IDEX_component: reg
@@ -213,7 +220,7 @@ port map (signed(id_ex_out(271 downto 208)), signed(shiftleft2_out), add_2_out, 
 mux_reg_alu_component: mux2to1
 generic map (64)
 port map (id_ex_out(272), id_ex_out(143 downto 80), instr_extend_ex, alu_in);
-
+readdata2_debug <= id_ex_out(143 downto 80);
 
 ALUCtrl_debug <= id_ex_out(274 downto 273);
 
@@ -226,7 +233,7 @@ port map (signed(read_data1), signed(alu_in), alu_out, ALUOp, zero_ula);
 			-- msb [209-205]
 			--204           203        202     201          200           199     198    
 			--MemtoReg & RegWrite & MemRead & MemWrite & Uncondbranch & Branch & BNZero 
-				--[204-198]				[197-134]     133       [132-69]			[68-5]				[4-0]
+			--[204-198]	[197-134]     133       [132-69]	[68-5]				[4-0]
 ex_mem_in <= id_ex_out(286 downto 275) & add_2_out & zero_ula & alu_out & id_ex_out(143 downto 80) & id_ex_out(4 downto 0);
 EXMEM_component: reg
 generic map (210)
@@ -234,6 +241,9 @@ port map (clock, reset, '1', ex_mem_in, ex_mem_out);
 --*********************************
 -- MEMORY
 --*********************************
+mem_adress_debug <= ex_mem_out(132 downto 69);
+memwritedata_debug <= ex_mem_out(68 downto 5);
+
 data_memory_component: ram
 generic map (64, 64)
 port map (clock, ex_mem_out(201), ex_mem_out(132 downto 69), ex_mem_out(68 downto 5), memory_data);
@@ -245,7 +255,7 @@ muxB(0) <= ((not ex_mem_out(133)) and ex_mem_out(199)) or ex_mem_out(200);
 CB_component: mux2to1
 generic map(1)
 port map (ex_mem_out(198), muxA, muxB, branch_signal); 
-				--		[139-133]			[132-69]		[68-5]						[4-0]				
+	--[139-133]			[132-69]		[68-5]				[4-0]				
 mem_wb_in <= ex_mem_out(209 downto 203) & memory_data & ex_mem_out(132 downto 69) & ex_mem_out (4 downto 0);
 MEMWB_component: reg
 generic map (140)
@@ -257,6 +267,7 @@ mux_memory_reg: mux2to1
 generic map (64)
 port map (mem_wb_out(134),  mem_wb_out(68 downto 5), mem_wb_out(132 downto 69), write_data);
 
+mem2reg_debug <= mem_wb_out(134);
 instruction31to21 <= instr_id(31 downto 21);
 zero <= zero_ula;
 
