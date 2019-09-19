@@ -229,7 +229,7 @@ instr_debug <= id_ex_out(10 downto 5);
 alu_control_component : alu_control
 port map (id_ex_out(274 downto 273), id_ex_out(10 downto 5), ALUOp);
 alu_component: alu
-port map (signed(read_data1), signed(alu_in), alu_out, ALUOp, zero_ula);
+port map (signed(id_ex_out(207 downto 144)), signed(alu_in), alu_out, ALUOp, zero_ula);
 			-- msb [209-205]
 			--204           203        202     201          200           199     198    
 			--MemtoReg & RegWrite & MemRead & MemWrite & Uncondbranch & Branch & BNZero 
@@ -250,8 +250,8 @@ port map (clock, ex_mem_out(201), ex_mem_out(132 downto 69), ex_mem_out(68 downt
 
 --muxA(0) <= ((zero_ula and Branch) or Uncondbranch);
 --muxB(0) <= ((not zero_ula and Branch) or Uncondbranch);
-muxA(0) <= (ex_mem_out(133) and ex_mem_out(199)) or ex_mem_out(200);
-muxB(0) <= ((not ex_mem_out(133)) and ex_mem_out(199)) or ex_mem_out(200);
+muxA(0) <= (ex_mem_out(133) and ex_mem_out(199) and not ex_mem_out(198)) or ex_mem_out(200);
+muxB(0) <= ((not ex_mem_out(133)) and ex_mem_out(199) and ex_mem_out(198)) or ex_mem_out(200);
 CB_component: mux2to1
 generic map(1)
 port map (ex_mem_out(198), muxA, muxB, branch_signal); 

@@ -29,6 +29,7 @@ add wave -noupdate -expand -group IDecode -radix hexadecimal /processor/dp_compo
 add wave -noupdate -expand -group Execute /processor/dp_component/instr_debug
 add wave -noupdate -expand -group Execute -radix hexadecimal /processor/dp_component/id_ex_out
 add wave -noupdate -expand -group Execute -radix hexadecimal /processor/dp_component/shiftleft2_out
+add wave -noupdate -expand -group Execute /processor/dp_component/add_2_out
 add wave -noupdate -expand -group Execute -radix hexadecimal /processor/dp_component/alu_in
 add wave -noupdate -expand -group Execute /processor/dp_component/ALUOp
 add wave -noupdate -expand -group Execute -radix hexadecimal /processor/dp_component/instr_extend_ex
@@ -47,7 +48,7 @@ add wave -noupdate -expand -group WB /processor/dp_component/regdst_debug
 add wave -noupdate -expand -group WB /processor/dp_component/write_data_debug
 add wave -noupdate /processor/dp_component/mem2reg_debug
 TreeUpdate [SetDefaultTree]
-WaveRestoreCursors {{Cursor 1} {480 ps} 0}
+WaveRestoreCursors {{Cursor 1} {740 ps} 0}
 quietly wave cursor active 1
 configure wave -namecolwidth 295
 configure wave -valuecolwidth 269
@@ -63,4 +64,4 @@ configure wave -griddelta 40
 configure wave -timeline 0
 configure wave -timelineunits ps
 update
-WaveRestoreZoom {0 ps} {515 ps}
+WaveRestoreZoom {501 ps} {1016 ps}
