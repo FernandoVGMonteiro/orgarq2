@@ -157,6 +157,7 @@ signal regwrite_debug, mem_write_debug, mem2reg_debug : bit;
 signal regdst_debug :bit_vector (4 downto 0);
 signal write_data_debug, mem_adress_debug : bit_vector (63 downto 0);
 signal readdata2_debug, memwritedata_debug : bit_vector (63 downto 0);
+signal registerr1_debug, registerr2_debug : bit_vector (4 downto 0);
 begin
 
 -- INSTRUCTION FETCH STAGE
@@ -197,7 +198,8 @@ port map (instr_id, instr_extend);
 write_data_debug <= write_data;
 regwrite_debug <= mem_wb_out(133);
 regdst_debug <= mem_wb_out(139 downto 135);
-
+registerr1_debug <= instr_id(9 downto 5);
+registerr2_debug  <= mux_instr_reg_out;
 dual_reg_file: dualregfile
 port map (instr_id(9 downto 5), mux_instr_reg_out, mem_wb_out(139 downto 135), write_data, clock, mem_wb_out(133), read_data1, read_data2);
 --         	[286-282]		281           280        279     278          277           276     275     [274-273] 272       [271-208]                [207-144]    [143-80]     [79-16]             [15-5]                 [4-0]
@@ -243,7 +245,7 @@ port map (clock, reset, '1', ex_mem_in, ex_mem_out);
 --*********************************
 mem_adress_debug <= ex_mem_out(132 downto 69);
 memwritedata_debug <= ex_mem_out(68 downto 5);
-
+mem_write_debug <= ex_mem_out(201);
 data_memory_component: ram
 generic map (64, 64)
 port map (clock, ex_mem_out(201), ex_mem_out(132 downto 69), ex_mem_out(68 downto 5), memory_data);
