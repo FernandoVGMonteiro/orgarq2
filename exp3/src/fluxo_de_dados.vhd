@@ -30,7 +30,9 @@ entity data_path is
 
 		instruction31to21: out bit_vector(10 downto 0);
 
-		zero: out bit
+		zero: out bit;
+
+		bcond : in bit
 	
 	);
 end entity;
@@ -42,6 +44,9 @@ component alu is
     A, B : in  signed(63 downto 0); -- inputs
     F    : out bit_vector(63 downto 0); -- output
     S    : in  bit_vector (3 downto 0); -- op selection
+    Over : out bit; --overflow flag
+    Negative : out bit; --negative flag
+    Carry : out bit; --carry flag
     Z    : out bit -- zero flag
     );
 end component;
@@ -158,6 +163,11 @@ signal regdst_debug :bit_vector (4 downto 0);
 signal write_data_debug, mem_adress_debug : bit_vector (63 downto 0);
 signal readdata2_debug, memwritedata_debug : bit_vector (63 downto 0);
 signal registerr1_debug, registerr2_debug : bit_vector (4 downto 0);
+
+--variables for B.Cond
+signal alu_over, alu_carry, alu_negative :bit; 
+signal flags_ex, flags_ex2, flags_wb, flags_alu :bit_vector(3 downto 0);
+signal bcond_id, bcond_array, bcond_ex, bcond_mem : bit_vector(4 downto 0);
 begin
 
 -- INSTRUCTION FETCH STAGE
@@ -165,7 +175,7 @@ begin
 
 
 add_component: alu
-port map (signed(pc_out), x"0000000000000004", soma_4, "0010", open);
+port map (signed(pc_out), x"0000000000000004", soma_4, "0010", open, open, open, open);
 
 instruction_memory_component: rom
 port map (pc_out, instr_if);
@@ -208,6 +218,13 @@ id_ex_in <= instr_id(4 downto 0)&	MemtoReg & RegWrite & MemRead & MemWrite & Unc
 IDEX_component: reg
 generic map (287)
 port map (clock, reset, '1', id_ex_in, id_ex_out);
+
+--bcond register
+bcond_array <= bcond & instr_id(3 downto 0);
+idex_bcond : reg
+generic map (5)
+port map (clock, reset, '1', bcond_array, bcond_id);
+
 --*********************************
 -- EXECUTE
 --*********************************
@@ -216,7 +233,7 @@ shiftleft2_component: shiftleft2
 port map (instr_extend_ex, shiftleft2_out);
 
 add_component_2: alu
-port map (signed(id_ex_out(271 downto 208)), signed(shiftleft2_out), add_2_out, "0010", open);
+port map (signed(id_ex_out(271 downto 208)), signed(shiftleft2_out), add_2_out, "0010", open,  open, open, open);
 
 
 mux_reg_alu_component: mux2to1
@@ -231,7 +248,21 @@ instr_debug <= id_ex_out(10 downto 5);
 alu_control_component : alu_control
 port map (id_ex_out(274 downto 273), id_ex_out(10 downto 5), ALUOp);
 alu_component: alu
-port map (signed(id_ex_out(207 downto 144)), signed(alu_in), alu_out, ALUOp, zero_ula);
+port map (signed(id_ex_out(207 downto 144)), signed(alu_in), alu_out, ALUOp, flags_alu(3), flags_alu(2), flags_alu(1), zero_ula); --ADICIONAR
+--flags_alu <= alu_over & alu_negative & alu_carry & zero_ula;
+flags_alu(0) <= zero_ula;
+
+--se BCOND = 1, coloca na saída as flags salvas no registrador. Caso contrário, recebe a saída da ula para registrar se necessário.
+mux_flags: mux2to1
+generic map(4)
+port map(bcond_id(4), flags_alu, flags_ex, flags_ex2);
+
+
+
+flag_register: reg
+generic map (4)
+port map (clock, reset, '1', flags_alu, flags_ex);
+
 			-- msb [209-205]
 			--204           203        202     201          200           199     198    
 			--MemtoReg & RegWrite & MemRead & MemWrite & Uncondbranch & Branch & BNZero 
@@ -240,6 +271,16 @@ ex_mem_in <= id_ex_out(286 downto 275) & add_2_out & zero_ula & alu_out & id_ex_
 EXMEM_component: reg
 generic map (210)
 port map (clock, reset, '1', ex_mem_in, ex_mem_out);
+
+-- state register for B.cond
+bcond_component: reg
+generic map (4)
+port map (clock, reset, '1', flags_ex2, flags_wb); 
+
+--bcond register
+exmem_bcond : reg
+generic map (5)
+port map (clock, reset, '1', bcond_id, bcond_ex);
 --*********************************
 -- MEMORY
 --*********************************
