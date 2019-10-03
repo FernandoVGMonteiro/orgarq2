@@ -1,13 +1,13 @@
 library ieee;
 use ieee.numeric_bit.ALL;
 
-entity processador is 
+entity processor is 
 port (
 	InstructionOut : out bit_vector(10 downto  0) -- coloquei apenas porque precisava de uma porta ?
 );
 end entity;
 
-architecture arch of processador is
+architecture arch of processor is
 
 component control is 
 	port(
