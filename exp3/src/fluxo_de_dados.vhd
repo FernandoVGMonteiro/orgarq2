@@ -34,7 +34,9 @@ entity data_path is
 
 		bcond : in bit;
 		
-		setflags : in bit
+		setflags : in bit;
+		
+		bregister : in bit
 	
 	);
 end entity;
@@ -171,7 +173,13 @@ signal alu_over, alu_carry, alu_negative, branch_conditionally :bit;
 signal flags_ex, flags_ex2, flags_wb, flags_alu :bit_vector(3 downto 0);
 signal bcond_id, bcond_array : bit_vector(5 downto 0);
 signal bcond_ex, bcond_mem : bit_vector(4 downto 0);
+-- variable for BRegister 
+signal bregister_id, bregister_ex :bit_vector(0 downto 0);
+signal branch_adress : bit_vector (63 downto 0);
+
+
 begin
+
 
 -- INSTRUCTION FETCH STAGE
 
@@ -228,6 +236,13 @@ idex_bcond : reg
 generic map (6)
 port map (clock, reset, '1', bcond_array, bcond_id);
 
+--bregister register
+bregister_id(0) <= bregister;
+
+idex_breg : reg
+generic map (1)
+port map (clock, reset, '1', bregister_id, bregister_ex);
+
 --*********************************
 -- EXECUTE
 --*********************************
@@ -238,6 +253,9 @@ port map (instr_extend_ex, shiftleft2_out);
 add_component_2: alu
 port map (signed(id_ex_out(271 downto 208)), signed(shiftleft2_out), add_2_out, "0010", open,  open, open, open);
 
+mux_bregister: mux2to1
+generic map (64)                   --read data 1
+port map (bregister_ex(0), add_2_out, id_ex_out(207 downto 144), branch_adress);
 
 mux_reg_alu_component: mux2to1
 generic map (64)
@@ -250,6 +268,7 @@ instr_debug <= id_ex_out(10 downto 5);
 
 alu_control_component : alu_control
 port map (id_ex_out(274 downto 273), id_ex_out(10 downto 5), ALUOp);
+
 alu_component: alu
 port map (signed(id_ex_out(207 downto 144)), signed(alu_in), alu_out, ALUOp, flags_alu(3), flags_alu(2), flags_alu(1), zero_ula); --ADICIONAR
 --flags_alu <= alu_over & alu_negative & alu_carry & zero_ula;
@@ -272,7 +291,7 @@ port map (clock, reset, bcond_id(5), flags_alu, flags_ex);
 			--204           203        202     201          200           199     198    
 			--MemtoReg & RegWrite & MemRead & MemWrite & Uncondbranch & Branch & BNZero 
 			--[204-198]	[197-134]     133       [132-69]	[68-5]				[4-0]
-ex_mem_in <= id_ex_out(286 downto 275) & add_2_out & zero_ula & alu_out & id_ex_out(143 downto 80) & id_ex_out(4 downto 0);
+ex_mem_in <= id_ex_out(286 downto 275) & branch_adress & zero_ula & alu_out & id_ex_out(143 downto 80) & id_ex_out(4 downto 0);
 EXMEM_component: reg
 generic map (210)
 port map (clock, reset, '1', ex_mem_in, ex_mem_out);

@@ -34,7 +34,8 @@ entity control is
 		clk: out bit;
 		Instruction: in bit_vector(31 downto 21);
 		bcond 		: out bit;
-		setflags : out bit
+		setflags : out bit;
+		bregister : out bit
 	);
 
 	
@@ -66,6 +67,7 @@ begin
 				RegWrite     <= '0';
 				bcond 	     <= '0';
 				setflags     <= '0';
+				bregister    <= '0';
 			
 			when "010101" => 
 				-- Branch.cond
@@ -80,7 +82,22 @@ begin
 				RegWrite     <= '0';
 				bcond 	     <= '1';
 				setflags     <= '0';
-			
+				bregister    <= '0';
+				
+			when "110101" =>
+				--BranchRegister
+				Reg2Loc      <= '0';
+				Uncondbranch <= '1';
+				Branch       <= '0';
+				MemRead      <= '0';
+				MemtoReg     <= '0';
+				ALUOp        <= "00";
+				MemWrite     <= '0';
+				ALUSrc       <= '0';
+				RegWrite     <= '0';
+				bcond 	     <= '0';
+				setflags     <= '0';
+				bregister    <= '1';
 			when "100010" =>
 				    -- Add == 10001011000 --ALUOp 10
 					Reg2Loc      <= '0';
@@ -94,6 +111,7 @@ begin
 					RegWrite     <= '1';
 					bcond 	     <= '0';
 					setflags     <= '0';
+					bregister    <= '0';
 
 			
 			when "100100" =>  
@@ -108,6 +126,9 @@ begin
 					MemWrite     <= '0';
 					ALUSrc       <= '1';
 					RegWrite     <= '1';
+					bcond 	     <= '0';
+					setflags     <= '0';
+					bregister    <= '0';
 			
 			when "101100" =>  -- Add Immediate & Set Flags == 10110001000 or 10110001001
 					--AluOp 00
@@ -122,6 +143,7 @@ begin
 					RegWrite     <= '1';
 					bcond 	     <= '0';
 					setflags     <= '1';
+					bregister    <= '0';
 
 			when "101010" =>  -- Add & Set Flags == 10101011000
 					--AluOp 00
@@ -136,6 +158,7 @@ begin
 					RegWrite     <= '1';
 					bcond 	     <= '0';
 					setflags     <= '1';
+					bregister    <= '0';
 
 			when "111100" =>  --  AND Immediate & Set Flags == 111100 10000 or 11110010001
 				--AluOp 11
@@ -150,6 +173,7 @@ begin
 					RegWrite     <= '1';
 					bcond 	     <= '0';
 					setflags     <= '1';
+					bregister    <= '0';
 
 			when "111010" =>  --  AND & Set Flags == 11101 010000
 				--AluOp 11
@@ -164,6 +188,7 @@ begin
 					RegWrite     <= '1';
 					bcond 	     <= '0';
 					setflags     <= '1';
+					bregister    <= '0';
 
 			when "101101" =>  -- Compare & Branch if Zero == 10110100XXX
 					--AluOp 10 para copiar
@@ -181,6 +206,7 @@ begin
 						RegWrite     <= '0';
 						bcond 	     <= '0';
 						setflags     <= '0';
+						bregister    <= '0';
 						--BNZero       <= '0';
 					--else
 					--	Reg2Loc      <= '0';
@@ -212,6 +238,7 @@ begin
 					RegWrite     <= '1';
 					bcond 	     <= '0';
 					setflags     <= '0';
+					bregister    <= '0';
 				else --(Instruction(31 downto 21) = "11111000000") then
 					-- STore Register Unscaled offset == 11111000000
 					report "store";
@@ -226,6 +253,7 @@ begin
 					RegWrite     <= '0';
 					bcond 	     <= '0';
 					setflags     <= '0';
+					bregister    <= '0';
 				end if;
 
 			when "110010" =>  -- SUBtract == 11001011000
@@ -241,6 +269,7 @@ begin
 					RegWrite     <= '1';
 					bcond 	     <= '0';
 					setflags     <= '0';
+					bregister    <= '0';
 
 			when "110100" =>  -- SUBtract Immediate == 1101000100X
 					--AluOp 01
@@ -255,6 +284,7 @@ begin
 					RegWrite     <= '1';
 					bcond 	     <= '0';
 					setflags     <= '0';
+					bregister    <= '0';
 
 			when others =>
 					report "not an instruction";
@@ -269,6 +299,7 @@ begin
 					RegWrite     <= '0';
 					bcond 	     <= '0';
 					setflags     <= '0';
+					bregister    <= '0';
 			
 			--when "?????" =>  -- INSTRUCTION NAME
 			--		Reg2Loc      <= 

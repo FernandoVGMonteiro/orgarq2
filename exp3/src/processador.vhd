@@ -24,7 +24,8 @@ component control is
 		clk : out bit;
 		Instruction: in bit_vector(31 downto 21);
 		bcond : out bit;
-		setflags : out bit
+		setflags : out bit;
+		bregister : out bit
 	);
 end component;
 
@@ -61,7 +62,9 @@ component data_path is
 		
 		bcond : in bit;
 		
-		setflags : in bit
+		setflags : in bit;
+		
+		bregister : in bit
 	
 	);
 end component;
@@ -79,14 +82,14 @@ signal  BNZero: bit;
 signal	Instruction:  bit_vector(31 downto 21);
 signal clock, reset : bit;
 signal bcond, setflags :bit;
-
+signal bregister :bit;
 begin
 
 control_component: control
-port map(Reg2Loc, Uncondbranch, Branch, MemRead, MemtoReg, ALUOp, MemWrite,ALUSrc, RegWrite, BNZero, clock, Instruction, bcond, setflags);
+port map(Reg2Loc, Uncondbranch, Branch, MemRead, MemtoReg, ALUOp, MemWrite,ALUSrc, RegWrite, BNZero, clock, Instruction, bcond, setflags, bregister);
 
 dp_component: data_path
-port map (clock, reset, Reg2Loc, Uncondbranch, Branch, MemRead, MemtoReg, ALUOp, memWrite, AluSrc, RegWrite, BNZero, Instruction, open, bcond, setflags);
+port map (clock, reset, Reg2Loc, Uncondbranch, Branch, MemRead, MemtoReg, ALUOp, memWrite, AluSrc, RegWrite, BNZero, Instruction, open, bcond, setflags, bregister);
 
 InstructionOut <= Instruction;
 end architecture;
