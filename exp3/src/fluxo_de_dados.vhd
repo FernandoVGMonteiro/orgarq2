@@ -300,7 +300,7 @@ port map (clock, ex_mem_out(201), ex_mem_out(132 downto 69), ex_mem_out(68 downt
 --muxB(0) <= ((not zero_ula and Branch) or Uncondbranch);
 muxA(0) <= (ex_mem_out(133) and ex_mem_out(199) and not ex_mem_out(198)) or ex_mem_out(200);
 muxB(0) <= ((not ex_mem_out(133)) and ex_mem_out(199) and ex_mem_out(198)) or ex_mem_out(200);
-branch_conditionally <= bcond_ex(4) and ((bcond_ex(3) and flags_wb(3)) or (bcond_ex(2) and flags_wb(2)) or (bcond_ex(1) and flags_wb(1)) or (bcond_ex(0) and flags_wb(0))) 
+branch_conditionally <= bcond_ex(4) and ((bcond_ex(3) and flags_wb(3)) or (bcond_ex(2) and flags_wb(2)) or (bcond_ex(1) and flags_wb(1)) or (bcond_ex(0) and flags_wb(0))); 
 CB_component: mux2to1
 generic map(1)
 port map (ex_mem_out(198), muxA, muxB, branch_signal_aux); 
