@@ -67,6 +67,20 @@ begin
 				bcond 	     <= '0';
 				setflags     <= '0';
 			
+			when "010101" => 
+				-- Branch.cond
+				Reg2Loc      <= '0';
+				Uncondbranch <= '0';
+				Branch       <= '0';
+				MemRead      <= '0';
+				MemtoReg     <= '0';
+				ALUOp        <= "00";
+				MemWrite     <= '0';
+				ALUSrc       <= '0';
+				RegWrite     <= '0';
+				bcond 	     <= '1';
+				setflags     <= '0';
+			
 			when "100010" =>
 				    -- Add == 10001011000 --ALUOp 10
 					Reg2Loc      <= '0';
