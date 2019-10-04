@@ -32,7 +32,9 @@ entity data_path is
 
 		zero: out bit;
 
-		bcond : in bit
+		bcond : in bit;
+		
+		setflags : in bit
 	
 	);
 end entity;
@@ -167,7 +169,8 @@ signal registerr1_debug, registerr2_debug : bit_vector (4 downto 0);
 --variables for B.Cond
 signal alu_over, alu_carry, alu_negative :bit; 
 signal flags_ex, flags_ex2, flags_wb, flags_alu :bit_vector(3 downto 0);
-signal bcond_id, bcond_array, bcond_ex, bcond_mem : bit_vector(4 downto 0);
+signal bcond_id, bcond_array : bit_vector(5 downto 0);
+signal bcond_ex, bcond_mem : bit_vector(4 downto 0);
 begin
 
 -- INSTRUCTION FETCH STAGE
@@ -220,9 +223,9 @@ generic map (287)
 port map (clock, reset, '1', id_ex_in, id_ex_out);
 
 --bcond register
-bcond_array <= bcond & instr_id(3 downto 0);
+bcond_array <= setflags & bcond & instr_id(3 downto 0);
 idex_bcond : reg
-generic map (5)
+generic map (6)
 port map (clock, reset, '1', bcond_array, bcond_id);
 
 --*********************************
@@ -258,10 +261,12 @@ generic map(4)
 port map(bcond_id(4), flags_alu, flags_ex, flags_ex2);
 
 
-
+--save flags 
 flag_register: reg
 generic map (4)
-port map (clock, reset, '1', flags_alu, flags_ex);
+port map (clock, reset, bcond_id(5), flags_alu, flags_ex);
+
+
 
 			-- msb [209-205]
 			--204           203        202     201          200           199     198    
@@ -280,7 +285,7 @@ port map (clock, reset, '1', flags_ex2, flags_wb);
 --bcond register
 exmem_bcond : reg
 generic map (5)
-port map (clock, reset, '1', bcond_id, bcond_ex);
+port map (clock, reset, '1', bcond_id(4 downto 0), bcond_ex);
 --*********************************
 -- MEMORY
 --*********************************
