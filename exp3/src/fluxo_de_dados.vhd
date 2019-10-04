@@ -146,7 +146,7 @@ signal instr_if, instr_id: bit_vector(31 downto 0);
 signal mux_instr_reg_out: bit_vector(4 downto 0);
 signal instr_extend,instr_extend_ex, shiftleft2_out : bit_vector(63 downto 0);
 signal zero_ula :bit;
-signal branch_signal :bit_vector(0 downto 0);
+signal branch_signal, branch_signal_aux :bit_vector(0 downto 0);
 signal ALUOp : bit_vector(3 downto 0);
 signal muxA, muxB :bit_vector(0 downto 0);
 
@@ -167,7 +167,7 @@ signal readdata2_debug, memwritedata_debug : bit_vector (63 downto 0);
 signal registerr1_debug, registerr2_debug : bit_vector (4 downto 0);
 
 --variables for B.Cond
-signal alu_over, alu_carry, alu_negative :bit; 
+signal alu_over, alu_carry, alu_negative, branch_conditionally :bit; 
 signal flags_ex, flags_ex2, flags_wb, flags_alu :bit_vector(3 downto 0);
 signal bcond_id, bcond_array : bit_vector(5 downto 0);
 signal bcond_ex, bcond_mem : bit_vector(4 downto 0);
@@ -300,9 +300,12 @@ port map (clock, ex_mem_out(201), ex_mem_out(132 downto 69), ex_mem_out(68 downt
 --muxB(0) <= ((not zero_ula and Branch) or Uncondbranch);
 muxA(0) <= (ex_mem_out(133) and ex_mem_out(199) and not ex_mem_out(198)) or ex_mem_out(200);
 muxB(0) <= ((not ex_mem_out(133)) and ex_mem_out(199) and ex_mem_out(198)) or ex_mem_out(200);
+branch_conditionally <= bcond_ex(4) and ((bcond_ex(3) and flags_wb(3)) or (bcond_ex(2) and flags_wb(2)) or (bcond_ex(1) and flags_wb(1)) or (bcond_ex(0) and flags_wb(0))) 
 CB_component: mux2to1
 generic map(1)
-port map (ex_mem_out(198), muxA, muxB, branch_signal); 
+port map (ex_mem_out(198), muxA, muxB, branch_signal_aux); 
+branch_signal(0) <= branch_signal_aux(0) or  branch_conditionally;
+
 	--[139-133]			[132-69]		[68-5]				[4-0]				
 mem_wb_in <= ex_mem_out(209 downto 203) & memory_data & ex_mem_out(132 downto 69) & ex_mem_out (4 downto 0);
 MEMWB_component: reg
