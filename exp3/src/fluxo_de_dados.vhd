@@ -36,7 +36,9 @@ entity data_path is
 		
 		setflags : in bit;
 		
-		bregister : in bit
+		bregister : in bit;
+		
+		blink : in bit
 	
 	);
 end entity;
@@ -177,6 +179,11 @@ signal bcond_ex, bcond_mem : bit_vector(4 downto 0);
 signal bregister_id, bregister_ex :bit_vector(0 downto 0);
 signal branch_adress : bit_vector (63 downto 0);
 
+--variable for BLink
+signal blink_id, blink_ex : bit_vector(0 downto 0);
+signal reg_dest : bit_vector(4 downto 0);
+signal alu_result_final : bit_vector (63 downto 0);
+
 
 begin
 
@@ -243,6 +250,12 @@ idex_breg : reg
 generic map (1)
 port map (clock, reset, '1', bregister_id, bregister_ex);
 
+--blink register
+blink_id(0) <= blink;
+idex_blink : reg
+generic map (1)
+port map (clock, reset, '1', blink_id, blink_ex);
+
 --*********************************
 -- EXECUTE
 --*********************************
@@ -274,6 +287,11 @@ port map (signed(id_ex_out(207 downto 144)), signed(alu_in), alu_out, ALUOp, fla
 --flags_alu <= alu_over & alu_negative & alu_carry & zero_ula;
 flags_alu(0) <= zero_ula;
 
+-- se blink = 1, resultado tem que ser o endereço de branch
+mux_blink: mux2to1
+generic map (64)
+port map (blink_ex(0), alu_out, add_2_out, alu_result_final);
+
 --se BCOND = 1, coloca na saída as flags salvas no registrador. Caso contrário, recebe a saída da ula para registrar se necessário.
 mux_flags: mux2to1
 generic map(4)
@@ -286,12 +304,15 @@ generic map (4)
 port map (clock, reset, bcond_id(5), flags_alu, flags_ex);
 
 
-
+-- reg dst
+regdst_select: mux2to1
+generic map (5)
+port map (blink_id(0), id_ex_out(4 downto 0), "11110", reg_dest); 
 			-- msb [209-205]
 			--204           203        202     201          200           199     198    
 			--MemtoReg & RegWrite & MemRead & MemWrite & Uncondbranch & Branch & BNZero 
 			--[204-198]	[197-134]     133       [132-69]	[68-5]				[4-0]
-ex_mem_in <= id_ex_out(286 downto 275) & branch_adress & zero_ula & alu_out & id_ex_out(143 downto 80) & id_ex_out(4 downto 0);
+ex_mem_in <= id_ex_out(286 downto 275) & branch_adress & zero_ula & alu_result_final & id_ex_out(143 downto 80) & reg_dest;
 EXMEM_component: reg
 generic map (210)
 port map (clock, reset, '1', ex_mem_in, ex_mem_out);
