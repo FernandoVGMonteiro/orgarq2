@@ -347,7 +347,7 @@ begin
                     
                 else --(Instruction(31 downto 21) = "11111000000") then
                     -- STore Register Unscaled offset == 11111000000
-                    report "store";
+                    report "store Register Unscaled offset";
                     Reg2Loc      <= '1';
                     Uncondbranch <= '0';
                     Branch       <= '0';
@@ -371,79 +371,102 @@ begin
 			
             when "001110" =>
                 --AluOp 00
-                -- Load Register byte Unscaled offset == 0011100010
-                report "load byte unscaled register";
-                Reg2Loc      <= '0';
-                Uncondbranch <= '0';
-                Branch       <= '0';
-                MemRead      <= '1';
-                MemtoReg     <= '1';
-                ALUOp        <= "00";
-                MemWrite     <= '0';
-                ALUSrc       <= '1';
-                RegWrite     <= '1';
-                bcond 	     <= '0';
-                setflags     <= '0';
-                bregister    <= '0';
-                blink 		 <= '0';
-                zeroext0 	 <= '1';
-                zeroext1	 <= '1';
-                zeroext2     <= '1';
-                exclusive 	 <= '0';
-                numBytes     <= "00";
-				
+                if (Instruction(22) = '0') then
+                    -- Load Register byte Unscaled offset == 0011100010
+                    report "load byte unscaled register";
+                    Reg2Loc      <= '0';
+                    Uncondbranch <= '0';
+                    Branch       <= '0';
+                    MemRead      <= '1';
+                    MemtoReg     <= '1';
+                    ALUOp        <= "00";
+                    MemWrite     <= '0';
+                    ALUSrc       <= '1';
+                    RegWrite     <= '1';
+                    bcond 	     <= '0';
+                    setflags     <= '0';
+                    bregister    <= '0';
+                    blink 		 <= '0';
+                    zeroext0 	 <= '1';
+                    zeroext1	 <= '1';
+                    zeroext2     <= '1';
+                    exclusive 	 <= '0';
+                    numBytes     <= "00";
+				else 
+                    -- STore Register Unscaled offset == 11111000000
+                    report "store byte Register Unscaled offset";
+                    Reg2Loc      <= '1';
+                    Uncondbranch <= '0';
+                    Branch       <= '0';
+                    MemRead      <= '0';
+                    MemtoReg     <= '0';
+                    ALUOp        <= "00";
+                    MemWrite     <= '1';
+                    ALUSrc       <= '1';
+                    RegWrite     <= '0';
+                    bcond 	     <= '0';
+                    setflags     <= '0';
+                    bregister    <= '0';
+                    blink 		 <= '0';
+                    zeroext0 	 <= '0';
+                    zeroext1	 <= '0';
+                    zeroext2     <= '0';
+                    exclusive 	 <= '0';
+                    numBytes     <= "11";
+                end if;
+                
             when "011110" =>
                 --AluOp 00
                 -- Load half Register Unscaled offset == 011110
-                report "load half unscaled register ";
-                Reg2Loc      <= '0';
-                Uncondbranch <= '0';
-                Branch       <= '0';
-                MemRead      <= '1';
-                MemtoReg     <= '1';
-                ALUOp        <= "00";
-                MemWrite     <= '0';
-                ALUSrc       <= '1';
-                RegWrite     <= '1';
-                bcond 	     <= '0';
-                setflags     <= '0';
-                bregister    <= '0';
-                blink 		 <= '0';
-                zeroext0 	 <= '0';
-                zeroext1	 <= '1';
-                zeroext2     <= '1';
-                exclusive 	 <= '0';
-                numBytes     <= "00";
+                 if (Instruction(22) = '0') then
+                    report "load half unscaled register ";
+                    Reg2Loc      <= '0';
+                    Uncondbranch <= '0';
+                    Branch       <= '0';
+                    MemRead      <= '1';
+                    MemtoReg     <= '1';
+                    ALUOp        <= "00";
+                    MemWrite     <= '0';
+                    ALUSrc       <= '1';
+                    RegWrite     <= '1';
+                    bcond 	     <= '0';
+                    setflags     <= '0';
+                    bregister    <= '0';
+                    blink 		 <= '0';
+                    zeroext0 	 <= '0';
+                    zeroext1	 <= '1';
+                    zeroext2     <= '1';
+                    exclusive 	 <= '0';
+                    numBytes     <= "00";
+                else
+                    -- STore half Register Unscaled offset == 11111000000
+                    report "store half Register Unscaled offset";
+                    Reg2Loc      <= '1';
+                    Uncondbranch <= '0';
+                    Branch       <= '0';
+                    MemRead      <= '0';
+                    MemtoReg     <= '0';
+                    ALUOp        <= "00";
+                    MemWrite     <= '1';
+                    ALUSrc       <= '1';
+                    RegWrite     <= '0';
+                    bcond 	     <= '0';
+                    setflags     <= '0';
+                    bregister    <= '0';
+                    blink 		 <= '0';
+                    zeroext0 	 <= '0';
+                    zeroext1	 <= '0';
+                    zeroext2     <= '0';
+                    exclusive 	 <= '0';
+                    numBytes     <= "11";
+                end if;
 					
 
             when "101110" =>
                 --AluOp 00
-                -- Load word Register Unscaled offset == 101110
-                report "load word unscaled register half ";
-                Reg2Loc      <= '0';
-                Uncondbranch <= '0';
-                Branch       <= '0';
-                MemRead      <= '1';
-                MemtoReg     <= '1';
-                ALUOp        <= "00";
-                MemWrite     <= '0';
-                ALUSrc       <= '1';
-                RegWrite     <= '1';
-                bcond 	     <= '0';
-                setflags     <= '0';
-                bregister    <= '0';
-                blink 		 <= '0';
-                zeroext0 	 <= '0';
-                zeroext1	 <= '0';
-                zeroext2     <= '1';
-                exclusive 	 <= '0';
-                numBytes     <= "00";
-
-            when "110010" =>
-                --AluOp 00
-                -- Load exclusive register  == 110010
-                if (Instruction(25) = '0') then 
-                    report "load exclusive register ";
+                if (Instruction(22) = '0') then
+                    -- Load word Register Unscaled offset == 101110
+                    report "load word unscaled register half ";
                     Reg2Loc      <= '0';
                     Uncondbranch <= '0';
                     Branch       <= '0';
@@ -459,9 +482,81 @@ begin
                     blink 		 <= '0';
                     zeroext0 	 <= '0';
                     zeroext1	 <= '0';
-                    zeroext2     <= '0';
-                    exclusive 	 <= '1';
+                    zeroext2     <= '1';
+                    exclusive 	 <= '0';
                     numBytes     <= "00";
+                
+                else
+                    -- STore half Register Unscaled offset == 11111000000
+                    report "store half Register Unscaled offset";
+                    Reg2Loc      <= '1';
+                    Uncondbranch <= '0';
+                    Branch       <= '0';
+                    MemRead      <= '0';
+                    MemtoReg     <= '0';
+                    ALUOp        <= "00";
+                    MemWrite     <= '1';
+                    ALUSrc       <= '1';
+                    RegWrite     <= '0';
+                    bcond 	     <= '0';
+                    setflags     <= '0';
+                    bregister    <= '0';
+                    blink 		 <= '0';
+                    zeroext0 	 <= '0';
+                    zeroext1	 <= '0';
+                    zeroext2     <= '0';
+                    exclusive 	 <= '0';
+                    numBytes     <= "10";
+                
+                end if;
+
+            when "110010" =>
+                --AluOp 00
+                -- Load exclusive register  == 110010
+                if (Instruction(25) = '0') then 
+                    if (Instruction(22) = '0') then
+                        report "load exclusive register ";
+                        Reg2Loc      <= '0';
+                        Uncondbranch <= '0';
+                        Branch       <= '0';
+                        MemRead      <= '1';
+                        MemtoReg     <= '1';
+                        ALUOp        <= "00";
+                        MemWrite     <= '0';
+                        ALUSrc       <= '1';
+                        RegWrite     <= '1';
+                        bcond 	     <= '0';
+                        setflags     <= '0';
+                        bregister    <= '0';
+                        blink 		 <= '0';
+                        zeroext0 	 <= '0';
+                        zeroext1	 <= '0';
+                        zeroext2     <= '0';
+                        exclusive 	 <= '1';
+                        numBytes     <= "00";
+                    else
+                        -- STore half Register Unscaled offset == 11111000000
+                        report "store half Register Unscaled offset";
+                        Reg2Loc      <= '1';
+                        Uncondbranch <= '0';
+                        Branch       <= '0';
+                        MemRead      <= '0';
+                        MemtoReg     <= '0';
+                        ALUOp        <= "00";
+                        MemWrite     <= '1';
+                        ALUSrc       <= '1';
+                        RegWrite     <= '0';
+                        bcond 	     <= '0';
+                        setflags     <= '0';
+                        bregister    <= '0';
+                        blink 		 <= '0';
+                        zeroext0 	 <= '0';
+                        zeroext1	 <= '0';
+                        zeroext2     <= '0';
+                        exclusive 	 <= '1';
+                        numBytes     <= "00";
+                    
+                    end if;
                 else 
 
 
