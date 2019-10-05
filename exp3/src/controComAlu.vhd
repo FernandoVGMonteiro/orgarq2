@@ -113,7 +113,7 @@ begin
 				ALUOp        <= "00";
 				MemWrite     <= '0';
 				ALUSrc       <= '0';
-				RegWrite     <= '0';
+				RegWrite     <= '1';
 				bcond 	     <= '0';
 				setflags     <= '0';
 				bregister    <= '0';
