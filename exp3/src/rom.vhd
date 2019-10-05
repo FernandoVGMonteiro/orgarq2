@@ -12,7 +12,8 @@ entity rom is
   );
   port (
     addr : in  bit_vector(addressSize-1 downto 0);
-    data : out bit_vector(wordSize-1 downto 0)
+    data : out bit_vector(wordSize-1 downto 0);
+    hit  : out bit
   );
 end rom;
 
@@ -60,6 +61,7 @@ constant rom : rom_data := (
 );
 begin
     data <= rom(to_integer(unsigned(addr(31 downto 2))));
+    hit <= '1'; --always hit
 end architecture romhardcodded;
 --architecture vendorfree of rom is
 --  constant depth : natural := 2**10;

@@ -119,7 +119,8 @@ component rom is
   );
   port (
     addr : in  bit_vector(addressSize-1 downto 0);
-    data : out bit_vector(wordSize-1 downto 0)
+    data : out bit_vector(wordSize-1 downto 0);
+    hit  : out bit
   );
 end component;
 
@@ -204,22 +205,25 @@ signal memory_extended : bit_vector(63 downto 0);
 --variable for stores with diferent acess level
 signal numbytes_ex, numbytes_mem : bit_vector(1 downto 0);
 
+--miss signal
+signal hit_if, hit_mem, hit_ifmem : bit;
+
 begin
 
 
 -- INSTRUCTION FETCH STAGE
-
+hit_ifmem <= hit_if and hit_mem; -- if stalls if a miss ocour in if or mem stage
 
 
 add_component: alu
 port map (signed(pc_out), x"0000000000000004", soma_4, "0010", open, open, open, open);
 
 instruction_memory_component: rom
-port map (pc_out, instr_if);
+port map (pc_out, instr_if, hit_if);
 
 pc_component: reg
 generic map (64)
-port map (clock, reset, '1', pc_in, pc_out);
+port map (clock, reset, hit_ifmem, pc_in, pc_out); -- only enables if it hit
 
 mux_add1_add2_component: mux2to1
 generic map (64)
@@ -228,7 +232,8 @@ port map (branch_signal(0), soma_4, ex_mem_out(197 downto 134), pc_in); -- troca
 if_id_in <= pc_out & instr_if;
 IFID_component: reg
 generic map (96)
-port map (clock, reset, '1', if_id_in, if_id_out);
+port map (clock, reset, hit_ifmem, if_id_in, if_id_out); -- only enables if it hit 
+--TODO se miss aqui, tem que adicionar NOP e não repetir a instrução anterior!!!!!!
 
 --*********************************
 -- INSTRUCTION DECODE
@@ -254,37 +259,37 @@ id_ex_in <= instr_id(4 downto 0)&	MemtoReg & RegWrite & MemRead & MemWrite & Unc
 
 IDEX_component: reg
 generic map (287)
-port map (clock, reset, '1', id_ex_in, id_ex_out);
+port map (clock, reset, hit_mem, id_ex_in, id_ex_out);
 
 --bcond register
 bcond_array <= setflags & bcond & instr_id(3 downto 0);
 idex_bcond : reg
 generic map (6)
-port map (clock, reset, '1', bcond_array, bcond_id);
+port map (clock, reset, hit_mem, bcond_array, bcond_id);
 
 --bregister register
 bregister_id(0) <= bregister;
 
 idex_breg : reg
 generic map (1)
-port map (clock, reset, '1', bregister_id, bregister_ex);
+port map (clock, reset, hit_mem, bregister_id, bregister_ex);
 
 --blink register
 blink_id(0) <= blink;
 idex_blink : reg
 generic map (1)
-port map (clock, reset, '1', blink_id, blink_ex);
+port map (clock, reset, hit_mem, blink_id, blink_ex);
 
 load_variable_id <= zeroext0 & zeroext1 & zeroext2;
 -- variable load register 
 idex_loads : reg
 generic map (3)
-port map (clock, reset, '1', load_variable_id, load_variable_ex);
+port map (clock, reset, hit_mem, load_variable_id, load_variable_ex);
 
 --register for load with different access level
 idex_stores : reg
 generic map (2)
-port map (clock, reset, '1', numBytes, numbytes_ex);
+port map (clock, reset, hit_mem, numBytes, numbytes_ex);
 
 --*********************************
 -- EXECUTE
@@ -345,27 +350,27 @@ port map (blink_id(0), id_ex_out(4 downto 0), "11110", reg_dest);
 ex_mem_in <= id_ex_out(286 downto 275) & branch_adress & zero_ula & alu_result_final & id_ex_out(143 downto 80) & reg_dest;
 EXMEM_component: reg
 generic map (210)
-port map (clock, reset, '1', ex_mem_in, ex_mem_out);
+port map (clock, reset, hit_mem, ex_mem_in, ex_mem_out);
 
 -- state register for B.cond
 bcond_component: reg
 generic map (4)
-port map (clock, reset, '1', flags_ex2, flags_wb); 
+port map (clock, reset, hit_mem, flags_ex2, flags_wb); 
 
 --bcond register
 exmem_bcond : reg
 generic map (5)
-port map (clock, reset, '1', bcond_id(4 downto 0), bcond_ex);
+port map (clock, reset, hit_mem, bcond_id(4 downto 0), bcond_ex);
 
 -- variable load register 
 exmem_loads : reg
 generic map (3)
-port map (clock, reset, '1', load_variable_ex, load_variable_mem);
+port map (clock, reset, hit_mem, load_variable_ex, load_variable_mem);
 
 --register for load with different access level
 exmem_stores : reg
 generic map (2)
-port map (clock, reset, '1', numbytes_ex, numbytes_mem);
+port map (clock, reset, hit_mem, numbytes_ex, numbytes_mem);
 --*********************************
 -- MEMORY
 --*********************************
@@ -374,7 +379,7 @@ memwritedata_debug <= ex_mem_out(68 downto 5);
 mem_write_debug <= ex_mem_out(201);
 data_memory_component: ram
 generic map (64, 64)
-port map (clock, ex_mem_out(201), ex_mem_out(132 downto 69), ex_mem_out(68 downto 5), memory_data, numbytes_mem, open);
+port map (clock, ex_mem_out(201), ex_mem_out(132 downto 69), ex_mem_out(68 downto 5), memory_data, numbytes_mem, hit_mem);
 
 -- extensao de zeros
 hword_select : mux2to1
@@ -402,7 +407,7 @@ branch_signal(0) <= branch_signal_aux(0) or  branch_conditionally;
 mem_wb_in <= ex_mem_out(209 downto 203) & memory_extended & ex_mem_out(132 downto 69) & ex_mem_out (4 downto 0);
 MEMWB_component: reg
 generic map (140)
-port map (clock, reset, '1', mem_wb_in, mem_wb_out);
+port map (clock, reset, hit_mem, mem_wb_in, mem_wb_out);
 --*********************************
 -- WRITE BACK
 --*********************************

@@ -28,9 +28,10 @@ component control is
         bregister : out bit;
         blink     : out bit;
         zeroext0 : out bit;
-		zeroext1 : out bit;
-		zeroext2 : out bit;
-		exclusive : out bit
+	zeroext1 : out bit;
+	zeroext2 : out bit;
+	exclusive : out bit;
+        numBytes  : out bit_vector(1 downto 0)
     );
 end component;
 
@@ -76,7 +77,11 @@ component data_path is
         
         zeroext1 : in bit;
         
-        zeroext2 : in bit
+        zeroext2 : in bit;
+
+	exclusive : in bit;
+        
+        numBytes  : in bit_vector(1 downto 0)
 	
 	);
 end component;
@@ -95,14 +100,15 @@ signal	Instruction:  bit_vector(31 downto 21);
 signal clock, reset : bit;
 signal bcond, setflags :bit;
 signal bregister, blink :bit;
-signal zeroext0, zeroext1, zeroext2 : bit;
+signal zeroext0, zeroext1, zeroext2, exclusive : bit;
+signal numBytes  : bit_vector(1 downto 0);
 begin
 
 control_component: control
-port map(Reg2Loc, Uncondbranch, Branch, MemRead, MemtoReg, ALUOp, MemWrite,ALUSrc, RegWrite, BNZero, clock, Instruction, bcond, setflags, bregister, blink, zeroext0, zeroext1, zeroext2, open);
+port map(Reg2Loc, Uncondbranch, Branch, MemRead, MemtoReg, ALUOp, MemWrite,ALUSrc, RegWrite, BNZero, clock, Instruction, bcond, setflags, bregister, blink, zeroext0, zeroext1, zeroext2, exclusive, numBytes);
 
 dp_component: data_path
-port map (clock, reset, Reg2Loc, Uncondbranch, Branch, MemRead, MemtoReg, ALUOp, memWrite, AluSrc, RegWrite, BNZero, Instruction, open, bcond, setflags, bregister, blink, zeroext0, zeroext1, zeroext2);
+port map (clock, reset, Reg2Loc, Uncondbranch, Branch, MemRead, MemtoReg, ALUOp, memWrite, AluSrc, RegWrite, BNZero, Instruction, open, bcond, setflags, bregister, blink, zeroext0, zeroext1, zeroext2, exclusive, numBytes);
 
 InstructionOut <= Instruction;
 end architecture;
