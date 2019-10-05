@@ -44,7 +44,11 @@ entity data_path is
         
         zeroext1 : in bit;
         
-        zeroext2 : in bit
+        zeroext2 : in bit;
+        
+        exclusive : in bit;
+        
+        numBytes : in bit_vector (1 downto 0)
         
     
     );
@@ -139,7 +143,9 @@ component ram is
     ck, wr : in  bit;
     addr   : in  bit_vector(addressSize-1 downto 0);
     data_i : in  bit_vector(wordSize-1 downto 0);
-    data_o : out bit_vector(wordSize-1 downto 0)
+    data_o : out bit_vector(wordSize-1 downto 0);
+    NumBytes : in bit_vector(1 downto 0);
+    hit     : out bit
   );
 end component;
 
@@ -195,6 +201,8 @@ signal alu_result_final : bit_vector (63 downto 0);
 signal load_variable_id, load_variable_ex, load_variable_mem : bit_vector (2 downto 0);
 signal memory_extended : bit_vector(63 downto 0);
 
+--variable for stores with diferent acess level
+signal numbytes_ex, numbytes_mem : bit_vector(1 downto 0);
 
 begin
 
@@ -273,6 +281,11 @@ idex_loads : reg
 generic map (3)
 port map (clock, reset, '1', load_variable_id, load_variable_ex);
 
+--register for load with different access level
+idex_stores : reg
+generic map (2)
+port map (clock, reset, '1', numBytes, numbytes_ex);
+
 --*********************************
 -- EXECUTE
 --*********************************
@@ -348,6 +361,11 @@ port map (clock, reset, '1', bcond_id(4 downto 0), bcond_ex);
 exmem_loads : reg
 generic map (3)
 port map (clock, reset, '1', load_variable_ex, load_variable_mem);
+
+--register for load with different access level
+exmem_stores : reg
+generic map (2)
+port map (clock, reset, '1', numbytes_ex, numbytes_mem);
 --*********************************
 -- MEMORY
 --*********************************
@@ -356,7 +374,7 @@ memwritedata_debug <= ex_mem_out(68 downto 5);
 mem_write_debug <= ex_mem_out(201);
 data_memory_component: ram
 generic map (64, 64)
-port map (clock, ex_mem_out(201), ex_mem_out(132 downto 69), ex_mem_out(68 downto 5), memory_data);
+port map (clock, ex_mem_out(201), ex_mem_out(132 downto 69), ex_mem_out(68 downto 5), memory_data, numbytes_mem, open);
 
 -- extensao de zeros
 hword_select : mux2to1

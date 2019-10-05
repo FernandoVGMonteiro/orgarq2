@@ -40,7 +40,8 @@ entity control is
 		zeroext0 : out bit;
 		zeroext1 : out bit;
 		zeroext2 : out bit;
-		exclusive : out bit
+		exclusive : out bit;
+        numBytes  : out bit_vector(1 downto 0)
 	);
 
 	
@@ -79,6 +80,7 @@ begin
                 zeroext1	 <= '0';
                 zeroext2     <= '0';
                 exclusive 	 <= '0';
+                numBytes     <= "00";
 			
             when "010101" => 
                 -- Branch.cond
@@ -100,6 +102,7 @@ begin
                 zeroext1	 <= '0';
                 zeroext2     <= '0';
                 exclusive 	 <= '0';
+                numBytes     <= "00";
 				
             when "110101" =>
                 --BranchRegister
@@ -121,6 +124,7 @@ begin
                 zeroext1	 <= '0';
                 zeroext2     <= '0';
                 exclusive 	 <= '0';
+                numBytes     <= "00";
 				
             when "100101" =>
                 -- Branch with Link BL
@@ -142,6 +146,7 @@ begin
                 zeroext1	 <= '0';
                 zeroext2     <= '0';
                 exclusive 	 <= '0';
+                numBytes     <= "00";
 				
             when "100010" =>
                     -- Add == 10001011000 --ALUOp 10
@@ -163,6 +168,7 @@ begin
                 zeroext1	 <= '0';
                 zeroext2     <= '0';
                 exclusive 	 <= '0';
+                numBytes     <= "00";
 
 			
             when "100100" =>  
@@ -186,6 +192,7 @@ begin
                 zeroext1	 <= '0';
                 zeroext2     <= '0';
                 exclusive 	 <= '0';
+                numBytes     <= "00";
 			
             when "101100" =>  -- Add Immediate & Set Flags == 10110001000 or 10110001001
                     --AluOp 00
@@ -207,6 +214,7 @@ begin
                 zeroext1	 <= '0';
                 zeroext2     <= '0';
                 exclusive 	 <= '0';
+                numBytes     <= "00";
 
             when "101010" =>  -- Add & Set Flags == 10101011000
                 --AluOp 00
@@ -228,6 +236,7 @@ begin
                 zeroext1	 <= '0';
                 zeroext2     <= '0';
                 exclusive 	 <= '0';
+                numBytes     <= "00";
 
             when "111100" =>  --  AND Immediate & Set Flags == 111100 10000 or 11110010001
                 --AluOp 11
@@ -249,6 +258,7 @@ begin
                 zeroext1	 <= '0';
                 zeroext2     <= '0';
                 exclusive 	 <= '0';
+                numBytes     <= "00";
 
             when "111010" =>  --  AND & Set Flags == 11101 010000
                 --AluOp 11
@@ -270,6 +280,7 @@ begin
                 zeroext1	 <= '0';
                 zeroext2     <= '0';
                 exclusive 	 <= '0';
+                numBytes     <= "00";
 
             when "101101" =>  -- Compare & Branch if Zero == 10110100XXX
                     --AluOp 10 para copiar
@@ -290,7 +301,11 @@ begin
                 setflags     <= '0';
                 bregister    <= '0';
                 blink 		 <= '0';
+                zeroext0 	 <= '0';
+                zeroext1	 <= '0';
+                zeroext2     <= '0';
                 exclusive 	 <= '0';
+                numBytes     <= "00";
                         --BNZero       <= '0';
                     --else
                     --	Reg2Loc      <= '0';
@@ -328,6 +343,7 @@ begin
                     zeroext1	 <= '0';
                     zeroext2     <= '0';
                     exclusive 	 <= '0';
+                    numBytes     <= "00";
                     
                 else --(Instruction(31 downto 21) = "11111000000") then
                     -- STore Register Unscaled offset == 11111000000
@@ -349,6 +365,7 @@ begin
                     zeroext1	 <= '0';
                     zeroext2     <= '0';
                     exclusive 	 <= '0';
+                    numBytes     <= "00";
                     
                 end if;
 			
@@ -373,6 +390,7 @@ begin
                 zeroext1	 <= '1';
                 zeroext2     <= '1';
                 exclusive 	 <= '0';
+                numBytes     <= "00";
 				
             when "011110" =>
                 --AluOp 00
@@ -395,6 +413,7 @@ begin
                 zeroext1	 <= '1';
                 zeroext2     <= '1';
                 exclusive 	 <= '0';
+                numBytes     <= "00";
 					
 
             when "101110" =>
@@ -418,6 +437,7 @@ begin
                 zeroext1	 <= '0';
                 zeroext2     <= '1';
                 exclusive 	 <= '0';
+                numBytes     <= "00";
 
             when "110010" =>
                 --AluOp 00
@@ -441,6 +461,7 @@ begin
                     zeroext1	 <= '0';
                     zeroext2     <= '0';
                     exclusive 	 <= '1';
+                    numBytes     <= "00";
                 else 
 
 
@@ -464,6 +485,7 @@ begin
                     zeroext1	 <= '0';
                     zeroext2     <= '0';
                     exclusive 	 <= '0';
+                    numBytes     <= "00";
                 end if;
 
             when "110100" =>  -- SUBtract Immediate == 1101000100X
@@ -486,6 +508,7 @@ begin
                 zeroext1	 <= '0';
                 zeroext2     <= '0';
                 exclusive 	 <= '0';
+                numBytes     <= "00";
 
             when others =>
                 report "not an instruction";
@@ -506,6 +529,7 @@ begin
                 zeroext1	 <= '0';
                 zeroext2     <= '0';
                 exclusive 	 <= '0';
+                numBytes     <= "00";
 
             --when "?????" =>  -- INSTRUCTION NAME
             --		Reg2Loc      <= 
