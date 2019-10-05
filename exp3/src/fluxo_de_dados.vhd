@@ -64,7 +64,8 @@ component alu is
     Over : out bit; --overflow flag
     Negative : out bit; --negative flag
     Carry : out bit; --carry flag
-    Z    : out bit -- zero flag
+    Z    : out bit; -- zero flag
+    shift_amount_ex : in bit_vector(5 downto 0)
     );
 end component;
 
@@ -208,6 +209,9 @@ signal numbytes_ex, numbytes_mem : bit_vector(1 downto 0);
 --miss signal
 signal hit_if, hit_mem, hit_ifmem : bit;
 
+--shift amount signal
+signal shift_amount_ex : bit_vector(5 downto 0);
+
 begin
 
 
@@ -216,7 +220,7 @@ hit_ifmem <= hit_if and hit_mem; -- if stalls if a miss ocour in if or mem stage
 
 
 add_component: alu
-port map (signed(pc_out), x"0000000000000004", soma_4, "0010", open, open, open, open);
+port map (signed(pc_out), x"0000000000000004", soma_4, "0010", open, open, open, open, "000000");
 
 instruction_memory_component: rom
 port map (pc_out, instr_if, hit_if);
@@ -291,6 +295,11 @@ idex_stores : reg
 generic map (2)
 port map (clock, reset, hit_mem, numBytes, numbytes_ex);
 
+--register for shift amour
+idex_shift : reg
+generic map (6)
+port map (clock, reset, hit_mem, instr_id(15 downto 10), shift_amount_ex);
+
 --*********************************
 -- EXECUTE
 --*********************************
@@ -299,7 +308,7 @@ shiftleft2_component: shiftleft2
 port map (instr_extend_ex, shiftleft2_out);
 
 add_component_2: alu
-port map (signed(id_ex_out(271 downto 208)), signed(shiftleft2_out), add_2_out, "0010", open,  open, open, open);
+port map (signed(id_ex_out(271 downto 208)), signed(shiftleft2_out), add_2_out, "0010", open,  open, open, open, "000000");
 
 mux_bregister: mux2to1
 generic map (64)                   --read data 1
@@ -318,7 +327,7 @@ alu_control_component : alu_control
 port map (id_ex_out(274 downto 273), id_ex_out(10 downto 5), ALUOp);
 
 alu_component: alu
-port map (signed(id_ex_out(207 downto 144)), signed(alu_in), alu_out, ALUOp, flags_alu(3), flags_alu(2), flags_alu(1), zero_ula); --ADICIONAR
+port map (signed(id_ex_out(207 downto 144)), signed(alu_in), alu_out, ALUOp, flags_alu(3), flags_alu(2), flags_alu(1), zero_ula, shift_amount_ex); --ADICIONAR
 --flags_alu <= alu_over & alu_negative & alu_carry & zero_ula;
 flags_alu(0) <= zero_ula;
 
