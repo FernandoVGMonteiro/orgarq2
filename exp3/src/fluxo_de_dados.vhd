@@ -3,44 +3,51 @@ library ieee;
 use ieee.numeric_bit.ALL;
 
 entity data_path is
-	port (
-	   clock : in bit;
+    port (
+       clock : in bit;
 
-		reset : in bit;
+        reset : in bit;
 
-		reg2loc : in bit;
+        reg2loc : in bit;
 
-		uncondBranch : in bit;
+        uncondBranch : in bit;
 
-		branch: in bit;
+        branch: in bit;
 
-		memRead: in bit;
+        memRead: in bit;
 
-		memToReg: in bit;
+        memToReg: in bit;
 
-		aluCtl: in bit_vector(1 downto 0);
+        aluCtl: in bit_vector(1 downto 0);
 
-		memWrite: in bit;
+        memWrite: in bit;
 
-		aluSrc: in bit;
+        aluSrc: in bit;
 
-		regWrite: in bit;
-		
-		BNZero: in bit;
+        regWrite: in bit;
+        
+        BNZero: in bit;
 
-		instruction31to21: out bit_vector(10 downto 0);
+        instruction31to21: out bit_vector(10 downto 0);
 
-		zero: out bit;
+        zero: out bit;
 
-		bcond : in bit;
-		
-		setflags : in bit;
-		
-		bregister : in bit;
-		
-		blink : in bit
-	
-	);
+        bcond : in bit;
+        
+        setflags : in bit;
+        
+        bregister : in bit;
+        
+        blink : in bit;
+        
+        zeroext0 : in bit;
+        
+        zeroext1 : in bit;
+        
+        zeroext2 : in bit
+        
+    
+    );
 end entity;
 
 architecture arch of data_path is
@@ -58,46 +65,46 @@ component alu is
 end component;
 
 component mux2to1 is
-	generic(ws: natural := 4); -- word size
-	port(
-		s:    in  bit; -- selection: 0=a, 1=b
-		a, b: in	bit_vector(ws-1 downto 0); -- inputs
-		o:  	out	bit_vector(ws-1 downto 0)  -- output
-	);
+    generic(ws: natural := 4); -- word size
+    port(
+        s:    in  bit; -- selection: 0=a, 1=b
+        a, b: in	bit_vector(ws-1 downto 0); -- inputs
+        o:  	out	bit_vector(ws-1 downto 0)  -- output
+    );
 end component;
 
 component dualregfile is 
-	port (
-		ReadRegister1 : in bit_vector (4 downto 0);
-		ReadRegister2 : in bit_vector (4 downto 0);
-		WriteRegister : in bit_vector (4 downto 0);
-		WriteData     : in bit_vector (63 downto 0);
-		Clock         : in bit;
-		RegWrite      : in bit;
-		ReadData1     : out bit_vector (63 downto 0);
-		ReadData2     : out bit_vector (63 downto 0)
-	
-	);
+    port (
+        ReadRegister1 : in bit_vector (4 downto 0);
+        ReadRegister2 : in bit_vector (4 downto 0);
+        WriteRegister : in bit_vector (4 downto 0);
+        WriteData     : in bit_vector (63 downto 0);
+        Clock         : in bit;
+        RegWrite      : in bit;
+        ReadData1     : out bit_vector (63 downto 0);
+        ReadData2     : out bit_vector (63 downto 0)
+    
+    );
 end component;
 
 component shiftleft2 is
-	generic(
-		ws: natural := 64); -- word size
-	port(
-		i: in	 bit_vector(ws-1 downto 0); -- input
-		o: out bit_vector(ws-1 downto 0)  -- output
-	);
+    generic(
+        ws: natural := 64); -- word size
+    port(
+        i: in	 bit_vector(ws-1 downto 0); -- input
+        o: out bit_vector(ws-1 downto 0)  -- output
+    );
 end component;
 
 component signExtend is
-	-- Size of output is expected to be greater than input
-	generic(
-	  ws_in:  natural := 32; -- input word size
-		ws_out: natural := 64); -- output word size
-	port(
-		i: in	 bit_vector(ws_in-1  downto 0); -- input
-		o: out bit_vector(ws_out-1 downto 0)  -- output
-	);
+    -- Size of output is expected to be greater than input
+    generic(
+      ws_in:  natural := 32; -- input word size
+        ws_out: natural := 64); -- output word size
+    port(
+        i: in	 bit_vector(ws_in-1  downto 0); -- input
+        o: out bit_vector(ws_out-1 downto 0)  -- output
+    );
 end component;
 
 component rom is
@@ -113,14 +120,14 @@ component rom is
 end component;
 
 component reg is
-	generic(wordSize: natural :=4);
-	port(
-		clock:    in 	bit; --! entrada de clock
-		reset:	  in 	bit; --! clear assíncrono
-		load:     in 	bit; --! write enable (carga paralela)
-		d:   			in	bit_vector(wordSize-1 downto 0); --! entrada
-		q:  			out	bit_vector(wordSize-1 downto 0) --! saída
-	);
+    generic(wordSize: natural :=4);
+    port(
+        clock:    in 	bit; --! entrada de clock
+        reset:	  in 	bit; --! clear assíncrono
+        load:     in 	bit; --! write enable (carga paralela)
+        d:   			in	bit_vector(wordSize-1 downto 0); --! entrada
+        q:  			out	bit_vector(wordSize-1 downto 0) --! saída
+    );
 end component;
 
 component ram is
@@ -183,6 +190,10 @@ signal branch_adress : bit_vector (63 downto 0);
 signal blink_id, blink_ex : bit_vector(0 downto 0);
 signal reg_dest : bit_vector(4 downto 0);
 signal alu_result_final : bit_vector (63 downto 0);
+
+--variable for loads with diferent acess level
+signal load_variable_id, load_variable_ex, load_variable_mem : bit_vector (2 downto 0);
+signal memory_extended : bit_vector(63 downto 0);
 
 
 begin
@@ -256,6 +267,12 @@ idex_blink : reg
 generic map (1)
 port map (clock, reset, '1', blink_id, blink_ex);
 
+load_variable_id <= zeroext0 & zeroext1 & zeroext2;
+-- variable load register 
+idex_loads : reg
+generic map (3)
+port map (clock, reset, '1', load_variable_id, load_variable_ex);
+
 --*********************************
 -- EXECUTE
 --*********************************
@@ -308,10 +325,10 @@ port map (clock, reset, bcond_id(5), flags_alu, flags_ex);
 regdst_select: mux2to1
 generic map (5)
 port map (blink_id(0), id_ex_out(4 downto 0), "11110", reg_dest); 
-			-- msb [209-205]
-			--204           203        202     201          200           199     198    
-			--MemtoReg & RegWrite & MemRead & MemWrite & Uncondbranch & Branch & BNZero 
-			--[204-198]	[197-134]     133       [132-69]	[68-5]				[4-0]
+            -- msb [209-205]
+            --204           203        202     201          200           199     198    
+            --MemtoReg & RegWrite & MemRead & MemWrite & Uncondbranch & Branch & BNZero 
+            --[204-198]	[197-134]     133       [132-69]	[68-5]				[4-0]
 ex_mem_in <= id_ex_out(286 downto 275) & branch_adress & zero_ula & alu_result_final & id_ex_out(143 downto 80) & reg_dest;
 EXMEM_component: reg
 generic map (210)
@@ -326,6 +343,11 @@ port map (clock, reset, '1', flags_ex2, flags_wb);
 exmem_bcond : reg
 generic map (5)
 port map (clock, reset, '1', bcond_id(4 downto 0), bcond_ex);
+
+-- variable load register 
+exmem_loads : reg
+generic map (3)
+port map (clock, reset, '1', load_variable_ex, load_variable_mem);
 --*********************************
 -- MEMORY
 --*********************************
@@ -336,6 +358,18 @@ data_memory_component: ram
 generic map (64, 64)
 port map (clock, ex_mem_out(201), ex_mem_out(132 downto 69), ex_mem_out(68 downto 5), memory_data);
 
+-- extensao de zeros
+hword_select : mux2to1
+generic map (32)
+port map (load_variable_mem(2), memory_data(63 downto  32), x"00000000", memory_extended(63 downto 32));
+
+halfword_select : mux2to1
+generic map (16)
+port map (load_variable_mem(1), memory_data(31 downto  16), x"0000", memory_extended(31 downto 16));
+
+byte_select : mux2to1
+generic map (8)
+port map (load_variable_mem(0), memory_data(15 downto  8), x"00", memory_extended(15 downto 8));
 --muxA(0) <= ((zero_ula and Branch) or Uncondbranch);
 --muxB(0) <= ((not zero_ula and Branch) or Uncondbranch);
 muxA(0) <= (ex_mem_out(133) and ex_mem_out(199) and not ex_mem_out(198)) or ex_mem_out(200);
@@ -346,8 +380,8 @@ generic map(1)
 port map (ex_mem_out(198), muxA, muxB, branch_signal_aux); 
 branch_signal(0) <= branch_signal_aux(0) or  branch_conditionally;
 
-	--[139-133]			[132-69]		[68-5]				[4-0]				
-mem_wb_in <= ex_mem_out(209 downto 203) & memory_data & ex_mem_out(132 downto 69) & ex_mem_out (4 downto 0);
+    --[139-133]			[132-69]		[68-5]				[4-0]				
+mem_wb_in <= ex_mem_out(209 downto 203) & memory_extended & ex_mem_out(132 downto 69) & ex_mem_out (4 downto 0);
 MEMWB_component: reg
 generic map (140)
 port map (clock, reset, '1', mem_wb_in, mem_wb_out);

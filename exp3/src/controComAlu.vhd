@@ -36,7 +36,11 @@ entity control is
 		bcond 		: out bit;
 		setflags : out bit;
 		bregister : out bit;
-		blink : out bit
+		blink : out bit; 	
+		zeroext0 : out bit;
+		zeroext1 : out bit;
+		zeroext2 : out bit;
+		exclusive : out bit
 	);
 
 	
@@ -50,304 +54,471 @@ component clock_gen is
 	end component;
 
 begin
-	clock_generator: clock_gen
-		port map (clk => clk);
-	BNZero <= instruction(24);
-	control_process: process(Instruction) begin
-		case Instruction(31 downto 26) is
-			when "000101" =>
-				-- Branch B
-				Reg2Loc      <= '0';
-				Uncondbranch <= '1';
-				Branch       <= '0';
-				MemRead      <= '0';
-				MemtoReg     <= '0';
-				ALUOp        <= "00";
-				MemWrite     <= '0';
-				ALUSrc       <= '0';
-				RegWrite     <= '0';
-				bcond 	     <= '0';
-				setflags     <= '0';
-				bregister    <= '0';
-				blink <= '0';
+    clock_generator: clock_gen
+        port map (clk => clk);
+    BNZero <= instruction(24);
+    control_process: process(Instruction) begin
+        case Instruction(31 downto 26) is
+            when "000101" =>
+                report "branch fetched";
+                -- Branch B
+                Reg2Loc      <= '0';
+                Uncondbranch <= '1';
+                Branch       <= '0';
+                MemRead      <= '0';
+                MemtoReg     <= '0';
+                ALUOp        <= "00";
+                MemWrite     <= '0';
+                ALUSrc       <= '0';
+                RegWrite     <= '0';
+                bcond 	     <= '0';
+                setflags     <= '0';
+                bregister    <= '0';
+                blink 		 <= '0';
+                zeroext0 	 <= '0';
+                zeroext1	 <= '0';
+                zeroext2     <= '0';
+                exclusive 	 <= '0';
 			
-			when "010101" => 
-				-- Branch.cond
-				Reg2Loc      <= '0';
-				Uncondbranch <= '0';
-				Branch       <= '0';
-				MemRead      <= '0';
-				MemtoReg     <= '0';
-				ALUOp        <= "00";
-				MemWrite     <= '0';
-				ALUSrc       <= '0';
-				RegWrite     <= '0';
-				bcond 	     <= '1';
-				setflags     <= '0';
-				bregister    <= '0';
-				blink <= '0';
+            when "010101" => 
+                -- Branch.cond
+                report "branch conditionally fetched";
+                Reg2Loc      <= '0';
+                Uncondbranch <= '0';
+                Branch       <= '0';
+                MemRead      <= '0';
+                MemtoReg     <= '0';
+                ALUOp        <= "00";
+                MemWrite     <= '0';
+                ALUSrc       <= '0';
+                RegWrite     <= '0';
+                bcond 	     <= '1';
+                setflags     <= '0';
+                bregister    <= '0';
+                blink 		 <= '0';
+                zeroext0 	 <= '0';
+                zeroext1	 <= '0';
+                zeroext2     <= '0';
+                exclusive 	 <= '0';
 				
-			when "110101" =>
-				--BranchRegister
-				Reg2Loc      <= '0';
-				Uncondbranch <= '1';
-				Branch       <= '0';
-				MemRead      <= '0';
-				MemtoReg     <= '0';
-				ALUOp        <= "00";
-				MemWrite     <= '0';
-				ALUSrc       <= '0';
-				RegWrite     <= '0';
-				bcond 	     <= '0';
-				setflags     <= '0';
-				bregister    <= '1';
-				blink 		 <= '0';
+            when "110101" =>
+                --BranchRegister
+                report "branch register fetched";
+                Reg2Loc      <= '0';
+                Uncondbranch <= '1';
+                Branch       <= '0';
+                MemRead      <= '0';
+                MemtoReg     <= '0';
+                ALUOp        <= "00";
+                MemWrite     <= '0';
+                ALUSrc       <= '0';
+                RegWrite     <= '0';
+                bcond 	     <= '0';
+                setflags     <= '0';
+                bregister    <= '1';
+                blink 		 <= '0';
+                zeroext0 	 <= '0';
+                zeroext1	 <= '0';
+                zeroext2     <= '0';
+                exclusive 	 <= '0';
 				
-			when "100101" =>
-				-- Branch with Link BL
-				Reg2Loc      <= '0';
-				Uncondbranch <= '1';
-				Branch       <= '0';
-				MemRead      <= '0';
-				MemtoReg     <= '0';
-				ALUOp        <= "00";
-				MemWrite     <= '0';
-				ALUSrc       <= '0';
-				RegWrite     <= '1';
-				bcond 	     <= '0';
-				setflags     <= '0';
-				bregister    <= '0';
-				blink 		 <= '1';
+            when "100101" =>
+                -- Branch with Link BL
+                report "branch with link fetched";
+                Reg2Loc      <= '0';
+                Uncondbranch <= '1';
+                Branch       <= '0';
+                MemRead      <= '0';
+                MemtoReg     <= '0';
+                ALUOp        <= "00";
+                MemWrite     <= '0';
+                ALUSrc       <= '0';
+                RegWrite     <= '1';
+                bcond 	     <= '0';
+                setflags     <= '0';
+                bregister    <= '0';
+                blink 		 <= '1';
+                zeroext0 	 <= '0';
+                zeroext1	 <= '0';
+                zeroext2     <= '0';
+                exclusive 	 <= '0';
 				
-			when "100010" =>
-				    -- Add == 10001011000 --ALUOp 10
-					Reg2Loc      <= '0';
-					Uncondbranch <= '0';
-					Branch       <= '0';
-					MemRead      <= '0';
-					MemtoReg     <= '0';
-					ALUOp        <= "10";
-					MemWrite     <= '0';
-					ALUSrc       <= '0';
-					RegWrite     <= '1';
-					bcond 	     <= '0';
-					setflags     <= '0';
-					bregister    <= '0';
-					blink 		 <= '0';
+            when "100010" =>
+                    -- Add == 10001011000 --ALUOp 10
+                    report "add fetched";
+                Reg2Loc      <= '0';
+                Uncondbranch <= '0';
+                Branch       <= '0';
+                MemRead      <= '0';
+                MemtoReg     <= '0';
+                ALUOp        <= "10";
+                MemWrite     <= '0';
+                ALUSrc       <= '0';
+                RegWrite     <= '1';
+                bcond 	     <= '0';
+                setflags     <= '0';
+                bregister    <= '0';
+                blink 		 <= '0';
+                zeroext0 	 <= '0';
+                zeroext1	 <= '0';
+                zeroext2     <= '0';
+                exclusive 	 <= '0';
 
 			
-			when "100100" =>  
-					-- Add Immediate == 10010001000 or 10010001001
-					--AluOp 10
-					Reg2Loc      <= '0';
-					Uncondbranch <= '0';
-					Branch       <= '0';
-					MemRead      <= '0';
-					MemtoReg     <= '0';
-					ALUOp        <= "10";
-					MemWrite     <= '0';
-					ALUSrc       <= '1';
-					RegWrite     <= '1';
-					bcond 	     <= '0';
-					setflags     <= '0';
-					bregister    <= '0';
-					blink 		 <= '0';
+            when "100100" =>  
+                -- Add Immediate == 10010001000 or 10010001001
+                --AluOp 10
+                report "addi fetched fetched";
+                Reg2Loc      <= '0';
+                Uncondbranch <= '0';
+                Branch       <= '0';
+                MemRead      <= '0';
+                MemtoReg     <= '0';
+                ALUOp        <= "10";
+                MemWrite     <= '0';
+                ALUSrc       <= '1';
+                RegWrite     <= '1';
+                bcond 	     <= '0';
+                setflags     <= '0';
+                bregister    <= '0';
+                blink 		 <= '0';
+                zeroext0 	 <= '0';
+                zeroext1	 <= '0';
+                zeroext2     <= '0';
+                exclusive 	 <= '0';
 			
-			when "101100" =>  -- Add Immediate & Set Flags == 10110001000 or 10110001001
-					--AluOp 00
-					Reg2Loc      <= '0';
-					Uncondbranch <= '0';
-					Branch       <= '0';
-					MemRead      <= '0';
-					MemtoReg     <= '0';
-					ALUOp        <= "00";
-					MemWrite     <= '0';
-					ALUSrc       <= '1';
-					RegWrite     <= '1';
-					bcond 	     <= '0';
-					setflags     <= '1';
-					bregister    <= '0';
-					blink 		 <= '0';
+            when "101100" =>  -- Add Immediate & Set Flags == 10110001000 or 10110001001
+                    --AluOp 00
+                report "addis fetched";
+                Reg2Loc      <= '0';
+                Uncondbranch <= '0';
+                Branch       <= '0';
+                MemRead      <= '0';
+                MemtoReg     <= '0';
+                ALUOp        <= "00";
+                MemWrite     <= '0';
+                ALUSrc       <= '1';
+                RegWrite     <= '1';
+                bcond 	     <= '0';
+                setflags     <= '1';
+                bregister    <= '0';
+                blink 		 <= '0';
+                zeroext0 	 <= '0';
+                zeroext1	 <= '0';
+                zeroext2     <= '0';
+                exclusive 	 <= '0';
 
-			when "101010" =>  -- Add & Set Flags == 10101011000
-					--AluOp 00
-					Reg2Loc      <= '0';
-					Uncondbranch <= '0';
-					Branch       <= '0';
-					MemRead      <= '0';
-					MemtoReg     <= '0';
-					ALUOp        <= "00";
-					MemWrite     <= '0';
-					ALUSrc       <= '0';
-					RegWrite     <= '1';
-					bcond 	     <= '0';
-					setflags     <= '1';
-					bregister    <= '0';
-					blink 		 <= '0';
+            when "101010" =>  -- Add & Set Flags == 10101011000
+                --AluOp 00
+                report "adds fetched";
+                Reg2Loc      <= '0';
+                Uncondbranch <= '0';
+                Branch       <= '0';
+                MemRead      <= '0';
+                MemtoReg     <= '0';
+                ALUOp        <= "00";
+                MemWrite     <= '0';
+                ALUSrc       <= '0';
+                RegWrite     <= '1';
+                bcond 	     <= '0';
+                setflags     <= '1';
+                bregister    <= '0';
+                blink 		 <= '0';
+                zeroext0 	 <= '0';
+                zeroext1	 <= '0';
+                zeroext2     <= '0';
+                exclusive 	 <= '0';
 
-			when "111100" =>  --  AND Immediate & Set Flags == 111100 10000 or 11110010001
-				--AluOp 11
-					Reg2Loc      <= '0';
-					Uncondbranch <= '0';
-					Branch       <= '0';
-					MemRead      <= '0';
-					MemtoReg     <= '0';
-					ALUOp        <= "11";
-					MemWrite     <= '0';
-					ALUSrc       <= '1';
-					RegWrite     <= '1';
-					bcond 	     <= '0';
-					setflags     <= '1';
-					bregister    <= '0';
-					blink 		 <= '0';
+            when "111100" =>  --  AND Immediate & Set Flags == 111100 10000 or 11110010001
+                --AluOp 11
+                report "andis fetched";
+                Reg2Loc      <= '0';
+                Uncondbranch <= '0';
+                Branch       <= '0';
+                MemRead      <= '0';
+                MemtoReg     <= '0';
+                ALUOp        <= "11";
+                MemWrite     <= '0';
+                ALUSrc       <= '1';
+                RegWrite     <= '1';
+                bcond 	     <= '0';
+                setflags     <= '1';
+                bregister    <= '0';
+                blink 		 <= '0';
+                zeroext0 	 <= '0';
+                zeroext1	 <= '0';
+                zeroext2     <= '0';
+                exclusive 	 <= '0';
 
-			when "111010" =>  --  AND & Set Flags == 11101 010000
-				--AluOp 11
-					Reg2Loc      <= '0';
-					Uncondbranch <= '0';
-					Branch       <= '0';
-					MemRead      <= '0';
-					MemtoReg     <= '0';
-					ALUOp        <= "11";
-					MemWrite     <= '0';
-					ALUSrc       <= '0';
-					RegWrite     <= '1';
-					bcond 	     <= '0';
-					setflags     <= '1';
-					bregister    <= '0';
-					blink 		 <= '0';
+            when "111010" =>  --  AND & Set Flags == 11101 010000
+                --AluOp 11
+                report "ands fetched";
+                Reg2Loc      <= '0';
+                Uncondbranch <= '0';
+                Branch       <= '0';
+                MemRead      <= '0';
+                MemtoReg     <= '0';
+                ALUOp        <= "11";
+                MemWrite     <= '0';
+                ALUSrc       <= '0';
+                RegWrite     <= '1';
+                bcond 	     <= '0';
+                setflags     <= '1';
+                bregister    <= '0';
+                blink 		 <= '0';
+                zeroext0 	 <= '0';
+                zeroext1	 <= '0';
+                zeroext2     <= '0';
+                exclusive 	 <= '0';
 
-			when "101101" =>  -- Compare & Branch if Zero == 10110100XXX
-					--AluOp 10 para copiar
-					-- se bit 31-8 = 1, é branch not zero
-					--BNZero setado assincronamente
-					--if instruction(24) = '1' then 
-						Reg2Loc      <= '0';
-						Uncondbranch <= '0';
-						Branch       <= '1';
-						MemRead      <= '0';
-						MemtoReg     <= '0';
-						ALUOp        <= "10";
-						MemWrite     <= '0';
-						ALUSrc       <= '0';
-						RegWrite     <= '0';
-						bcond 	     <= '0';
-						setflags     <= '0';
-						bregister    <= '0';
-						blink 		 <= '0';
-						--BNZero       <= '0';
-					--else
-					--	Reg2Loc      <= '0';
-					--	Uncondbranch <= '0';
-					--	Branch       <= '1';
-					--	MemRead      <= '0';
-					--	MemtoReg     <= '0';
-					--	ALUOp        <= "10";
-					--	MemWrite     <= '0';
-					--	ALUSrc       <= '0';
-					--	RegWrite     <= '0';
-					--	BNZero       <= '1';
-					--end if;
+            when "101101" =>  -- Compare & Branch if Zero == 10110100XXX
+                    --AluOp 10 para copiar
+                    -- se bit 31-8 = 1, é branch not zero
+                    --BNZero setado assincronamente
+                    --if instruction(24) = '1' then 
+                report "cbz fetched";
+                Reg2Loc      <= '0';
+                Uncondbranch <= '0';
+                Branch       <= '1';
+                MemRead      <= '0';
+                MemtoReg     <= '0';
+                ALUOp        <= "10";
+                MemWrite     <= '0';
+                ALUSrc       <= '0';
+                RegWrite     <= '0';
+                bcond 	     <= '0';
+                setflags     <= '0';
+                bregister    <= '0';
+                blink 		 <= '0';
+                exclusive 	 <= '0';
+                        --BNZero       <= '0';
+                    --else
+                    --	Reg2Loc      <= '0';
+                    --	Uncondbranch <= '0';
+                    --	Branch       <= '1';
+                    --	MemRead      <= '0';
+                    --	MemtoReg     <= '0';
+                    --	ALUOp        <= "10";
+                    --	MemWrite     <= '0';
+                    --	ALUSrc       <= '0';
+                    --	RegWrite     <= '0';
+                    --	BNZero       <= '1';
+                    --end if;
 
-			when "111110" =>
-				report "Entrei no 111110";
-				if (Instruction(22) = '0') then
-					--AluOp 00
-					-- Load Register Unscaled offset == 11111000010
-					report "load";
-					Reg2Loc      <= '0';
-					Uncondbranch <= '0';
-					Branch       <= '0';
-					MemRead      <= '1';
-					MemtoReg     <= '1';
-					ALUOp        <= "00";
-					MemWrite     <= '0';
-					ALUSrc       <= '1';
-					RegWrite     <= '1';
-					bcond 	     <= '0';
-					setflags     <= '0';
-					bregister    <= '0';
-					blink 		 <= '0';
+            when "111110" =>
+                report "Entrei no 111110";
+                if (Instruction(22) = '0') then
+                    --AluOp 00
+                    -- Load Register Unscaled offset == 11111000010
+                    report "load";
+                    Reg2Loc      <= '0';
+                    Uncondbranch <= '0';
+                    Branch       <= '0';
+                    MemRead      <= '1';
+                    MemtoReg     <= '1';
+                    ALUOp        <= "00";
+                    MemWrite     <= '0';
+                    ALUSrc       <= '1';
+                    RegWrite     <= '1';
+                    bcond 	     <= '0';
+                    setflags     <= '0';
+                    bregister    <= '0';
+                    blink 		 <= '0';
+                    zeroext0 	 <= '0';
+                    zeroext1	 <= '0';
+                    zeroext2     <= '0';
+                    exclusive 	 <= '0';
+                    
+                else --(Instruction(31 downto 21) = "11111000000") then
+                    -- STore Register Unscaled offset == 11111000000
+                    report "store";
+                    Reg2Loc      <= '1';
+                    Uncondbranch <= '0';
+                    Branch       <= '0';
+                    MemRead      <= '0';
+                    MemtoReg     <= '0';
+                    ALUOp        <= "00";
+                    MemWrite     <= '1';
+                    ALUSrc       <= '1';
+                    RegWrite     <= '0';
+                    bcond 	     <= '0';
+                    setflags     <= '0';
+                    bregister    <= '0';
+                    blink 		 <= '0';
+                    zeroext0 	 <= '0';
+                    zeroext1	 <= '0';
+                    zeroext2     <= '0';
+                    exclusive 	 <= '0';
+                    
+                end if;
+			
+            when "001110" =>
+                --AluOp 00
+                -- Load Register byte Unscaled offset == 0011100010
+                report "load byte unscaled register";
+                Reg2Loc      <= '0';
+                Uncondbranch <= '0';
+                Branch       <= '0';
+                MemRead      <= '1';
+                MemtoReg     <= '1';
+                ALUOp        <= "00";
+                MemWrite     <= '0';
+                ALUSrc       <= '1';
+                RegWrite     <= '1';
+                bcond 	     <= '0';
+                setflags     <= '0';
+                bregister    <= '0';
+                blink 		 <= '0';
+                zeroext0 	 <= '1';
+                zeroext1	 <= '1';
+                zeroext2     <= '1';
+                exclusive 	 <= '0';
+				
+            when "011110" =>
+                --AluOp 00
+                -- Load half Register Unscaled offset == 011110
+                report "load half unscaled register ";
+                Reg2Loc      <= '0';
+                Uncondbranch <= '0';
+                Branch       <= '0';
+                MemRead      <= '1';
+                MemtoReg     <= '1';
+                ALUOp        <= "00";
+                MemWrite     <= '0';
+                ALUSrc       <= '1';
+                RegWrite     <= '1';
+                bcond 	     <= '0';
+                setflags     <= '0';
+                bregister    <= '0';
+                blink 		 <= '0';
+                zeroext0 	 <= '0';
+                zeroext1	 <= '1';
+                zeroext2     <= '1';
+                exclusive 	 <= '0';
 					
-				else --(Instruction(31 downto 21) = "11111000000") then
-					-- STore Register Unscaled offset == 11111000000
-					report "store";
-					Reg2Loc      <= '1';
-					Uncondbranch <= '0';
-					Branch       <= '0';
-					MemRead      <= '0';
-					MemtoReg     <= '0';
-					ALUOp        <= "00";
-					MemWrite     <= '1';
-					ALUSrc       <= '1';
-					RegWrite     <= '0';
-					bcond 	     <= '0';
-					setflags     <= '0';
-					bregister    <= '0';
-					blink 		 <= '0';
-					
-				end if;
 
-			when "110010" =>  -- SUBtract == 11001011000
+            when "101110" =>
+                --AluOp 00
+                -- Load word Register Unscaled offset == 101110
+                report "load word unscaled register half ";
+                Reg2Loc      <= '0';
+                Uncondbranch <= '0';
+                Branch       <= '0';
+                MemRead      <= '1';
+                MemtoReg     <= '1';
+                ALUOp        <= "00";
+                MemWrite     <= '0';
+                ALUSrc       <= '1';
+                RegWrite     <= '1';
+                bcond 	     <= '0';
+                setflags     <= '0';
+                bregister    <= '0';
+                blink 		 <= '0';
+                zeroext0 	 <= '0';
+                zeroext1	 <= '0';
+                zeroext2     <= '1';
+                exclusive 	 <= '0';
+
+            when "110010" =>
+                --AluOp 00
+                -- Load exclusive register  == 110010
+                if (Instruction(25) = '0') then 
+                    report "load exclusive register ";
+                    Reg2Loc      <= '0';
+                    Uncondbranch <= '0';
+                    Branch       <= '0';
+                    MemRead      <= '1';
+                    MemtoReg     <= '1';
+                    ALUOp        <= "00";
+                    MemWrite     <= '0';
+                    ALUSrc       <= '1';
+                    RegWrite     <= '1';
+                    bcond 	     <= '0';
+                    setflags     <= '0';
+                    bregister    <= '0';
+                    blink 		 <= '0';
+                    zeroext0 	 <= '0';
+                    zeroext1	 <= '0';
+                    zeroext2     <= '0';
+                    exclusive 	 <= '1';
+                else 
+
+
+			--when "110010" =>  -- SUBtract == 11001011000
 					--AluOp 01
-					Reg2Loc      <= '0';
-					Uncondbranch <= '0';
-					Branch       <= '0';
-					MemRead      <= '0';
-					MemtoReg     <= '0';
-					ALUOp        <= "01";
-					MemWrite     <= '0';
-					ALUSrc       <= '0';
-					RegWrite     <= '1';
-					bcond 	     <= '0';
-					setflags     <= '0';
-					bregister    <= '0';
-					blink 		 <= '0';
+                    report "subfetched";
+                    Reg2Loc      <= '0';
+                    Uncondbranch <= '0';
+                    Branch       <= '0';
+                    MemRead      <= '0';
+                    MemtoReg     <= '0';
+                    ALUOp        <= "01";
+                    MemWrite     <= '0';
+                    ALUSrc       <= '0';
+                    RegWrite     <= '1';
+                    bcond 	     <= '0';
+                    setflags     <= '0';
+                    bregister    <= '0';
+                    blink 		 <= '0';
+                    zeroext0 	 <= '0';
+                    zeroext1	 <= '0';
+                    zeroext2     <= '0';
+                    exclusive 	 <= '0';
+                end if;
 
-			when "110100" =>  -- SUBtract Immediate == 1101000100X
-					--AluOp 01
-					Reg2Loc      <= '0';
-					Uncondbranch <= '0';
-					Branch       <= '0';
-					MemRead      <= '0';
-					MemtoReg     <= '0';
-					ALUOp        <= "01";
-					MemWrite     <= '0';
-					ALUSrc       <= '1';
-					RegWrite     <= '1';
-					bcond 	     <= '0';
-					setflags     <= '0';
-					bregister    <= '0';
-					blink 		 <= '0';
+            when "110100" =>  -- SUBtract Immediate == 1101000100X
+                    --AluOp 01
+                report "subi fetched";
+                Reg2Loc      <= '0';
+                Uncondbranch <= '0';
+                Branch       <= '0';
+                MemRead      <= '0';
+                MemtoReg     <= '0';
+                ALUOp        <= "01";
+                MemWrite     <= '0';
+                ALUSrc       <= '1';
+                RegWrite     <= '1';
+                bcond 	     <= '0';
+                setflags     <= '0';
+                bregister    <= '0';
+                blink 		 <= '0';
+                zeroext0 	 <= '0';
+                zeroext1	 <= '0';
+                zeroext2     <= '0';
+                exclusive 	 <= '0';
 
-			when others =>
-					report "not an instruction";
-					Reg2Loc      <= '0';
-					Uncondbranch <= '0';
-					Branch       <= '0';
-					MemRead      <= '0';
-					MemtoReg     <= '0';
-					ALUOp        <= "00";
-					MemWrite     <= '0';
-					ALUSrc       <= '0';
-					RegWrite     <= '0';
-					bcond 	     <= '0';
-					setflags     <= '0';
-					bregister    <= '0';
-					blink 		 <= '0';
-			
-			--when "?????" =>  -- INSTRUCTION NAME
-			--		Reg2Loc      <= 
-			--		Uncondbranch <= 
-			--		Branch       <= 
-			--		MemRead      <= 
-			--		MemtoReg     <= 
-			--		ALUOp        <= 
-			--		MemWrite     <= 
-			--		ALUSrc       <= 
-			--		RegWrite     <= 
-			
+            when others =>
+                report "not an instruction";
+                Reg2Loc      <= '0';
+                Uncondbranch <= '0';
+                Branch       <= '0';
+                MemRead      <= '0';
+                MemtoReg     <= '0';
+                ALUOp        <= "00";
+                MemWrite     <= '0';
+                ALUSrc       <= '0';
+                RegWrite     <= '0';
+                bcond 	     <= '0';
+                setflags     <= '0';
+                bregister    <= '0';
+                blink 		 <= '0';
+                zeroext0 	 <= '0';
+                zeroext1	 <= '0';
+                zeroext2     <= '0';
+                exclusive 	 <= '0';
 
-		end case;
+            --when "?????" =>  -- INSTRUCTION NAME
+            --		Reg2Loc      <= 
+            --		Uncondbranch <= 
+            --		Branch       <= 
+            --		MemRead      <= 
+            --		MemtoReg     <= 
+            --		ALUOp        <= 
+            --		MemWrite     <= 
+            --		ALUSrc       <= 
+            --		RegWrite     <= 
+
+
+        end case;
 	end process control_process;
 end architecture control;
