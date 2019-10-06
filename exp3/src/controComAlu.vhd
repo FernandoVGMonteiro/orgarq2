@@ -156,7 +156,7 @@ begin
                 Branch       <= '0';
                 MemRead      <= '0';
                 MemtoReg     <= '0';
-                ALUOp        <= "10";
+                ALUOp        <= "00";
                 MemWrite     <= '0';
                 ALUSrc       <= '0';
                 RegWrite     <= '1';
@@ -180,7 +180,7 @@ begin
                 Branch       <= '0';
                 MemRead      <= '0';
                 MemtoReg     <= '0';
-                ALUOp        <= "10";
+                ALUOp        <= "00";
                 MemWrite     <= '0';
                 ALUSrc       <= '1';
                 RegWrite     <= '1';
@@ -194,6 +194,7 @@ begin
                 exclusive 	 <= '0';
                 numBytes     <= "00";
 			
+                              -- Inclusive ORR imediate    == 1011001000
             when "101100" =>  -- Add Immediate & Set Flags == 10110001000 or 10110001001
                     --AluOp 00
                 report "addis fetched";
@@ -216,6 +217,7 @@ begin
                 exclusive 	 <= '0';
                 numBytes     <= "00";
 
+                              -- Inclusive or       101010110000
             when "101010" =>  -- Add & Set Flags == 10101011000
                 --AluOp 00
                 report "adds fetched";
@@ -238,6 +240,7 @@ begin
                 exclusive 	 <= '0';
                 numBytes     <= "00";
 
+                              --  MOVe wide with Keep       == 111100101XX
             when "111100" =>  --  AND Immediate & Set Flags == 111100 10000 or 11110010001
                 --AluOp 11
                 report "andis fetched";
@@ -511,8 +514,8 @@ begin
                 end if;
 
             when "110010" =>
-                --AluOp 00
-                -- Load exclusive register  == 110010
+                -- AluOp 00
+                -- Load exclusive register  == 11001000010
                 if (Instruction(25) = '0') then 
                     if (Instruction(22) = '0') then
                         report "load exclusive register ";
@@ -559,7 +562,7 @@ begin
                     end if;
                 else 
 
-
+            -- exclusive OR             ==     11001010000 como fazer?
 			--when "110010" =>  -- SUBtract == 11001011000
 					--AluOp 01
                     report "subfetched";
@@ -568,7 +571,7 @@ begin
                     Branch       <= '0';
                     MemRead      <= '0';
                     MemtoReg     <= '0';
-                    ALUOp        <= "01";
+                    ALUOp        <= "01"; --trocar por 10 ou 11
                     MemWrite     <= '0';
                     ALUSrc       <= '0';
                     RegWrite     <= '1';
@@ -583,6 +586,10 @@ begin
                     numBytes     <= "00";
                 end if;
 
+                              -- MOVe wide with Zero   110100101XX
+                              -- Logical Shift Right   11010011010
+                              -- Logical Shift Left    11010011011
+                              -- EORI                  1101001000X
             when "110100" =>  -- SUBtract Immediate == 1101000100X
                     --AluOp 01
                 report "subi fetched";
@@ -591,7 +598,7 @@ begin
                 Branch       <= '0';
                 MemRead      <= '0';
                 MemtoReg     <= '0';
-                ALUOp        <= "01";
+                ALUOp        <= "01"; -- trocar por 10 11 para codificar 
                 MemWrite     <= '0';
                 ALUSrc       <= '1';
                 RegWrite     <= '1';

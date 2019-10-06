@@ -154,7 +154,7 @@ end component;
 component alu_control is
   port (
     ALUCtrl: in bit_vector (1 downto 0);
-    func: in bit_vector (5 downto 0);
+    func: in bit_vector (10 downto 0);
     ALUOp: out bit_vector (3 downto 0)
 );
 
@@ -324,7 +324,7 @@ ALUCtrl_debug <= id_ex_out(274 downto 273);
 instr_debug <= id_ex_out(10 downto 5);
 
 alu_control_component : alu_control
-port map (id_ex_out(274 downto 273), id_ex_out(10 downto 5), ALUOp);
+port map (id_ex_out(274 downto 273), id_ex_out(15 downto 5), ALUOp);
 
 alu_component: alu
 port map (signed(id_ex_out(207 downto 144)), signed(alu_in), alu_out, ALUOp, flags_alu(3), flags_alu(2), flags_alu(1), zero_ula, shift_amount_ex); --ADICIONAR
