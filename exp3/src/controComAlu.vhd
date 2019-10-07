@@ -149,6 +149,7 @@ begin
                 numBytes     <= "00";
 				
             when "100010" =>
+                    -- AND == 10001010000
                     -- Add == 10001011000 --ALUOp 10
                     report "add fetched";
                 Reg2Loc      <= '0';
@@ -156,7 +157,7 @@ begin
                 Branch       <= '0';
                 MemRead      <= '0';
                 MemtoReg     <= '0';
-                ALUOp        <= "00";
+                ALUOp        <= "10";
                 MemWrite     <= '0';
                 ALUSrc       <= '0';
                 RegWrite     <= '1';
@@ -173,6 +174,7 @@ begin
 			
             when "100100" =>  
                 -- Add Immediate == 10010001000 or 10010001001
+                -- Andi             10010010000 or 10010010001
                 --AluOp 10
                 report "addi fetched fetched";
                 Reg2Loc      <= '0';
@@ -286,6 +288,7 @@ begin
                 numBytes     <= "00";
 
             when "101101" =>  -- Compare & Branch if Zero == 10110100XXX
+                          -- Compare & Branch if Not Zero == 10110101XXX
                     --AluOp 10 para copiar
                     -- se bit 31-8 = 1, é branch not zero
                     --BNZero setado assincronamente

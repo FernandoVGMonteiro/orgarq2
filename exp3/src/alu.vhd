@@ -17,7 +17,8 @@ entity alu is
 	Over : out bit; --overflow flag
 	Negative : out bit; --negative flag
 	Carry : out bit; --carry flag
-    Z    : out bit -- zero flag
+    Z    : out bit; -- zero flag
+    shift_amount_ex : in bit_vector (5 downto 0)
     );
 end entity alu;
 
