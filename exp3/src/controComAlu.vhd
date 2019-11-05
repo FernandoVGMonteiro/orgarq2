@@ -61,8 +61,8 @@ begin
     BNZero <= instruction(24);
     control_process: process(Instruction) begin
         case Instruction(31 downto 26) is
-            when "‭000111" => 
-                report "fp instruction"
+            when "001111" => 
+                report "fp instruction";
                 Reg2Loc      <= '0';
                 Uncondbranch <= '0';
                 Branch       <= '0';
@@ -663,7 +663,7 @@ begin
                 numBytes     <= "00";
                 fp           <= '0';
             when "100110" =>
-                report "fp instruction"
+                report "fp instruction";
                 Reg2Loc      <= '0';
                 Uncondbranch <= '0';
                 Branch       <= '0';
