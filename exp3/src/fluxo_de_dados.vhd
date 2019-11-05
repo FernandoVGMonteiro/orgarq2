@@ -48,7 +48,9 @@ entity data_path is
         
         exclusive : in bit;
         
-        numBytes : in bit_vector (1 downto 0)
+        numBytes : in bit_vector (1 downto 0);
+        
+        fp : in bit
         
     
     );
@@ -66,6 +68,15 @@ component alu is
     Carry : out bit; --carry flag
     Z    : out bit; -- zero flag
     shift_amount_ex : in bit_vector(5 downto 0)
+    );
+end component;
+component fp_unity is 
+    port (
+    A,B : in bit_vector (63 downto 0); -- inputs
+    op  : in bit_vector (10 downto 0); -- op for instr
+    sh  : in bit_vector (5 downto 0);  -- shamt for instr
+    O   : out bit_vector (63 downto 0);
+    done : out bit                     -- can continue 
     );
 end component;
 
@@ -212,6 +223,12 @@ signal hit_if, hit_mem, hit_ifmem : bit;
 --shift amount signal
 signal shift_amount_ex : bit_vector(5 downto 0);
 
+-- fp signal
+signal fp_id, fp_ex : bit_vector(27 downto 0);
+signal fp_result : bit_vector (63 downto 0);
+signal done : bit;
+signal fp_exmem, fp_mem, fp_wb : bit_vector (64 downto 0);
+signal write_data_fp : bit_vector (63 downto 0);
 begin
 
 
@@ -256,6 +273,7 @@ regwrite_debug <= mem_wb_out(133);
 regdst_debug <= mem_wb_out(139 downto 135);
 registerr1_debug <= instr_id(9 downto 5);
 registerr2_debug  <= mux_instr_reg_out;
+-- substituir write data por write_data_fp para fp unity.
 dual_reg_file: dualregfile
 port map (instr_id(9 downto 5), mux_instr_reg_out, mem_wb_out(139 downto 135), write_data, clock, mem_wb_out(133), read_data1, read_data2);
 --         	[286-282]		281           280        279     278          277           276     275     [274-273] 272       [271-208]                [207-144]    [143-80]     [79-16]             [15-5]                 [4-0]
@@ -295,11 +313,15 @@ idex_stores : reg
 generic map (2)
 port map (clock, reset, hit_mem, numBytes, numbytes_ex);
 
---register for shift amour
+--register for shift amount
 idex_shift : reg
 generic map (6)
 port map (clock, reset, hit_mem, instr_id(15 downto 10), shift_amount_ex);
 
+fp_id <= instr_id(31 downto 21) & instr_id(15 downto 0) & fp;
+idex_fp : reg
+generic map (28)
+port map (clock, reset, hit_mem, fp_id, fp_ex);
 --*********************************
 -- EXECUTE
 --*********************************
@@ -361,6 +383,13 @@ EXMEM_component: reg
 generic map (210)
 port map (clock, reset, hit_mem, ex_mem_in, ex_mem_out);
 
+
+
+-- fp unity
+fp_component : fp_unity
+port map (id_ex_out(207 downto 144), alu_in, fp_ex(17 downto 7), fp_ex(6 downto 1), fp_result, done);
+
+
 -- state register for B.cond
 bcond_component: reg
 generic map (4)
@@ -380,6 +409,12 @@ port map (clock, reset, hit_mem, load_variable_ex, load_variable_mem);
 exmem_stores : reg
 generic map (2)
 port map (clock, reset, hit_mem, numbytes_ex, numbytes_mem);
+
+-- register for fp result
+fp_exmem <= fp_result & fp_ex(0);
+exmem_fp: reg
+generic map (65)
+port map (clock, reset, hit_mem, fp_exmem, fp_mem);
 --*********************************
 -- MEMORY
 --*********************************
@@ -417,12 +452,22 @@ mem_wb_in <= ex_mem_out(209 downto 203) & memory_extended & ex_mem_out(132 downt
 MEMWB_component: reg
 generic map (140)
 port map (clock, reset, hit_mem, mem_wb_in, mem_wb_out);
+
+-- fp register 
+
+memwb_fp : reg
+generic map (65)
+port map (clock, reset, hit_mem, fp_mem, fp_wb);
 --*********************************
 -- WRITE BACK
 --*********************************
 mux_memory_reg: mux2to1
 generic map (64)
 port map (mem_wb_out(134),  mem_wb_out(68 downto 5), mem_wb_out(132 downto 69), write_data);
+
+mux_fp_reg: mux2to1
+generic map(64)
+port map (fp_wb(0), write_data, fp_wb(64 downto 1), write_data_fp);
 
 mem2reg_debug <= mem_wb_out(134);
 instruction31to21 <= instr_id(31 downto 21);

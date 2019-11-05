@@ -41,7 +41,8 @@ entity control is
 		zeroext1 : out bit;
 		zeroext2 : out bit;
 		exclusive : out bit;
-        numBytes  : out bit_vector(1 downto 0)
+        numBytes  : out bit_vector(1 downto 0);
+        fp : out bit
 	);
 
 	
