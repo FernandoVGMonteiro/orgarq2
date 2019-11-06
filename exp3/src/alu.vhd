@@ -45,6 +45,8 @@ begin
 		(in1_extended xor in2_extended)	    when "0001", -- XOR
 		shift_right(in1_extended, to_integer(unsigned(shift_amount_ex)))		when "1001", -- Shift Right
 		shift_left(in1_extended, to_integer(unsigned(shift_amount_ex))) 		when "1000", -- Shift Left
+        in1_extended when "0100", --movk
+        in1_extended when "0101", --movz
 		(others=>'0') 							when others;
 		
   -- Generating A<B?1:0

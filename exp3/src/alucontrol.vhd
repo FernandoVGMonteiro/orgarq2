@@ -77,8 +77,14 @@ end alu_control;
                 ALUOp <= "0011";
                 report "inclusive OR operation";
             elsif (func(8) = '0') then
-                ALUOp <= "0001";
-                report "exclusive oper select";
+                if (func(2) = '0') then
+                    ALUOp <= "0001";
+                    report "exclusive oper select";
+                else
+                    ALUOP <= "0101";
+                    report "MOVZ";
+                end if;
+
             elsif (func(2) = '1') then
                 ALUOp <= "0100";
                 report "movk oper selected";

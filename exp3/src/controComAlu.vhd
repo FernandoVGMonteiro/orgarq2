@@ -648,7 +648,7 @@ begin
                 Branch       <= '0';
                 MemRead      <= '0';
                 MemtoReg     <= '0';
-                ALUOp        <= "01"; -- trocar por 10 11 para codificar 
+                ALUOp        <= "11"; -- trocar por 10 11 para codificar 
                 MemWrite     <= '0';
                 ALUSrc       <= '1';
                 RegWrite     <= '1';
