@@ -1,7 +1,7 @@
 -------------------------------------------------------
 --! @file signExtend.vhdl
---! @author balbertini@usp.br
---! @date 20180730
+--! @author mateus.vendramini@usp.br
+--! @date 2019
 --! @brief 2-complement sign extension used on polileg.
 -------------------------------------------------------
 entity signExtend is
@@ -27,10 +27,18 @@ process(i)
 begin
 	case i (27 downto 26) is
 		when "00" => --I instruction
-			o(11 downto 0) <= i(21 downto 10);
-			msbI: for idx in (12) to (63) loop
-				o(idx) <= i(21);
-			end loop msbI;
+            if i(23) = '1' then --move
+            o(17 downto 0) <= i(22 downto 5);
+            msbim: for idx in (18) to (63) loop
+                o(idx) <= '0';
+            end loop;
+            
+            else --others
+                o(11 downto 0) <= i(21 downto 10);
+                msbI: for idx in (12) to (63) loop
+                    o(idx) <= i(21);
+                end loop msbI;
+            end if;
 			
 			--end;
 	
