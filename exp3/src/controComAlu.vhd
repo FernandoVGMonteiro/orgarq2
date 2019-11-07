@@ -277,25 +277,47 @@ begin
             when "111100" =>  --  AND Immediate & Set Flags == 111100 10000 or 11110010001
                 --AluOp 11
                 report "andis fetched";
-                Reg2Loc      <= '0';
-                Uncondbranch <= '0';
-                Branch       <= '0';
-                MemRead      <= '0';
-                MemtoReg     <= '0';
-                ALUOp        <= "11";
-                MemWrite     <= '0';
-                ALUSrc       <= '1';
-                RegWrite     <= '1';
-                bcond 	     <= '0';
-                setflags     <= '1';
-                bregister    <= '0';
-                blink 		 <= '0';
-                zeroext0 	 <= '0';
-                zeroext1	 <= '0';
-                zeroext2     <= '0';
-                exclusive 	 <= '0';
-                numBytes     <= "00";
-                fp           <= '0';
+                if (Instruction(23) = '1') then
+                    Reg2Loc      <= '1'; -- para ler o valor anterior do registrador
+                    Uncondbranch <= '0';
+                    Branch       <= '0';
+                    MemRead      <= '0';
+                    MemtoReg     <= '0';
+                    ALUOp        <= "11"; -- trocar por 10 11 para codificar 
+                    MemWrite     <= '0';
+                    ALUSrc       <= '1';
+                    RegWrite     <= '1';
+                    bcond 	     <= '0';
+                    setflags     <= '0';
+                    bregister    <= '0';
+                    blink 		 <= '0';
+                    zeroext0 	 <= '0';
+                    zeroext1	 <= '0';
+                    zeroext2     <= '0';
+                    exclusive 	 <= '0';
+                    numBytes     <= "00";
+                    fp           <= '0';
+                else
+                    Reg2Loc      <= '0';
+                    Uncondbranch <= '0';
+                    Branch       <= '0';
+                    MemRead      <= '0';
+                    MemtoReg     <= '0';
+                    ALUOp        <= "11";
+                    MemWrite     <= '0';
+                    ALUSrc       <= '1';
+                    RegWrite     <= '1';
+                    bcond 	     <= '0';
+                    setflags     <= '1';
+                    bregister    <= '0';
+                    blink 		 <= '0';
+                    zeroext0 	 <= '0';
+                    zeroext1	 <= '0';
+                    zeroext2     <= '0';
+                    exclusive 	 <= '0';
+                    numBytes     <= "00";
+                    fp           <= '0';
+                end if;
 
             when "111010" =>  --  AND & Set Flags == 11101 010000
                 --AluOp 11
@@ -643,25 +665,48 @@ begin
             when "110100" =>  -- SUBtract Immediate == 1101000100X
                     --AluOp 01
                 report "subi fetched";
-                Reg2Loc      <= '0';
-                Uncondbranch <= '0';
-                Branch       <= '0';
-                MemRead      <= '0';
-                MemtoReg     <= '0';
-                ALUOp        <= "11"; -- trocar por 10 11 para codificar 
-                MemWrite     <= '0';
-                ALUSrc       <= '1';
-                RegWrite     <= '1';
-                bcond 	     <= '0';
-                setflags     <= '0';
-                bregister    <= '0';
-                blink 		 <= '0';
-                zeroext0 	 <= '0';
-                zeroext1	 <= '0';
-                zeroext2     <= '0';
-                exclusive 	 <= '0';
-                numBytes     <= "00";
-                fp           <= '0';
+                if (Instruction(23) = '1') then
+                    Reg2Loc      <= '1'; -- para ler o valor anterior do registrador
+                    Uncondbranch <= '0';
+                    Branch       <= '0';
+                    MemRead      <= '0';
+                    MemtoReg     <= '0';
+                    ALUOp        <= "11"; -- trocar por 10 11 para codificar 
+                    MemWrite     <= '0';
+                    ALUSrc       <= '1';
+                    RegWrite     <= '1';
+                    bcond 	     <= '0';
+                    setflags     <= '0';
+                    bregister    <= '0';
+                    blink 		 <= '0';
+                    zeroext0 	 <= '0';
+                    zeroext1	 <= '0';
+                    zeroext2     <= '0';
+                    exclusive 	 <= '0';
+                    numBytes     <= "00";
+                    fp           <= '0';
+                
+                else
+                    Reg2Loc      <= '0';
+                    Uncondbranch <= '0';
+                    Branch       <= '0';
+                    MemRead      <= '0';
+                    MemtoReg     <= '0';
+                    ALUOp        <= "11"; -- trocar por 10 11 para codificar 
+                    MemWrite     <= '0';
+                    ALUSrc       <= '1';
+                    RegWrite     <= '1';
+                    bcond 	     <= '0';
+                    setflags     <= '0';
+                    bregister    <= '0';
+                    blink 		 <= '0';
+                    zeroext0 	 <= '0';
+                    zeroext1	 <= '0';
+                    zeroext2     <= '0';
+                    exclusive 	 <= '0';
+                    numBytes     <= "00";
+                    fp           <= '0';
+                end if;
             when "100110" =>
                 report "fp instruction";
                 Reg2Loc      <= '0';
