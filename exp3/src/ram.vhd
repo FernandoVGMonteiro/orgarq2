@@ -53,5 +53,6 @@ begin
     end if;
   end process;
   hit <= '1';
-  data_o <= mem(to_integer(unsigned(to_stdlogicvector(addr))) +7 ) & mem(to_integer(unsigned(to_stdlogicvector(addr))) +6) & mem(to_integer(unsigned(to_stdlogicvector(addr))) +5) & mem(to_integer(unsigned(to_stdlogicvector(addr))) +4) & mem(to_integer(unsigned(to_stdlogicvector(addr))) +3) & mem(to_integer(unsigned(to_stdlogicvector(addr))) +2) & mem(to_integer(unsigned(to_stdlogicvector(addr))) +1) & mem(to_integer(unsigned(to_stdlogicvector(addr)))) when unsigned(to_stdlogicvector(addr(63 downto 2))) < 1024;
+  data_o <= mem(to_integer(unsigned(to_stdlogicvector(addr))) +7 ) & mem(to_integer(unsigned(to_stdlogicvector(addr))) +6) & mem(to_integer(unsigned(to_stdlogicvector(addr))) +5) & mem(to_integer(unsigned(to_stdlogicvector(addr))) +4) & mem(to_integer(unsigned(to_stdlogicvector(addr))) +3) & mem(to_integer(unsigned(to_stdlogicvector(addr))) +2) & mem(to_integer(unsigned(to_stdlogicvector(addr))) +1) & mem(to_integer(unsigned(to_stdlogicvector(addr)))) when unsigned(to_stdlogicvector(addr(63 downto 2))) < 1024
+  else x"0000000000000000"; --
 end vendorfree;
