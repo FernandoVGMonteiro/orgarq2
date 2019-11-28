@@ -20,8 +20,8 @@ end rom;
 architecture romhardcodded of rom is
 type rom_data is array (0 to 19) of bit_vector ( wordSize - 1 downto 0 );
 constant rom : rom_data := (
-    x"8B000000", --add
-    x"91000000", --addi
+    x"B4000040", --add
+    x"b4000040", --addi
     x"B1000000", --addis
     x"55800000", --adds
     x"8A000000", --and
